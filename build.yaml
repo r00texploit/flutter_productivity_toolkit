@@ -1,0 +1,50 @@
+targets:
+  $default:
+    builders:
+      flutter_dev_toolkit|state_manager_generator:
+        enabled: true
+        generate_for:
+          - lib/**
+        options:
+          enable_debugging: true
+          auto_dispose: true
+      flutter_dev_toolkit|route_generator:
+        enabled: true
+        generate_for:
+          - lib/**
+        options:
+          generate_type_safe_routes: true
+          enable_deep_linking: true
+      flutter_dev_toolkit|data_model_generator:
+        enabled: true
+        generate_for:
+          - lib/**
+        options:
+          generate_serialization: true
+          generate_equality: true
+          generate_copy_with: true
+
+builders:
+  state_manager_generator:
+    import: "package:flutter_dev_toolkit/src/code_generation/state_manager_generator.dart"
+    builder_factories: ["stateManagerGenerator"]
+    build_extensions: {".dart": [".state.g.dart"]}
+    auto_apply: dependents
+    build_to: cache
+    applies_builders: ["source_gen|combining_builder"]
+    
+  route_generator:
+    import: "package:flutter_dev_toolkit/src/code_generation/route_generator.dart"
+    builder_factories: ["routeGenerator"]
+    build_extensions: {".dart": [".routes.g.dart"]}
+    auto_apply: dependents
+    build_to: cache
+    applies_builders: ["source_gen|combining_builder"]
+    
+  data_model_generator:
+    import: "package:flutter_dev_toolkit/src/code_generation/data_model_generator.dart"
+    builder_factories: ["dataModelGenerator"]
+    build_extensions: {".dart": [".model.g.dart"]}
+    auto_apply: dependents
+    build_to: cache
+    applies_builders: ["source_gen|combining_builder"]
