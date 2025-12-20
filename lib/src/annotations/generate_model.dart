@@ -3,6 +3,16 @@
 /// When applied to a class, this annotation triggers the generation
 /// of serialization methods, equality operators, and copy methods.
 class GenerateModel {
+  /// Creates a new GenerateModel annotation.
+  const GenerateModel({
+    this.generateSerialization = true,
+    this.generateEquality = true,
+    this.generateCopyWith = true,
+    this.generateToString = true,
+    this.keyTransform = KeyTransform.none,
+    this.includeNullValues = false,
+  });
+
   /// Whether to generate JSON serialization methods.
   final bool generateSerialization;
 
@@ -20,22 +30,21 @@ class GenerateModel {
 
   /// Whether to include null values in serialization.
   final bool includeNullValues;
-
-  /// Creates a new GenerateModel annotation.
-  const GenerateModel({
-    this.generateSerialization = true,
-    this.generateEquality = true,
-    this.generateCopyWith = true,
-    this.generateToString = true,
-    this.keyTransform = KeyTransform.none,
-    this.includeNullValues = false,
-  });
 }
 
 /// Annotation for customizing field serialization.
 ///
 /// Used to specify custom serialization behavior for individual fields.
 class JsonField {
+  /// Creates a new JsonField annotation.
+  const JsonField({
+    this.name,
+    this.include = true,
+    this.serializer,
+    this.deserializer,
+    this.defaultValue,
+  });
+
   /// The JSON key name for this field.
   final String? name;
 
@@ -50,47 +59,38 @@ class JsonField {
 
   /// Default value to use if the field is missing during deserialization.
   final dynamic defaultValue;
-
-  /// Creates a new JsonField annotation.
-  const JsonField({
-    this.name,
-    this.include = true,
-    this.serializer,
-    this.deserializer,
-    this.defaultValue,
-  });
 }
 
 /// Annotation for marking fields that should be ignored during serialization.
 class JsonIgnore {
-  /// Whether to ignore during serialization.
-  final bool serialize;
-
-  /// Whether to ignore during deserialization.
-  final bool deserialize;
-
   /// Creates a new JsonIgnore annotation.
   const JsonIgnore({
     this.serialize = true,
     this.deserialize = true,
   });
+
+  /// Whether to ignore during serialization.
+  final bool serialize;
+
+  /// Whether to ignore during deserialization.
+  final bool deserialize;
 }
 
 /// Annotation for defining custom validation rules.
 ///
 /// Used to generate validation methods for model fields.
 class Validate {
-  /// Validation rules to apply to this field.
-  final List<ValidationRule> rules;
-
-  /// Custom validation function name.
-  final String? customValidator;
-
   /// Creates a new Validate annotation.
   const Validate({
     required this.rules,
     this.customValidator,
   });
+
+  /// Validation rules to apply to this field.
+  final List<ValidationRule> rules;
+
+  /// Custom validation function name.
+  final String? customValidator;
 }
 
 /// Key transformation options for JSON serialization.

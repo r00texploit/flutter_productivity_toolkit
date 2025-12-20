@@ -4,6 +4,16 @@
 /// of corresponding route definitions with parameter validation and
 /// deep link support.
 class GenerateRoute {
+  /// Creates a new GenerateRoute annotation.
+  const GenerateRoute(
+    this.path, {
+    this.requiresAuth = false,
+    this.methods = const ['GET'],
+    this.enableDeepLinking = true,
+    this.transition,
+    this.guards = const [],
+  });
+
   /// The route path pattern with parameter placeholders.
   ///
   /// Example: '/user/:id/profile'
@@ -23,16 +33,6 @@ class GenerateRoute {
 
   /// Route guards that must pass before navigation.
   final List<String> guards;
-
-  /// Creates a new GenerateRoute annotation.
-  const GenerateRoute(
-    this.path, {
-    this.requiresAuth = false,
-    this.methods = const ['GET'],
-    this.enableDeepLinking = true,
-    this.transition,
-    this.guards = const [],
-  });
 }
 
 /// Annotation for marking route parameters.
@@ -40,6 +40,14 @@ class GenerateRoute {
 /// Used to specify parameter types and validation rules
 /// for route parameters.
 class RouteParam {
+  /// Creates a new RouteParam annotation.
+  const RouteParam({
+    required this.name,
+    this.required = true,
+    this.defaultValue,
+    this.pattern,
+  });
+
   /// The parameter name in the route path.
   final String name;
 
@@ -51,20 +59,19 @@ class RouteParam {
 
   /// Validation pattern for the parameter value.
   final String? pattern;
-
-  /// Creates a new RouteParam annotation.
-  const RouteParam({
-    required this.name,
-    this.required = true,
-    this.defaultValue,
-    this.pattern,
-  });
 }
 
 /// Annotation for marking route query parameters.
 ///
 /// Used to specify query parameter handling for routes.
 class QueryParam {
+  /// Creates a new QueryParam annotation.
+  const QueryParam({
+    required this.name,
+    this.required = false,
+    this.defaultValue,
+  });
+
   /// The query parameter name.
   final String name;
 
@@ -73,29 +80,22 @@ class QueryParam {
 
   /// Default value if the parameter is not provided.
   final dynamic defaultValue;
-
-  /// Creates a new QueryParam annotation.
-  const QueryParam({
-    required this.name,
-    this.required = false,
-    this.defaultValue,
-  });
 }
 
 /// Annotation for defining route guards.
 ///
 /// Route guards are functions that determine whether
 /// navigation to a route should be allowed.
-class RouteGuard {
+class RouteGuardAnnotation {
+  /// Creates a new RouteGuard annotation.
+  const RouteGuardAnnotation({
+    required this.guardFunction,
+    this.parameters = const {},
+  });
+
   /// The guard function name.
   final String guardFunction;
 
   /// Parameters to pass to the guard function.
   final Map<String, dynamic> parameters;
-
-  /// Creates a new RouteGuard annotation.
-  const RouteGuard({
-    required this.guardFunction,
-    this.parameters = const {},
-  });
 }

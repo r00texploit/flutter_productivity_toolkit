@@ -4,6 +4,15 @@
 /// of a corresponding state manager with reactive updates and
 /// optional persistence capabilities.
 class GenerateState {
+  /// Creates a new GenerateState annotation.
+  const GenerateState({
+    this.persist = false,
+    this.storageKey,
+    this.enableDebugging = false,
+    this.autoDispose = true,
+    this.initialStateFactory,
+  });
+
   /// Whether to enable automatic persistence for this state.
   final bool persist;
 
@@ -18,15 +27,6 @@ class GenerateState {
 
   /// Initial state factory function name.
   final String? initialStateFactory;
-
-  /// Creates a new GenerateState annotation.
-  const GenerateState({
-    this.persist = false,
-    this.storageKey,
-    this.enableDebugging = false,
-    this.autoDispose = true,
-    this.initialStateFactory,
-  });
 }
 
 /// Annotation for marking state properties that should be reactive.
@@ -34,17 +34,17 @@ class GenerateState {
 /// Properties marked with this annotation will automatically trigger
 /// widget rebuilds when their values change.
 class ReactiveProperty {
-  /// Whether changes to this property should be logged.
-  final bool logChanges;
-
-  /// Custom equality function for change detection.
-  final String? equalityFunction;
-
   /// Creates a new ReactiveProperty annotation.
   const ReactiveProperty({
     this.logChanges = false,
     this.equalityFunction,
   });
+
+  /// Whether changes to this property should be logged.
+  final bool logChanges;
+
+  /// Custom equality function for change detection.
+  final String? equalityFunction;
 }
 
 /// Annotation for marking state methods that should trigger updates.
@@ -52,15 +52,15 @@ class ReactiveProperty {
 /// Methods marked with this annotation will automatically notify
 /// listeners when called.
 class StateAction {
-  /// Name of the action for debugging purposes.
-  final String? actionName;
-
-  /// Whether this action should be logged.
-  final bool logAction;
-
   /// Creates a new StateAction annotation.
   const StateAction({
     this.actionName,
     this.logAction = false,
   });
+
+  /// Name of the action for debugging purposes.
+  final String? actionName;
+
+  /// Whether this action should be logged.
+  final bool logAction;
 }

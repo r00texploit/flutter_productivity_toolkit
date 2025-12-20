@@ -23,6 +23,25 @@ targets:
           generate_serialization: true
           generate_equality: true
           generate_copy_with: true
+      flutter_dev_toolkit|api_client_generator:
+        enabled: true
+        generate_for:
+          - api/**
+          - "*.json"
+          - "*.yaml"
+        options:
+          generate_models: true
+          generate_exceptions: true
+      flutter_dev_toolkit|localization_generator:
+        enabled: true
+        generate_for:
+          - lib/l10n/**
+          - assets/l10n/**
+          - assets/translations/**
+          - i18n/**
+        options:
+          default_locale: "en"
+          generate_extensions: true
 
 builders:
   state_manager_generator:
@@ -45,6 +64,22 @@ builders:
     import: "package:flutter_dev_toolkit/src/code_generation/data_model_generator.dart"
     builder_factories: ["dataModelGenerator"]
     build_extensions: {".dart": [".model.g.dart"]}
+    auto_apply: dependents
+    build_to: cache
+    applies_builders: ["source_gen|combining_builder"]
+    
+  api_client_generator:
+    import: "package:flutter_dev_toolkit/src/code_generation/api_client_generator.dart"
+    builder_factories: ["apiClientGenerator"]
+    build_extensions: {".json": [".api.g.dart"], ".yaml": [".api.g.dart"]}
+    auto_apply: dependents
+    build_to: cache
+    applies_builders: ["source_gen|combining_builder"]
+    
+  localization_generator:
+    import: "package:flutter_dev_toolkit/src/code_generation/localization_generator.dart"
+    builder_factories: ["localizationGenerator"]
+    build_extensions: {".arb": [".l10n.g.dart"], ".json": [".l10n.g.dart"]}
     auto_apply: dependents
     build_to: cache
     applies_builders: ["source_gen|combining_builder"]

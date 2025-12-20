@@ -3,6 +3,16 @@
 /// Provides structured error information with context and suggestions
 /// for resolving issues.
 class ToolkitError extends Error {
+
+  /// Creates a new toolkit error.
+  ToolkitError({
+    required this.category,
+    required this.message,
+    this.suggestion,
+    this.originalStackTrace,
+    this.context,
+    this.errorCode,
+  });
   /// The category of error that occurred.
   final ErrorCategory category;
 
@@ -20,16 +30,6 @@ class ToolkitError extends Error {
 
   /// Error code for programmatic handling.
   final String? errorCode;
-
-  /// Creates a new toolkit error.
-  ToolkitError({
-    required this.category,
-    required this.message,
-    this.suggestion,
-    this.originalStackTrace,
-    this.context,
-    this.errorCode,
-  });
 
   @override
   String toString() {
@@ -90,56 +90,60 @@ enum ErrorCategory {
 
 /// Specific error types for state management.
 class StateManagementError extends ToolkitError {
-  /// The state manager that caused the error.
-  final String? stateManagerType;
 
   /// Creates a new state management error.
   StateManagementError({
-    required String message,
+    required super.message,
     this.stateManagerType,
-    String? suggestion,
-    StackTrace? originalStackTrace,
-    Map<String, dynamic>? context,
-    String? errorCode,
+    super.suggestion,
+    super.originalStackTrace,
+    super.context,
+    super.errorCode,
   }) : super(
           category: ErrorCategory.stateManagement,
-          message: message,
-          suggestion: suggestion,
-          originalStackTrace: originalStackTrace,
-          context: context,
-          errorCode: errorCode,
         );
+  /// The state manager that caused the error.
+  final String? stateManagerType;
 }
 
 /// Specific error types for navigation.
 class NavigationError extends ToolkitError {
+
+  /// Creates a new navigation error.
+  NavigationError({
+    required super.message,
+    this.routePath,
+    this.operation,
+    super.suggestion,
+    super.originalStackTrace,
+    super.context,
+    super.errorCode,
+  }) : super(
+          category: ErrorCategory.navigation,
+        );
   /// The route that caused the error.
   final String? routePath;
 
   /// The navigation operation that failed.
   final String? operation;
-
-  /// Creates a new navigation error.
-  NavigationError({
-    required String message,
-    this.routePath,
-    this.operation,
-    String? suggestion,
-    StackTrace? originalStackTrace,
-    Map<String, dynamic>? context,
-    String? errorCode,
-  }) : super(
-          category: ErrorCategory.navigation,
-          message: message,
-          suggestion: suggestion,
-          originalStackTrace: originalStackTrace,
-          context: context,
-          errorCode: errorCode,
-        );
 }
 
 /// Specific error types for code generation.
 class CodeGenerationError extends ToolkitError {
+
+  /// Creates a new code generation error.
+  CodeGenerationError({
+    required super.message,
+    this.sourceFile,
+    this.lineNumber,
+    this.annotation,
+    super.suggestion,
+    super.originalStackTrace,
+    super.context,
+    super.errorCode,
+  }) : super(
+          category: ErrorCategory.codeGeneration,
+        );
   /// The source file that caused the error.
   final String? sourceFile;
 
@@ -148,104 +152,70 @@ class CodeGenerationError extends ToolkitError {
 
   /// The annotation that caused the error.
   final String? annotation;
-
-  /// Creates a new code generation error.
-  CodeGenerationError({
-    required String message,
-    this.sourceFile,
-    this.lineNumber,
-    this.annotation,
-    String? suggestion,
-    StackTrace? originalStackTrace,
-    Map<String, dynamic>? context,
-    String? errorCode,
-  }) : super(
-          category: ErrorCategory.codeGeneration,
-          message: message,
-          suggestion: suggestion,
-          originalStackTrace: originalStackTrace,
-          context: context,
-          errorCode: errorCode,
-        );
 }
 
 /// Specific error types for testing.
 class TestingError extends ToolkitError {
+
+  /// Creates a new testing error.
+  TestingError({
+    required super.message,
+    this.testName,
+    this.component,
+    super.suggestion,
+    super.originalStackTrace,
+    super.context,
+    super.errorCode,
+  }) : super(
+          category: ErrorCategory.testing,
+        );
   /// The test that caused the error.
   final String? testName;
 
   /// The testing component that failed.
   final String? component;
-
-  /// Creates a new testing error.
-  TestingError({
-    required String message,
-    this.testName,
-    this.component,
-    String? suggestion,
-    StackTrace? originalStackTrace,
-    Map<String, dynamic>? context,
-    String? errorCode,
-  }) : super(
-          category: ErrorCategory.testing,
-          message: message,
-          suggestion: suggestion,
-          originalStackTrace: originalStackTrace,
-          context: context,
-          errorCode: errorCode,
-        );
 }
 
 /// Specific error types for performance monitoring.
 class PerformanceError extends ToolkitError {
+
+  /// Creates a new performance error.
+  PerformanceError({
+    required super.message,
+    this.component,
+    this.metric,
+    super.suggestion,
+    super.originalStackTrace,
+    super.context,
+    super.errorCode,
+  }) : super(
+          category: ErrorCategory.performance,
+        );
   /// The performance component that failed.
   final String? component;
 
   /// The metric that caused the error.
   final String? metric;
-
-  /// Creates a new performance error.
-  PerformanceError({
-    required String message,
-    this.component,
-    this.metric,
-    String? suggestion,
-    StackTrace? originalStackTrace,
-    Map<String, dynamic>? context,
-    String? errorCode,
-  }) : super(
-          category: ErrorCategory.performance,
-          message: message,
-          suggestion: suggestion,
-          originalStackTrace: originalStackTrace,
-          context: context,
-          errorCode: errorCode,
-        );
 }
 
 /// Specific error types for configuration issues.
 class ConfigurationError extends ToolkitError {
+
+  /// Creates a new configuration error.
+  ConfigurationError({
+    required super.message,
+    this.configurationKey,
+    this.configurationFile,
+    super.suggestion,
+    super.originalStackTrace,
+    super.context,
+    super.errorCode,
+  }) : super(
+          category: ErrorCategory.configuration,
+        );
   /// The configuration key that caused the error.
   final String? configurationKey;
 
   /// The configuration file that has the issue.
   final String? configurationFile;
-
-  /// Creates a new configuration error.
-  ConfigurationError({
-    required String message,
-    this.configurationKey,
-    this.configurationFile,
-    String? suggestion,
-    StackTrace? originalStackTrace,
-    Map<String, dynamic>? context,
-    String? errorCode,
-  }) : super(
-          category: ErrorCategory.configuration,
-          message: message,
-          suggestion: suggestion,
-          originalStackTrace: originalStackTrace,
-          context: context,
-          errorCode: errorCode,
-        );
 }

@@ -52,6 +52,20 @@ abstract class PerformanceMonitor {
 
 /// Comprehensive performance metrics collected by the monitor.
 class PerformanceMetrics {
+  /// Creates a new performance metrics snapshot.
+  const PerformanceMetrics({
+    required this.frameDrops,
+    required this.memoryUsage,
+    required this.peakMemoryUsage,
+    required this.widgetRebuildCounts,
+    required this.averageFrameTime,
+    required this.p95FrameTime,
+    required this.fps,
+    required this.warnings,
+    required this.customMetrics,
+    required this.timestamp,
+  });
+
   /// Number of frame drops in the current monitoring period.
   final int frameDrops;
 
@@ -82,20 +96,6 @@ class PerformanceMetrics {
   /// When these metrics were collected.
   final DateTime timestamp;
 
-  /// Creates a new performance metrics snapshot.
-  const PerformanceMetrics({
-    required this.frameDrops,
-    required this.memoryUsage,
-    required this.peakMemoryUsage,
-    required this.widgetRebuildCounts,
-    required this.averageFrameTime,
-    required this.p95FrameTime,
-    required this.fps,
-    required this.warnings,
-    required this.customMetrics,
-    required this.timestamp,
-  });
-
   /// Whether the current metrics indicate good performance.
   bool get isPerformanceGood =>
       frameDrops == 0 &&
@@ -104,8 +104,7 @@ class PerformanceMetrics {
       warnings.isEmpty;
 
   @override
-  String toString() =>
-      'PerformanceMetrics('
+  String toString() => 'PerformanceMetrics('
       'fps: ${fps.toStringAsFixed(1)}, '
       'frameDrops: $frameDrops, '
       'memory: ${(memoryUsage / 1024 / 1024).toStringAsFixed(1)}MB, '
@@ -115,6 +114,15 @@ class PerformanceMetrics {
 
 /// Performance data for individual widgets.
 class WidgetPerformanceData {
+  /// Creates new widget performance data.
+  const WidgetPerformanceData({
+    required this.widgetType,
+    required this.rebuildCount,
+    required this.averageBuildTime,
+    required this.memoryFootprint,
+    required this.isProblematic,
+  });
+
   /// The widget type name.
   final String widgetType;
 
@@ -130,26 +138,26 @@ class WidgetPerformanceData {
   /// Whether this widget is causing performance issues.
   final bool isProblematic;
 
-  /// Creates new widget performance data.
-  const WidgetPerformanceData({
-    required this.widgetType,
-    required this.rebuildCount,
-    required this.averageBuildTime,
-    required this.memoryFootprint,
-    required this.isProblematic,
-  });
-
   @override
-  String toString() =>
-      'WidgetPerformanceData('
+  String toString() => 'WidgetPerformanceData('
       'type: $widgetType, '
       'rebuilds: $rebuildCount, '
-      'avgBuildTime: ${averageBuildTime.inMicroseconds}μs'
+      'avgBuildTime: ${averageBuildTime.inMicroseconds}μs '
       ')';
 }
 
 /// Performance warning with actionable recommendations.
 class PerformanceWarning {
+  /// Creates a new performance warning.
+  const PerformanceWarning({
+    required this.type,
+    required this.message,
+    this.suggestion,
+    this.location,
+    required this.severity,
+    required this.timestamp,
+  });
+
   /// The type of performance issue detected.
   final WarningType type;
 
@@ -168,19 +176,8 @@ class PerformanceWarning {
   /// When this warning was generated.
   final DateTime timestamp;
 
-  /// Creates a new performance warning.
-  const PerformanceWarning({
-    required this.type,
-    required this.message,
-    this.suggestion,
-    this.location,
-    required this.severity,
-    required this.timestamp,
-  });
-
   @override
-  String toString() =>
-      'PerformanceWarning('
+  String toString() => 'PerformanceWarning('
       'type: $type, '
       'severity: $severity, '
       'message: $message'
@@ -228,6 +225,14 @@ enum WarningSeverity {
 
 /// Location information for performance issues in the widget tree.
 class WidgetLocation {
+  /// Creates a new widget location.
+  const WidgetLocation({
+    required this.widgetType,
+    required this.path,
+    this.lineNumber,
+    this.sourceFile,
+  });
+
   /// The widget type at this location.
   final String widgetType;
 
@@ -240,17 +245,8 @@ class WidgetLocation {
   /// Source file if available.
   final String? sourceFile;
 
-  /// Creates a new widget location.
-  const WidgetLocation({
-    required this.widgetType,
-    required this.path,
-    this.lineNumber,
-    this.sourceFile,
-  });
-
   @override
-  String toString() =>
-      'WidgetLocation('
+  String toString() => 'WidgetLocation('
       'type: $widgetType, '
       'path: ${path.join(' > ')}'
       '${sourceFile != null ? ', file: $sourceFile' : ''}'
@@ -260,6 +256,15 @@ class WidgetLocation {
 
 /// Configurable thresholds for performance warnings.
 class PerformanceThresholds {
+  /// Creates new performance thresholds.
+  const PerformanceThresholds({
+    this.maxFrameDropsPerSecond = 5,
+    this.maxMemoryUsage = 512 * 1024 * 1024, // 512MB
+    this.maxWidgetRebuilds = 100,
+    this.minFps = 55.0,
+    this.maxFrameTime = 16.67, // ~60fps
+  });
+
   /// Maximum acceptable frame drops per second.
   final int maxFrameDropsPerSecond;
 
@@ -274,19 +279,21 @@ class PerformanceThresholds {
 
   /// Maximum acceptable frame render time in milliseconds.
   final double maxFrameTime;
-
-  /// Creates new performance thresholds.
-  const PerformanceThresholds({
-    this.maxFrameDropsPerSecond = 5,
-    this.maxMemoryUsage = 512 * 1024 * 1024, // 512MB
-    this.maxWidgetRebuilds = 100,
-    this.minFps = 55.0,
-    this.maxFrameTime = 16.67, // ~60fps
-  });
 }
 
 /// Comprehensive performance report with analysis and recommendations.
 class PerformanceReport {
+  /// Creates a new performance report.
+  const PerformanceReport({
+    required this.summary,
+    required this.metrics,
+    required this.issues,
+    required this.recommendations,
+    this.trend,
+    required this.generatedAt,
+    required this.timeRange,
+  });
+
   /// Summary of overall performance during the reporting period.
   final String summary;
 
@@ -307,21 +314,19 @@ class PerformanceReport {
 
   /// Time range covered by this report.
   final Duration timeRange;
-
-  /// Creates a new performance report.
-  const PerformanceReport({
-    required this.summary,
-    required this.metrics,
-    required this.issues,
-    required this.recommendations,
-    this.trend,
-    required this.generatedAt,
-    required this.timeRange,
-  });
 }
 
 /// Detailed performance issue with context and impact analysis.
 class PerformanceIssue {
+  /// Creates a new performance issue.
+  const PerformanceIssue({
+    required this.type,
+    required this.description,
+    required this.impact,
+    this.location,
+    required this.suggestedFix,
+  });
+
   /// Type of performance issue.
   final WarningType type;
 
@@ -336,19 +341,19 @@ class PerformanceIssue {
 
   /// Suggested fix for the issue.
   final String suggestedFix;
-
-  /// Creates a new performance issue.
-  const PerformanceIssue({
-    required this.type,
-    required this.description,
-    required this.impact,
-    this.location,
-    required this.suggestedFix,
-  });
 }
 
 /// Actionable recommendation for performance improvement.
 class PerformanceRecommendation {
+  /// Creates a new performance recommendation.
+  const PerformanceRecommendation({
+    required this.title,
+    required this.description,
+    required this.expectedImprovement,
+    required this.difficulty,
+    required this.priority,
+  });
+
   /// Title of the recommendation.
   final String title;
 
@@ -363,19 +368,18 @@ class PerformanceRecommendation {
 
   /// Priority level for this recommendation.
   final PriorityLevel priority;
-
-  /// Creates a new performance recommendation.
-  const PerformanceRecommendation({
-    required this.title,
-    required this.description,
-    required this.expectedImprovement,
-    required this.difficulty,
-    required this.priority,
-  });
 }
 
 /// Performance trend analysis over time.
 class PerformanceTrend {
+  /// Creates a new performance trend analysis.
+  const PerformanceTrend({
+    required this.direction,
+    required this.percentageChange,
+    required this.improvingMetrics,
+    required this.decliningMetrics,
+  });
+
   /// Whether performance is improving, declining, or stable.
   final TrendDirection direction;
 
@@ -387,14 +391,6 @@ class PerformanceTrend {
 
   /// Key metrics that are trending negatively.
   final List<String> decliningMetrics;
-
-  /// Creates a new performance trend analysis.
-  const PerformanceTrend({
-    required this.direction,
-    required this.percentageChange,
-    required this.improvingMetrics,
-    required this.decliningMetrics,
-  });
 }
 
 /// Impact levels for performance issues.

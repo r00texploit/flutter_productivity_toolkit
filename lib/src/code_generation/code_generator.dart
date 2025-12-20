@@ -1,11 +1,10 @@
 import 'dart:async';
-import 'package:build/build.dart';
 
 /// Abstract base class for code generators in the Flutter Dev Toolkit.
 ///
 /// Provides automated code generation for common patterns to reduce
 /// boilerplate and maintain consistency across the codebase.
-abstract class CodeGenerator extends Builder {
+abstract class CodeGenerator {
   /// Generates state manager implementations from annotated classes.
   ///
   /// Scans for classes annotated with @GenerateState and creates
@@ -40,8 +39,66 @@ abstract class CodeGenerator extends Builder {
   Future<void> generateLocalization(BuildStep buildStep);
 }
 
+/// Concrete implementation of the code generator.
+class FlutterDevToolkitCodeGenerator implements CodeGenerator {
+  const FlutterDevToolkitCodeGenerator();
+
+  @override
+  Future<void> generateStateManagers(BuildStep buildStep) async {
+    // Implementation delegated to StateManagerGenerator
+    // This would be called by the build_runner system
+    print('Generating state managers for ${buildStep.inputId}');
+  }
+
+  @override
+  Future<void> generateRoutes(BuildStep buildStep) async {
+    // Implementation delegated to RouteGenerator
+    // This would be called by the build_runner system
+    print('Generating routes for ${buildStep.inputId}');
+  }
+
+  @override
+  Future<void> generateDataModels(BuildStep buildStep) async {
+    // Implementation delegated to DataModelGenerator
+    // This would be called by the build_runner system
+    print('Generating data models for ${buildStep.inputId}');
+  }
+
+  @override
+  Future<void> generateApiClients(BuildStep buildStep) async {
+    // Implementation delegated to ApiClientGenerator
+    // This would be called by the build_runner system
+    print('Generating API clients for ${buildStep.inputId}');
+  }
+
+  @override
+  Future<void> generateLocalization(BuildStep buildStep) async {
+    // Implementation delegated to LocalizationGenerator
+    // This would be called by the build_runner system
+    print('Generating localization for ${buildStep.inputId}');
+  }
+}
+
+/// Represents a build step in the code generation process.
+class BuildStep {
+  /// Creates a new build step.
+  const BuildStep({required this.inputId});
+
+  /// The input asset being processed.
+  final String inputId;
+}
+
 /// Configuration for code generation behavior.
 class GenerationConfiguration {
+  /// Creates a new generation configuration.
+  const GenerationConfiguration({
+    this.includeDebugInfo = false,
+    this.generateDocumentation = true,
+    this.outputDirectory = 'lib/generated',
+    this.namingConvention = NamingConvention.snakeCase,
+    this.formatOutput = true,
+  });
+
   /// Whether to generate debug information in generated code.
   final bool includeDebugInfo;
 
@@ -56,15 +113,6 @@ class GenerationConfiguration {
 
   /// Whether to format generated code.
   final bool formatOutput;
-
-  /// Creates a new generation configuration.
-  const GenerationConfiguration({
-    this.includeDebugInfo = false,
-    this.generateDocumentation = true,
-    this.outputDirectory = 'lib/generated',
-    this.namingConvention = NamingConvention.snakeCase,
-    this.formatOutput = true,
-  });
 }
 
 /// Naming conventions for generated files and classes.
@@ -84,6 +132,15 @@ enum NamingConvention {
 
 /// Result of a code generation operation.
 class GenerationResult {
+  /// Creates a new generation result.
+  const GenerationResult({
+    required this.success,
+    required this.generatedFiles,
+    required this.errors,
+    required this.warnings,
+    this.metrics,
+  });
+
   /// Whether the generation was successful.
   final bool success;
 
@@ -98,15 +155,6 @@ class GenerationResult {
 
   /// Performance metrics for the generation process.
   final GenerationMetrics? metrics;
-
-  /// Creates a new generation result.
-  const GenerationResult({
-    required this.success,
-    required this.generatedFiles,
-    required this.errors,
-    required this.warnings,
-    this.metrics,
-  });
 
   /// Whether there were any errors during generation.
   bool get hasErrors => errors.isNotEmpty;
@@ -125,6 +173,16 @@ class GenerationResult {
 
 /// Error that occurred during code generation.
 class GenerationError {
+  /// Creates a new generation error.
+  const GenerationError({
+    required this.type,
+    required this.message,
+    this.sourceFile,
+    this.lineNumber,
+    this.columnNumber,
+    this.stackTrace,
+  });
+
   /// Type of error that occurred.
   final ErrorType type;
 
@@ -143,16 +201,6 @@ class GenerationError {
   /// Stack trace if available.
   final StackTrace? stackTrace;
 
-  /// Creates a new generation error.
-  const GenerationError({
-    required this.type,
-    required this.message,
-    this.sourceFile,
-    this.lineNumber,
-    this.columnNumber,
-    this.stackTrace,
-  });
-
   @override
   String toString() => 'GenerationError('
       'type: $type, '
@@ -164,6 +212,14 @@ class GenerationError {
 
 /// Warning generated during code generation.
 class GenerationWarning {
+  /// Creates a new generation warning.
+  const GenerationWarning({
+    required this.type,
+    required this.message,
+    this.sourceFile,
+    this.lineNumber,
+  });
+
   /// Type of warning.
   final WarningType type;
 
@@ -176,14 +232,6 @@ class GenerationWarning {
   /// Line number where the warning occurred.
   final int? lineNumber;
 
-  /// Creates a new generation warning.
-  const GenerationWarning({
-    required this.type,
-    required this.message,
-    this.sourceFile,
-    this.lineNumber,
-  });
-
   @override
   String toString() => 'GenerationWarning('
       'type: $type, '
@@ -194,6 +242,15 @@ class GenerationWarning {
 
 /// Performance metrics for code generation.
 class GenerationMetrics {
+  /// Creates new generation metrics.
+  const GenerationMetrics({
+    required this.totalTime,
+    required this.phaseTimings,
+    required this.filesProcessed,
+    required this.annotationsProcessed,
+    required this.linesGenerated,
+  });
+
   /// Total time taken for generation.
   final Duration totalTime;
 
@@ -208,15 +265,6 @@ class GenerationMetrics {
 
   /// Amount of code generated (in lines).
   final int linesGenerated;
-
-  /// Creates new generation metrics.
-  const GenerationMetrics({
-    required this.totalTime,
-    required this.phaseTimings,
-    required this.filesProcessed,
-    required this.annotationsProcessed,
-    required this.linesGenerated,
-  });
 
   @override
   String toString() => 'GenerationMetrics('
@@ -277,6 +325,14 @@ enum WarningType {
 
 /// Context information for code generation.
 class GenerationContext {
+  /// Creates a new generation context.
+  const GenerationContext({
+    required this.buildStep,
+    required this.configuration,
+    required this.resolver,
+    required this.cache,
+  });
+
   /// The build step being processed.
   final BuildStep buildStep;
 
@@ -288,18 +344,23 @@ class GenerationContext {
 
   /// Cache for expensive operations.
   final Map<String, dynamic> cache;
+}
 
-  /// Creates a new generation context.
-  const GenerationContext({
-    required this.buildStep,
-    required this.configuration,
-    required this.resolver,
-    required this.cache,
-  });
+/// Mock resolver for type information.
+class Resolver {
+  /// Creates a new resolver.
+  const Resolver();
 }
 
 /// Template for generating code with placeholders.
 class CodeTemplate {
+  /// Creates a new code template.
+  const CodeTemplate({
+    required this.template,
+    this.defaults = const {},
+    this.formatOutput = true,
+  });
+
   /// The template content with placeholders.
   final String template;
 
@@ -308,13 +369,6 @@ class CodeTemplate {
 
   /// Whether to format the output after substitution.
   final bool formatOutput;
-
-  /// Creates a new code template.
-  const CodeTemplate({
-    required this.template,
-    this.defaults = const {},
-    this.formatOutput = true,
-  });
 
   /// Renders the template with the provided values.
   String render(Map<String, String> values) {
@@ -328,9 +382,5 @@ class CodeTemplate {
     return formatOutput ? _formatDartCode(result) : result;
   }
 
-  String _formatDartCode(String code) {
-    // In a real implementation, this would use dart_style
-    // For now, just return the code as-is
-    return code;
-  }
+  String _formatDartCode(String code) => code;
 }

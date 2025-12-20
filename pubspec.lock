@@ -15,7 +15,7 @@ packages:
     source: sdk
     version: "0.3.3"
   analyzer:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: analyzer
       sha256: "1f14db053a8c23e260789e9b0980fa27f2680dd640932cae5e1137cce0e46e1e"
@@ -47,7 +47,7 @@ packages:
     source: hosted
     version: "2.1.2"
   build:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: build
       sha256: "51dc711996cbf609b90cbe5b335bbce83143875a9d58e4b5c6d3c4f684d3dda7"
@@ -215,7 +215,7 @@ packages:
     source: hosted
     version: "1.3.3"
   faker:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: faker
       sha256: "544c34e9e1d322824156d5a8d451bc1bb778263b892aded24ec7ba77b0706624"
@@ -510,7 +510,7 @@ packages:
     source: sdk
     version: "0.0.0"
   source_gen:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: source_gen
       sha256: "14658ba5f669685cd3d63701d01b31ea748310f7ab854e471962670abcf57832"

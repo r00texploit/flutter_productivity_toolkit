@@ -77,15 +77,14 @@ linter:
     flutter_style_todos: true
     hash_and_equals: true
     implementation_imports: true
-    invariant_booleans: true
-    iterable_contains_unrelated_type: true
+
     join_return_with_assignment: true
     leading_newlines_in_multiline_strings: true
     library_names: true
     library_prefixes: true
     library_private_types_in_public_api: true
     lines_longer_than_80_chars: true
-    list_remove_unrelated_type: true
+
     literal_only_boolean_expressions: true
     missing_whitespace_between_adjacent_strings: true
     no_adjacent_strings_in_list: true
@@ -99,7 +98,7 @@ linter:
     one_member_abstracts: true
     only_throw_errors: true
     overridden_fields: true
-    package_api_docs: true
+
     package_names: true
     package_prefixed_library_names: true
     parameter_assignments: true
@@ -114,7 +113,7 @@ linter:
     prefer_const_literals_to_create_immutables: true
     prefer_constructors_over_static_methods: true
     prefer_contains: true
-    prefer_equal_for_default_values: true
+
     prefer_expression_function_bodies: true
     prefer_final_fields: true
     prefer_final_in_for_each: true
@@ -175,7 +174,7 @@ linter:
     unnecessary_string_interpolations: true
     unnecessary_this: true
     unrelated_type_equality_checks: true
-    unsafe_html: true
+
     use_colored_box: true
     use_decorated_box: true
     use_full_hex_values_for_flutter_colors: true

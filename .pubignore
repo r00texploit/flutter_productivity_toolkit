@@ -1,0 +1,27 @@
+# Ignore development and build files
+.dart_tool/
+.vscode/
+ios/
+android/
+web/
+windows/
+linux/
+macos/
+
+# Ignore git files
+.git/
+.gitignore
+
+# Ignore IDE files
+*.iml
+.idea/
+
+# Ignore OS files
+.DS_Store
+Thumbs.db
+
+# Ignore test coverage
+coverage/
+
+# Ignore build outputs
+build/

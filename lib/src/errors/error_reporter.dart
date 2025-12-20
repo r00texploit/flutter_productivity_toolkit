@@ -17,7 +17,7 @@ abstract class ErrorReporter {
   /// Warnings are less severe than errors and typically don't interrupt
   /// the user's workflow but should be brought to their attention.
   void reportWarning(String message,
-      {String? suggestion, Map<String, dynamic>? context});
+      {String? suggestion, Map<String, dynamic>? context,});
 
   /// Reports an informational message.
   ///
@@ -106,6 +106,15 @@ enum ReportSeverity {
 
 /// Report for warning messages.
 class WarningReport {
+
+  /// Creates a new warning report.
+  const WarningReport({
+    required this.message,
+    this.suggestion,
+    this.context,
+    required this.timestamp,
+    this.severity = ReportSeverity.warning,
+  });
   /// The warning message.
   final String message;
 
@@ -121,15 +130,6 @@ class WarningReport {
   /// Severity level of the warning.
   final ReportSeverity severity;
 
-  /// Creates a new warning report.
-  const WarningReport({
-    required this.message,
-    this.suggestion,
-    this.context,
-    required this.timestamp,
-    this.severity = ReportSeverity.warning,
-  });
-
   @override
   String toString() => 'Warning: $message'
       '${suggestion != null ? ' (Suggestion: $suggestion)' : ''}';
@@ -137,6 +137,13 @@ class WarningReport {
 
 /// Report for informational messages.
 class InfoReport {
+
+  /// Creates a new info report.
+  const InfoReport({
+    required this.message,
+    this.context,
+    required this.timestamp,
+  });
   /// The informational message.
   final String message;
 
@@ -146,19 +153,23 @@ class InfoReport {
   /// When the info was reported.
   final DateTime timestamp;
 
-  /// Creates a new info report.
-  const InfoReport({
-    required this.message,
-    this.context,
-    required this.timestamp,
-  });
-
   @override
   String toString() => 'Info: $message';
 }
 
 /// Statistics about reported errors.
 class ErrorStatistics {
+
+  /// Creates new error statistics.
+  const ErrorStatistics({
+    required this.totalErrors,
+    required this.totalWarnings,
+    required this.totalInfos,
+    required this.errorsByCategory,
+    required this.errorsBySeverity,
+    this.lastErrorTime,
+    this.mostCommonCategory,
+  });
   /// Total number of errors reported.
   final int totalErrors;
 
@@ -179,17 +190,6 @@ class ErrorStatistics {
 
   /// Most common error category.
   final ErrorCategory? mostCommonCategory;
-
-  /// Creates new error statistics.
-  const ErrorStatistics({
-    required this.totalErrors,
-    required this.totalWarnings,
-    required this.totalInfos,
-    required this.errorsByCategory,
-    required this.errorsBySeverity,
-    this.lastErrorTime,
-    this.mostCommonCategory,
-  });
 
   /// Total number of all reports (errors + warnings + infos).
   int get totalReports => totalErrors + totalWarnings + totalInfos;
@@ -238,7 +238,7 @@ class DefaultErrorReporter implements ErrorReporter {
 
   @override
   void reportWarning(String message,
-      {String? suggestion, Map<String, dynamic>? context}) {
+      {String? suggestion, Map<String, dynamic>? context,}) {
     if (_shouldReport(ReportSeverity.warning)) {
       final warning = WarningReport(
         message: message,
@@ -327,9 +327,7 @@ class DefaultErrorReporter implements ErrorReporter {
     );
   }
 
-  bool _shouldReport(ReportSeverity severity) {
-    return severity.index >= _minimumSeverity.index;
-  }
+  bool _shouldReport(ReportSeverity severity) => severity.index >= _minimumSeverity.index;
 
   Future<void> _processWithHandlers(ToolkitError error) async {
     for (final handler in _handlers) {

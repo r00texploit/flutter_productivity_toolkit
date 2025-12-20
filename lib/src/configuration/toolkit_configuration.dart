@@ -7,6 +7,59 @@ import '../performance/performance_monitor.dart';
 /// Provides centralized configuration for all toolkit components
 /// with sensible defaults and validation.
 class ToolkitConfiguration {
+
+  /// Creates a new toolkit configuration.
+  const ToolkitConfiguration({
+    this.stateManagement = const StateManagementConfig(),
+    this.navigation = const NavigationConfig(),
+    this.testing = const TestingConfig(),
+    this.performance = const PerformanceConfig(),
+    this.codeGeneration = const CodeGenerationConfig(),
+    this.developmentTools = const DevelopmentToolsConfig(),
+    this.errorReporting = const ErrorReportingConfig(),
+    this.debugMode = false,
+    this.verboseLogging = false,
+  });
+
+  /// Creates a configuration optimized for development.
+  factory ToolkitConfiguration.development() => const ToolkitConfiguration(
+      debugMode: true,
+      verboseLogging: true,
+      stateManagement: StateManagementConfig(
+        enableDebugging: true,
+      ),
+      navigation: NavigationConfig(
+        enableDebugLogging: true,
+      ),
+      performance: PerformanceConfig(
+        enableMonitoring: true,
+        enableRealTimeWarnings: true,
+      ),
+      errorReporting: ErrorReportingConfig(
+        minimumSeverity: ReportSeverity.debug,
+      ),
+    );
+
+  /// Creates a configuration optimized for production.
+  factory ToolkitConfiguration.production() => const ToolkitConfiguration(
+      stateManagement: StateManagementConfig(
+        enablePersistence: true,
+      ),
+      errorReporting: ErrorReportingConfig(
+        enableConsoleLogging: false,
+      ),
+    );
+
+  /// Creates a configuration optimized for testing.
+  factory ToolkitConfiguration.testing() => const ToolkitConfiguration(
+      debugMode: true,
+      navigation: NavigationConfig(
+        enableDeepLinking: false,
+      ),
+      errorReporting: ErrorReportingConfig(
+        minimumSeverity: ReportSeverity.error,
+      ),
+    );
   /// Configuration for state management features.
   final StateManagementConfig stateManagement;
 
@@ -33,94 +86,6 @@ class ToolkitConfiguration {
 
   /// Whether to enable verbose logging.
   final bool verboseLogging;
-
-  /// Creates a new toolkit configuration.
-  const ToolkitConfiguration({
-    this.stateManagement = const StateManagementConfig(),
-    this.navigation = const NavigationConfig(),
-    this.testing = const TestingConfig(),
-    this.performance = const PerformanceConfig(),
-    this.codeGeneration = const CodeGenerationConfig(),
-    this.developmentTools = const DevelopmentToolsConfig(),
-    this.errorReporting = const ErrorReportingConfig(),
-    this.debugMode = false,
-    this.verboseLogging = false,
-  });
-
-  /// Creates a configuration optimized for development.
-  factory ToolkitConfiguration.development() {
-    return const ToolkitConfiguration(
-      debugMode: true,
-      verboseLogging: true,
-      stateManagement: StateManagementConfig(
-        enableDebugging: true,
-        enablePersistence: false,
-      ),
-      navigation: NavigationConfig(
-        enableDeepLinking: true,
-        enableDebugLogging: true,
-      ),
-      performance: PerformanceConfig(
-        enableMonitoring: true,
-        enableRealTimeWarnings: true,
-      ),
-      errorReporting: ErrorReportingConfig(
-        minimumSeverity: ReportSeverity.debug,
-        enableConsoleLogging: true,
-      ),
-    );
-  }
-
-  /// Creates a configuration optimized for production.
-  factory ToolkitConfiguration.production() {
-    return const ToolkitConfiguration(
-      debugMode: false,
-      verboseLogging: false,
-      stateManagement: StateManagementConfig(
-        enableDebugging: false,
-        enablePersistence: true,
-      ),
-      navigation: NavigationConfig(
-        enableDeepLinking: true,
-        enableDebugLogging: false,
-      ),
-      performance: PerformanceConfig(
-        enableMonitoring: false,
-        enableRealTimeWarnings: false,
-      ),
-      errorReporting: ErrorReportingConfig(
-        minimumSeverity: ReportSeverity.warning,
-        enableConsoleLogging: false,
-      ),
-    );
-  }
-
-  /// Creates a configuration optimized for testing.
-  factory ToolkitConfiguration.testing() {
-    return const ToolkitConfiguration(
-      debugMode: true,
-      verboseLogging: false,
-      stateManagement: StateManagementConfig(
-        enableDebugging: false,
-        enablePersistence: false,
-      ),
-      navigation: NavigationConfig(
-        enableDeepLinking: false,
-        enableDebugLogging: false,
-      ),
-      testing: TestingConfig(
-        enableMockGeneration: true,
-        enableTestDataFactories: true,
-      ),
-      performance: PerformanceConfig(
-        enableMonitoring: false,
-      ),
-      errorReporting: ErrorReportingConfig(
-        minimumSeverity: ReportSeverity.error,
-        enableConsoleLogging: true,
-      ),
-    );
-  }
 
   /// Validates the configuration and returns any issues found.
   List<ConfigurationIssue> validate() {
@@ -161,8 +126,7 @@ class ToolkitConfiguration {
     ErrorReportingConfig? errorReporting,
     bool? debugMode,
     bool? verboseLogging,
-  }) {
-    return ToolkitConfiguration(
+  }) => ToolkitConfiguration(
       stateManagement: stateManagement ?? this.stateManagement,
       navigation: navigation ?? this.navigation,
       testing: testing ?? this.testing,
@@ -173,11 +137,19 @@ class ToolkitConfiguration {
       debugMode: debugMode ?? this.debugMode,
       verboseLogging: verboseLogging ?? this.verboseLogging,
     );
-  }
 }
 
 /// Configuration for state management features.
 class StateManagementConfig {
+
+  /// Creates a new state management configuration.
+  const StateManagementConfig({
+    this.enableDebugging = false,
+    this.enablePersistence = false,
+    this.storageBackend = 'shared_preferences',
+    this.autoDispose = true,
+    this.maxHistorySize = 100,
+  });
   /// Whether to enable debugging features.
   final bool enableDebugging;
 
@@ -193,33 +165,24 @@ class StateManagementConfig {
   /// Maximum number of state transitions to keep in history.
   final int maxHistorySize;
 
-  /// Creates a new state management configuration.
-  const StateManagementConfig({
-    this.enableDebugging = false,
-    this.enablePersistence = false,
-    this.storageBackend = 'shared_preferences',
-    this.autoDispose = true,
-    this.maxHistorySize = 100,
-  });
-
   /// Validates this configuration.
   List<ConfigurationIssue> validate() {
     final issues = <ConfigurationIssue>[];
 
     if (maxHistorySize < 0) {
-      issues.add(ConfigurationIssue(
+      issues.add(const ConfigurationIssue(
         severity: ConfigurationSeverity.error,
         message: 'maxHistorySize must be non-negative',
         field: 'stateManagement.maxHistorySize',
-      ));
+      ),);
     }
 
     if (enablePersistence && storageBackend.isEmpty) {
-      issues.add(ConfigurationIssue(
+      issues.add(const ConfigurationIssue(
         severity: ConfigurationSeverity.error,
         message: 'storageBackend must be specified when persistence is enabled',
         field: 'stateManagement.storageBackend',
-      ));
+      ),);
     }
 
     return issues;
@@ -228,6 +191,15 @@ class StateManagementConfig {
 
 /// Configuration for navigation and routing features.
 class NavigationConfig {
+
+  /// Creates a new navigation configuration.
+  const NavigationConfig({
+    this.enableDeepLinking = true,
+    this.enableDebugLogging = false,
+    this.defaultTransitionDuration = const Duration(milliseconds: 300),
+    this.enableRouteGuards = true,
+    this.maxStackSize = 50,
+  });
   /// Whether to enable deep linking support.
   final bool enableDeepLinking;
 
@@ -243,33 +215,24 @@ class NavigationConfig {
   /// Maximum navigation stack size.
   final int maxStackSize;
 
-  /// Creates a new navigation configuration.
-  const NavigationConfig({
-    this.enableDeepLinking = true,
-    this.enableDebugLogging = false,
-    this.defaultTransitionDuration = const Duration(milliseconds: 300),
-    this.enableRouteGuards = true,
-    this.maxStackSize = 50,
-  });
-
   /// Validates this configuration.
   List<ConfigurationIssue> validate() {
     final issues = <ConfigurationIssue>[];
 
     if (defaultTransitionDuration.isNegative) {
-      issues.add(ConfigurationIssue(
+      issues.add(const ConfigurationIssue(
         severity: ConfigurationSeverity.error,
         message: 'defaultTransitionDuration must be non-negative',
         field: 'navigation.defaultTransitionDuration',
-      ));
+      ),);
     }
 
     if (maxStackSize <= 0) {
-      issues.add(ConfigurationIssue(
+      issues.add(const ConfigurationIssue(
         severity: ConfigurationSeverity.error,
         message: 'maxStackSize must be positive',
         field: 'navigation.maxStackSize',
-      ));
+      ),);
     }
 
     return issues;
@@ -278,6 +241,14 @@ class NavigationConfig {
 
 /// Configuration for testing utilities.
 class TestingConfig {
+
+  /// Creates a new testing configuration.
+  const TestingConfig({
+    this.enableMockGeneration = true,
+    this.enableTestDataFactories = true,
+    this.defaultTimeout = const Duration(seconds: 30),
+    this.enableIsolation = true,
+  });
   /// Whether to enable automatic mock generation.
   final bool enableMockGeneration;
 
@@ -290,24 +261,16 @@ class TestingConfig {
   /// Whether to enable test environment isolation.
   final bool enableIsolation;
 
-  /// Creates a new testing configuration.
-  const TestingConfig({
-    this.enableMockGeneration = true,
-    this.enableTestDataFactories = true,
-    this.defaultTimeout = const Duration(seconds: 30),
-    this.enableIsolation = true,
-  });
-
   /// Validates this configuration.
   List<ConfigurationIssue> validate() {
     final issues = <ConfigurationIssue>[];
 
     if (defaultTimeout.isNegative) {
-      issues.add(ConfigurationIssue(
+      issues.add(const ConfigurationIssue(
         severity: ConfigurationSeverity.error,
         message: 'defaultTimeout must be non-negative',
         field: 'testing.defaultTimeout',
-      ));
+      ),);
     }
 
     return issues;
@@ -316,6 +279,14 @@ class TestingConfig {
 
 /// Configuration for performance monitoring.
 class PerformanceConfig {
+
+  /// Creates a new performance configuration.
+  const PerformanceConfig({
+    this.enableMonitoring = false,
+    this.enableRealTimeWarnings = false,
+    this.metricsInterval = const Duration(seconds: 1),
+    this.thresholds = const PerformanceThresholds(),
+  });
   /// Whether to enable performance monitoring.
   final bool enableMonitoring;
 
@@ -328,24 +299,16 @@ class PerformanceConfig {
   /// Performance thresholds for warnings.
   final PerformanceThresholds thresholds;
 
-  /// Creates a new performance configuration.
-  const PerformanceConfig({
-    this.enableMonitoring = false,
-    this.enableRealTimeWarnings = false,
-    this.metricsInterval = const Duration(seconds: 1),
-    this.thresholds = const PerformanceThresholds(),
-  });
-
   /// Validates this configuration.
   List<ConfigurationIssue> validate() {
     final issues = <ConfigurationIssue>[];
 
     if (metricsInterval.isNegative || metricsInterval == Duration.zero) {
-      issues.add(ConfigurationIssue(
+      issues.add(const ConfigurationIssue(
         severity: ConfigurationSeverity.error,
         message: 'metricsInterval must be positive',
         field: 'performance.metricsInterval',
-      ));
+      ),);
     }
 
     return issues;
@@ -354,6 +317,13 @@ class PerformanceConfig {
 
 /// Configuration for code generation.
 class CodeGenerationConfig {
+
+  /// Creates a new code generation configuration.
+  const CodeGenerationConfig({
+    this.enabled = true,
+    this.generationConfig = const GenerationConfiguration(),
+    this.watchMode = false,
+  });
   /// Whether to enable code generation.
   final bool enabled;
 
@@ -362,13 +332,6 @@ class CodeGenerationConfig {
 
   /// Whether to watch for file changes and regenerate automatically.
   final bool watchMode;
-
-  /// Creates a new code generation configuration.
-  const CodeGenerationConfig({
-    this.enabled = true,
-    this.generationConfig = const GenerationConfiguration(),
-    this.watchMode = false,
-  });
 
   /// Validates this configuration.
   List<ConfigurationIssue> validate() {
@@ -379,6 +342,13 @@ class CodeGenerationConfig {
 
 /// Configuration for development tools.
 class DevelopmentToolsConfig {
+
+  /// Creates a new development tools configuration.
+  const DevelopmentToolsConfig({
+    this.enablePubOptimization = true,
+    this.enableRealTimeLinting = true,
+    this.enableAssetGeneration = true,
+  });
   /// Whether to enable pub.dev optimization tools.
   final bool enablePubOptimization;
 
@@ -387,13 +357,6 @@ class DevelopmentToolsConfig {
 
   /// Whether to enable asset reference generation.
   final bool enableAssetGeneration;
-
-  /// Creates a new development tools configuration.
-  const DevelopmentToolsConfig({
-    this.enablePubOptimization = true,
-    this.enableRealTimeLinting = true,
-    this.enableAssetGeneration = true,
-  });
 
   /// Validates this configuration.
   List<ConfigurationIssue> validate() {
@@ -404,6 +367,14 @@ class DevelopmentToolsConfig {
 
 /// Configuration for error reporting.
 class ErrorReportingConfig {
+
+  /// Creates a new error reporting configuration.
+  const ErrorReportingConfig({
+    this.minimumSeverity = ReportSeverity.warning,
+    this.enableConsoleLogging = true,
+    this.enableFileLogging = false,
+    this.logFilePath,
+  });
   /// Minimum severity level for reporting.
   final ReportSeverity minimumSeverity;
 
@@ -416,24 +387,16 @@ class ErrorReportingConfig {
   /// Log file path (if file logging is enabled).
   final String? logFilePath;
 
-  /// Creates a new error reporting configuration.
-  const ErrorReportingConfig({
-    this.minimumSeverity = ReportSeverity.warning,
-    this.enableConsoleLogging = true,
-    this.enableFileLogging = false,
-    this.logFilePath,
-  });
-
   /// Validates this configuration.
   List<ConfigurationIssue> validate() {
     final issues = <ConfigurationIssue>[];
 
     if (enableFileLogging && (logFilePath == null || logFilePath!.isEmpty)) {
-      issues.add(ConfigurationIssue(
+      issues.add(const ConfigurationIssue(
         severity: ConfigurationSeverity.error,
         message: 'logFilePath must be specified when file logging is enabled',
         field: 'errorReporting.logFilePath',
-      ));
+      ),);
     }
 
     return issues;
@@ -442,6 +405,14 @@ class ErrorReportingConfig {
 
 /// Issue found during configuration validation.
 class ConfigurationIssue {
+
+  /// Creates a new configuration issue.
+  const ConfigurationIssue({
+    required this.severity,
+    required this.message,
+    required this.field,
+    this.suggestion,
+  });
   /// Severity of the issue.
   final ConfigurationSeverity severity;
 
@@ -453,14 +424,6 @@ class ConfigurationIssue {
 
   /// Suggested fix for the issue.
   final String? suggestion;
-
-  /// Creates a new configuration issue.
-  const ConfigurationIssue({
-    required this.severity,
-    required this.message,
-    required this.field,
-    this.suggestion,
-  });
 
   @override
   String toString() =>

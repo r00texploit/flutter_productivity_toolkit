@@ -10,24 +10,25 @@ environment:
   flutter: ">=3.10.0"
 
 dependencies:
+  analyzer: ^6.2.0
+  build: ^2.4.1
+  collection: ^1.17.2
+  faker: ^2.1.0
   flutter:
     sdk: flutter
   meta: ^1.9.1
-  collection: ^1.17.2
   path: ^1.8.3
+  source_gen: ^1.4.0
 
 dev_dependencies:
-  flutter_test:
-    sdk: flutter
-  flutter_lints: ^3.0.0
+  build_resolvers: ^2.4.1
   build_runner: ^2.4.7
   build_test: ^2.2.1
-  test: ^1.24.6
-  faker: ^2.1.0
+  flutter_lints: ^3.0.0
+  flutter_test:
+    sdk: flutter
   mockito: ^5.4.2
-  build_resolvers: ^2.4.1
-  analyzer: ^6.2.0
-  source_gen: ^1.4.0
+  test: ^1.24.6
 
 flutter:
   # This package is a Dart package, not a Flutter plugin

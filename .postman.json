@@ -1,0 +1,23 @@
+{
+  "workspace": {
+    "id": "2509f5af-f512-48eb-8eab-5ebc35b0ff97",
+    "name": "My Workspace",
+    "type": "personal"
+  },
+  "collection": {
+    "id": "c9864a61-109d-434c-bba5-3ec4eefc89f9",
+    "uid": "25503894-c9864a61-109d-434c-bba5-3ec4eefc89f9",
+    "name": "New Collection"
+  },
+  "environment": {
+    "id": "2db0c3bf-f56e-4ddb-a694-7b4281f60c70",
+    "uid": "25503894-2db0c3bf-f56e-4ddb-a694-7b4281f60c70",
+    "name": "Flutter Dev Toolkit - Local"
+  },
+  "user": {
+    "id": 25503894,
+    "username": "altimetry-physicist-70654243",
+    "email": "halimghazi7@gmail.com",
+    "teamId": 3051038
+  }
+}
