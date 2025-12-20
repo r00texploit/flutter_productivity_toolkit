@@ -25,3 +25,9 @@ coverage/
 
 # Ignore build outputs
 build/
+
+# Ignore specific dart_tool files
+.dart_tool/package_config.json
+.dart_tool/package_config_subset
+.dart_tool/package_graph.json
+.dart_tool/version

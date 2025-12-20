@@ -1,4 +1,4 @@
-import 'package:flutter_dev_toolkit/src/testing/test_helper.dart';
+import 'package:flutter_productivity_toolkit/src/testing/test_helper.dart';
 import 'package:test/test.dart';
 
 void main() {

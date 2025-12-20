@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:flutter_dev_toolkit/src/performance/performance_monitor.dart';
-import 'package:flutter_dev_toolkit/src/performance/performance_reporter.dart';
+import 'package:flutter_productivity_toolkit/src/performance/performance_monitor.dart';
+import 'package:flutter_productivity_toolkit/src/performance/performance_reporter.dart';
 import 'package:test/test.dart';
 
 // Mock implementation for testing

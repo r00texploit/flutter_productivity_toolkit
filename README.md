@@ -1,6 +1,6 @@
 # Flutter Developer Productivity Toolkit
 
-[![pub package](https://img.shields.io/pub/v/flutter_dev_toolkit.svg)](https://pub.dev/packages/flutter_dev_toolkit)
+[![pub package](https://img.shields.io/pub/v/flutter_productivity_toolkit.svg)](https://pub.dev/packages/flutter_productivity_toolkit)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Flutter](https://img.shields.io/badge/Flutter-3.0%2B-blue.svg)](https://flutter.dev)
 
@@ -67,7 +67,7 @@ Add this package to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  flutter_dev_toolkit: ^0.1.0
+  flutter_productivity_toolkit: ^0.1.0
 
 dev_dependencies:
   build_runner: ^2.4.7
@@ -84,7 +84,7 @@ flutter pub get
 ### 1. Initialize the Toolkit
 
 ```dart
-import 'package:flutter_dev_toolkit/flutter_dev_toolkit.dart';
+import 'package:flutter_productivity_toolkit/flutter_productivity_toolkit.dart';
 
 void main() {
   // Initialize with development configuration
@@ -275,7 +275,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 - [GitHub Issues](https://github.com/flutter-dev-toolkit/flutter_dev_toolkit/issues)
 - [Discussions](https://github.com/flutter-dev-toolkit/flutter_dev_toolkit/discussions)
-- [Documentation](https://pub.dev/documentation/flutter_dev_toolkit/latest/)
+- [Documentation](https://pub.dev/documentation/flutter_productivity_toolkit/latest/)
 
 ## Changelog
 

@@ -1,4 +1,4 @@
-import 'package:flutter_dev_toolkit/src/navigation/route_builder.dart';
+import 'package:flutter_productivity_toolkit/src/navigation/route_builder.dart';
 import 'package:test/test.dart';
 
 void main() {

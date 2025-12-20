@@ -1,10 +1,10 @@
 {
   "roots": [
-    "flutter_dev_toolkit"
+    "flutter_productivity_toolkit"
   ],
   "packages": [
     {
-      "name": "flutter_dev_toolkit",
+      "name": "flutter_productivity_toolkit",
       "version": "0.1.0",
       "dependencies": [
         "analyzer",

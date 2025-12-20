@@ -1,5 +1,5 @@
-import 'package:flutter_dev_toolkit/src/errors/error_reporter.dart';
-import 'package:flutter_dev_toolkit/src/state_management/state_manager.dart';
+import 'package:flutter_productivity_toolkit/src/errors/error_reporter.dart';
+import 'package:flutter_productivity_toolkit/src/state_management/state_manager.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

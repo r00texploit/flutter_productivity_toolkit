@@ -524,7 +524,7 @@
       "languageVersion": "3.4"
     },
     {
-      "name": "flutter_dev_toolkit",
+      "name": "flutter_productivity_toolkit",
       "rootUri": "../",
       "packageUri": "lib/",
       "languageVersion": "3.0"

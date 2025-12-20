@@ -25,7 +25,7 @@ class ApiClientGenerator extends Generator {
         final spec = await _parseOpenApiSpec(specFile, buildStep);
         final client = _generateApiClient(spec);
         generatedClients.add(client);
-      } catch (e) {
+      } on Exception catch (e) {
         log.warning('Failed to generate API client from $specFile: $e');
       }
     }
@@ -55,7 +55,9 @@ class ApiClientGenerator extends Generator {
   }
 
   Future<SimpleApiSpec> _parseOpenApiSpec(
-      String filePath, BuildStep buildStep,) async {
+    String filePath,
+    BuildStep buildStep,
+  ) async {
     final assetId = AssetId(buildStep.inputId.package, filePath);
     final content = await buildStep.readAsString(assetId);
 
@@ -86,19 +88,17 @@ ${_generateExceptionClasses()}
 ''';
   }
 
-  String _getClientClassName(String title) => '${title
-            .replaceAll(RegExp('[^a-zA-Z0-9]'), ' ')
-            .split(' ')
-            .where((word) => word.isNotEmpty)
-            .map((word) =>
-                word[0].toUpperCase() + word.substring(1).toLowerCase(),)
-            .join()}Client';
+  String _getClientClassName(String title) =>
+      '${title.replaceAll(RegExp('[^a-zA-Z0-9]'), ' ').split(' ').where((word) => word.isNotEmpty).map(
+            (word) => word[0].toUpperCase() + word.substring(1).toLowerCase(),
+          ).join()}Client';
 
-  String _generateEndpointMethods(List<ApiEndpoint> endpoints) => endpoints.map((endpoint) {
-      final methodName = _getMethodName(endpoint.method, endpoint.path);
-      final returnType = endpoint.responseType ?? 'Map<String, dynamic>';
+  String _generateEndpointMethods(List<ApiEndpoint> endpoints) =>
+      endpoints.map((endpoint) {
+        final methodName = _getMethodName(endpoint.method, endpoint.path);
+        final returnType = endpoint.responseType ?? 'Map<String, dynamic>';
 
-      return '''
+        return '''
   /// ${endpoint.description ?? 'Generated method for ${endpoint.method} ${endpoint.path}'}
   Future<$returnType> $methodName() async {
     final url = '\$baseUrl${endpoint.path}';
@@ -111,7 +111,7 @@ ${_generateExceptionClasses()}
 
     return jsonDecode(response.body) as $returnType;
   }''';
-    }).join('\n\n');
+      }).join('\n\n');
 
   String _getMethodName(String httpMethod, String path) {
     // Generate method name from HTTP method and path
@@ -170,13 +170,18 @@ class HttpResponse {
   }
 }
 
-// Simplified OpenAPI specification classes
+/// Simplified OpenAPI specification classes
+///
+/// Represents a simplified version of an OpenAPI specification
+/// containing basic information needed for API client generation.
 class SimpleApiSpec {
+  /// Creates a new SimpleApiSpec instance.
   const SimpleApiSpec({
     required this.title,
     required this.endpoints,
   });
 
+  /// Creates a SimpleApiSpec from a JSON representation of an OpenAPI spec.
   factory SimpleApiSpec.fromJson(Map<String, dynamic> json) {
     final info = json['info'] as Map<String, dynamic>? ?? {};
     final title = info['title'] as String? ?? 'API';
@@ -192,12 +197,14 @@ class SimpleApiSpec {
         final method = methodEntry.key.toUpperCase();
         final methodData = methodEntry.value as Map<String, dynamic>;
 
-        endpoints.add(ApiEndpoint(
-          method: method,
-          path: path,
-          description: methodData['summary'] as String?,
-          responseType: 'Map<String, dynamic>',
-        ),);
+        endpoints.add(
+          ApiEndpoint(
+            method: method,
+            path: path,
+            description: methodData['summary'] as String?,
+            responseType: 'Map<String, dynamic>',
+          ),
+        );
       }
     }
 
@@ -207,11 +214,16 @@ class SimpleApiSpec {
     );
   }
 
+  /// The title of the API specification.
   final String title;
+
+  /// List of API endpoints defined in the specification.
   final List<ApiEndpoint> endpoints;
 }
 
+/// Represents a single API endpoint with its HTTP method and path.
 class ApiEndpoint {
+  /// Creates a new ApiEndpoint instance.
   const ApiEndpoint({
     required this.method,
     required this.path,
@@ -219,8 +231,15 @@ class ApiEndpoint {
     this.responseType,
   });
 
+  /// The HTTP method for this endpoint (GET, POST, etc.).
   final String method;
+
+  /// The URL path for this endpoint.
   final String path;
+
+  /// Optional description of what this endpoint does.
   final String? description;
+
+  /// The expected response type for this endpoint.
   final String? responseType;
 }

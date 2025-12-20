@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'package:flutter_dev_toolkit/src/development_tools/pub_optimizer_impl.dart';
-import 'package:flutter_dev_toolkit/src/development_tools/publication_utilities.dart';
+import 'package:flutter_productivity_toolkit/src/development_tools/pub_optimizer_impl.dart';
+import 'package:flutter_productivity_toolkit/src/development_tools/publication_utilities.dart';
 import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 
