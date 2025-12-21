@@ -677,11 +677,11 @@ If you encounter issues:
 
 ## Resources
 
-- [Complete API Reference](api_reference.md)
-- [State Management Deep Dive](state_management.md)
-- [Navigation Guide](navigation.md)
-- [Testing Best Practices](testing.md)
-- [Performance Optimization](performance.md)
-- [Example Applications](../example/README.md)
+- [Complete API Reference](api_reference.md) - Comprehensive API documentation for all toolkit components
+- [State Management Deep Dive](state_management.md) - Advanced state management patterns, persistence, and performance optimization
+- [Navigation Guide](navigation.md) - Type-safe routing, deep linking, and complex navigation flows
+- [Testing Best Practices](testing.md) - Unit testing, widget testing, property-based testing, and integration testing
+- [Performance Optimization](performance.md) - Performance monitoring, debugging, and optimization techniques
+- [Example Applications](../example/README.md) - Complete example applications demonstrating toolkit features
 
 Ready to build more complex applications? Check out our [comprehensive examples](../example/) and [advanced guides](README.md)!
