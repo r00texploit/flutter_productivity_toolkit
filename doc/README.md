@@ -45,8 +45,8 @@ If you need help or have questions:
 
 - Check the [Troubleshooting Guide](troubleshooting.md)
 - Browse [Frequently Asked Questions](faq.md)
-- Search [GitHub Issues](https://github.com/flutter-dev-toolkit/flutter_dev_toolkit/issues)
-- Start a [Discussion](https://github.com/flutter-dev-toolkit/flutter_dev_toolkit/discussions)
+- Search [GitHub Issues](https://github.com/r00texploit/flutter_productivity_toolkit/issues)
+- Start a [Discussion](https://github.com/r00texploit/flutter_productivity_toolkit/discussions)
 
 ## Contributing to Documentation
 

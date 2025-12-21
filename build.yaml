@@ -1,21 +1,21 @@
 targets:
   $default:
     builders:
-      flutter_dev_toolkit|state_manager_generator:
+      flutter_productivity_toolkit|state_manager_generator:
         enabled: true
         generate_for:
           - lib/**
         options:
           enable_debugging: true
           auto_dispose: true
-      flutter_dev_toolkit|route_generator:
+      flutter_productivity_toolkit|route_generator:
         enabled: true
         generate_for:
           - lib/**
         options:
           generate_type_safe_routes: true
           enable_deep_linking: true
-      flutter_dev_toolkit|data_model_generator:
+      flutter_productivity_toolkit|data_model_generator:
         enabled: true
         generate_for:
           - lib/**
@@ -23,7 +23,7 @@ targets:
           generate_serialization: true
           generate_equality: true
           generate_copy_with: true
-      flutter_dev_toolkit|api_client_generator:
+      flutter_productivity_toolkit|api_client_generator:
         enabled: true
         generate_for:
           - api/**
@@ -32,7 +32,7 @@ targets:
         options:
           generate_models: true
           generate_exceptions: true
-      flutter_dev_toolkit|localization_generator:
+      flutter_productivity_toolkit|localization_generator:
         enabled: true
         generate_for:
           - lib/l10n/**
@@ -45,7 +45,7 @@ targets:
 
 builders:
   state_manager_generator:
-    import: "package:flutter_dev_toolkit/src/code_generation/state_manager_generator.dart"
+    import: "package:flutter_productivity_toolkit/src/code_generation/state_manager_generator.dart"
     builder_factories: ["stateManagerGenerator"]
     build_extensions: {".dart": [".state.g.dart"]}
     auto_apply: dependents
@@ -53,7 +53,7 @@ builders:
     applies_builders: ["source_gen|combining_builder"]
     
   route_generator:
-    import: "package:flutter_dev_toolkit/src/code_generation/route_generator.dart"
+    import: "package:flutter_productivity_toolkit/src/code_generation/route_generator.dart"
     builder_factories: ["routeGenerator"]
     build_extensions: {".dart": [".routes.g.dart"]}
     auto_apply: dependents
@@ -61,7 +61,7 @@ builders:
     applies_builders: ["source_gen|combining_builder"]
     
   data_model_generator:
-    import: "package:flutter_dev_toolkit/src/code_generation/data_model_generator.dart"
+    import: "package:flutter_productivity_toolkit/src/code_generation/data_model_generator.dart"
     builder_factories: ["dataModelGenerator"]
     build_extensions: {".dart": [".model.g.dart"]}
     auto_apply: dependents
@@ -69,7 +69,7 @@ builders:
     applies_builders: ["source_gen|combining_builder"]
     
   api_client_generator:
-    import: "package:flutter_dev_toolkit/src/code_generation/api_client_generator.dart"
+    import: "package:flutter_productivity_toolkit/src/code_generation/api_client_generator.dart"
     builder_factories: ["apiClientGenerator"]
     build_extensions: {".json": [".api.g.dart"], ".yaml": [".api.g.dart"]}
     auto_apply: dependents
@@ -77,7 +77,7 @@ builders:
     applies_builders: ["source_gen|combining_builder"]
     
   localization_generator:
-    import: "package:flutter_dev_toolkit/src/code_generation/localization_generator.dart"
+    import: "package:flutter_productivity_toolkit/src/code_generation/localization_generator.dart"
     builder_factories: ["localizationGenerator"]
     build_extensions: {".arb": [".l10n.g.dart"], ".json": [".l10n.g.dart"]}
     auto_apply: dependents

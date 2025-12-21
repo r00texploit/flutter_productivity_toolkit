@@ -91,6 +91,6 @@ Breaking changes are clearly marked and include migration guides when applicable
 ## Support
 
 For questions about specific releases or changes, please:
-- Check the [GitHub Issues](https://github.com/flutter-dev-toolkit/flutter_dev_toolkit/issues)
-- Review the [API Documentation](https://pub.dev/documentation/flutter_dev_toolkit/latest/)
-- Join our [Discussions](https://github.com/flutter-dev-toolkit/flutter_dev_toolkit/discussions)
+- Check the [GitHub Issues](https://github.com/r00texploit/flutter_productivity_toolkit/issues)
+- Review the [API Documentation](https://pub.dev/documentation/flutter_productivity_toolkit/latest/)
+- Join our [Discussions](https://github.com/r00texploit/flutter_productivity_toolkit/discussions)

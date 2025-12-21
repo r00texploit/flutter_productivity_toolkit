@@ -16,7 +16,7 @@ Add the toolkit to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  flutter_dev_toolkit: ^0.1.0
+  flutter_productivity_toolkit: ^0.1.0
 
 dev_dependencies:
   build_runner: ^2.4.7
@@ -40,7 +40,7 @@ Update your `main.dart`:
 
 ```dart
 import 'package:flutter/material.dart';
-import 'package:flutter_dev_toolkit/flutter_dev_toolkit.dart';
+import 'package:flutter_productivity_toolkit/flutter_productivity_toolkit.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -69,7 +69,7 @@ class TodoApp extends StatelessWidget {
 Create `lib/models/todo_state.dart`:
 
 ```dart
-import 'package:flutter_dev_toolkit/flutter_dev_toolkit.dart';
+import 'package:flutter_productivity_toolkit/flutter_productivity_toolkit.dart';
 
 @GenerateModel()
 class Todo {
@@ -177,7 +177,7 @@ Create `lib/screens/todo_list_screen.dart`:
 
 ```dart
 import 'package:flutter/material.dart';
-import 'package:flutter_dev_toolkit/flutter_dev_toolkit.dart';
+import 'package:flutter_productivity_toolkit/flutter_productivity_toolkit.dart';
 import '../models/todo_state.dart';
 
 class TodoListScreen extends StatefulWidget {
@@ -397,7 +397,7 @@ Create a details screen with navigation. First, define the route:
 
 ```dart
 // lib/routes/todo_routes.dart
-import 'package:flutter_dev_toolkit/flutter_dev_toolkit.dart';
+import 'package:flutter_productivity_toolkit/flutter_productivity_toolkit.dart';
 
 @GenerateRoute('/todo/:id')
 class TodoDetailRoute {
@@ -412,7 +412,7 @@ Create the detail screen:
 ```dart
 // lib/screens/todo_detail_screen.dart
 import 'package:flutter/material.dart';
-import 'package:flutter_dev_toolkit/flutter_dev_toolkit.dart';
+import 'package:flutter_productivity_toolkit/flutter_productivity_toolkit.dart';
 import '../models/todo_state.dart';
 import '../routes/todo_routes.dart';
 
@@ -485,7 +485,7 @@ Create `test/todo_app_test.dart`:
 ```dart
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_dev_toolkit/flutter_dev_toolkit.dart';
+import 'package:flutter_productivity_toolkit/flutter_productivity_toolkit.dart';
 import '../lib/models/todo_state.dart';
 import '../lib/screens/todo_list_screen.dart';
 

@@ -329,7 +329,8 @@ class FlutterPerformanceMonitor extends PerformanceMonitor {
   Future<double> _getActualMemoryUsage() async {
     if (Platform.isAndroid || Platform.isIOS) {
       try {
-        const platform = MethodChannel('flutter_dev_toolkit/performance');
+        const platform =
+            MethodChannel('flutter_productivity_toolkit/performance');
         final result = await platform.invokeMethod<int>('getMemoryUsage');
         return (result ?? 0).toDouble();
       } catch (e) {

@@ -30,7 +30,7 @@ dependencies:
 **After (Toolkit):**
 ```yaml
 dependencies:
-  flutter_dev_toolkit: ^0.1.0
+  flutter_productivity_toolkit: ^0.1.0
 dev_dependencies:
   build_runner: ^2.4.7
 ```
@@ -602,4 +602,4 @@ If you encounter issues during migration:
 1. Check the [Navigation Guide](../navigation.md)
 2. Review [Troubleshooting Guide](../troubleshooting.md)
 3. See navigation examples in [examples directory](../../example/)
-4. Ask questions in [GitHub Discussions](https://github.com/flutter-dev-toolkit/flutter_dev_toolkit/discussions)
+4. Ask questions in [GitHub Discussions](https://github.com/r00texploit/flutter_productivity_toolkit/discussions)

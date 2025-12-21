@@ -23,7 +23,7 @@ This guide helps you resolve common issues when using the Flutter Developer Prod
 1. Verify the package name in `pubspec.yaml`:
    ```yaml
    dependencies:
-     flutter_dev_toolkit: ^0.1.0
+     flutter_productivity_toolkit: ^0.1.0
    ```
 2. Run `flutter clean` and then `flutter pub get`
 3. Check your Flutter version compatibility (requires Flutter 3.0+)
@@ -171,7 +171,7 @@ This guide helps you resolve common issues when using the Flutter Developer Prod
    targets:
      $default:
        builders:
-         flutter_dev_toolkit|route_generator:
+         flutter_productivity_toolkit|route_generator:
            enabled: true
    ```
 
@@ -295,7 +295,7 @@ This guide helps you resolve common issues when using the Flutter Developer Prod
 **Solutions:**
 1. Verify annotation import:
    ```dart
-   import 'package:flutter_dev_toolkit/flutter_dev_toolkit.dart';
+   import 'package:flutter_productivity_toolkit/flutter_productivity_toolkit.dart';
    
    @GenerateState()
    class MyState {
@@ -500,13 +500,13 @@ This guide helps you resolve common issues when using the Flutter Developer Prod
 **Solutions:**
 1. Use selective imports:
    ```dart
-   import 'package:flutter_dev_toolkit/flutter_dev_toolkit.dart' 
+   import 'package:flutter_productivity_toolkit/flutter_productivity_toolkit.dart' 
        show StateManager, RouteBuilder;
    ```
 
 2. Use import aliases:
    ```dart
-   import 'package:flutter_dev_toolkit/flutter_dev_toolkit.dart' as toolkit;
+   import 'package:flutter_productivity_toolkit/flutter_productivity_toolkit.dart' as toolkit;
    
    final stateManager = toolkit.StateManager<MyState>();
    ```
@@ -625,7 +625,7 @@ This guide helps you resolve common issues when using the Flutter Developer Prod
 If you're still experiencing issues:
 
 1. **Check the FAQ**: [docs/faq.md](faq.md)
-2. **Search existing issues**: [GitHub Issues](https://github.com/flutter-dev-toolkit/flutter_dev_toolkit/issues)
+2. **Search existing issues**: [GitHub Issues](https://github.com/r00texploit/flutter_productivity_toolkit/issues)
 3. **Create a new issue**: Include:
    - Flutter version (`flutter --version`)
    - Toolkit version
@@ -633,7 +633,7 @@ If you're still experiencing issues:
    - Error messages and stack traces
    - Platform information (iOS/Android/Web)
 
-4. **Join discussions**: [GitHub Discussions](https://github.com/flutter-dev-toolkit/flutter_dev_toolkit/discussions)
+4. **Join discussions**: [GitHub Discussions](https://github.com/r00texploit/flutter_productivity_toolkit/discussions)
 
 ## Debugging Tips
 

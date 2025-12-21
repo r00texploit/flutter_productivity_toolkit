@@ -273,8 +273,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Support
 
-- [GitHub Issues](https://github.com/flutter-dev-toolkit/flutter_dev_toolkit/issues)
-- [Discussions](https://github.com/flutter-dev-toolkit/flutter_dev_toolkit/discussions)
+- [GitHub Issues](https://github.com/r00texploit/flutter_productivity_toolkit/issues)
+- [Discussions](https://github.com/r00texploit/flutter_productivity_toolkit/discussions)
 - [Documentation](https://pub.dev/documentation/flutter_productivity_toolkit/latest/)
 
 ## Changelog

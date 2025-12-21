@@ -41,10 +41,10 @@ No, the toolkit is designed for incremental adoption. You can use individual fea
 ```dart
 // Use only state management
 dependencies:
-  flutter_dev_toolkit: ^0.1.0
+  flutter_productivity_toolkit: ^0.1.0
 
 // In your code, only import what you need
-import 'package:flutter_dev_toolkit/flutter_dev_toolkit.dart' 
+import 'package:flutter_productivity_toolkit/flutter_productivity_toolkit.dart' 
     show StateManager, GenerateState;
 ```
 
@@ -337,7 +337,7 @@ The toolkit provides enhanced error handling:
 ### How do I report bugs or issues?
 
 1. Check the [Troubleshooting Guide](troubleshooting.md)
-2. Search [existing issues](https://github.com/flutter-dev-toolkit/flutter_dev_toolkit/issues)
+2. Search [existing issues](https://github.com/r00texploit/flutter_productivity_toolkit/issues)
 3. Create a new issue with:
    - Flutter version
    - Toolkit version
@@ -432,7 +432,7 @@ We welcome contributions! See our [Contributing Guide](../CONTRIBUTING.md) for d
 2. **Examples**: Check the [examples directory](../example/)
 3. **GitHub Issues**: For bugs and feature requests
 4. **GitHub Discussions**: For questions and community support
-5. **Stack Overflow**: Tag questions with `flutter-dev-toolkit`
+5. **Stack Overflow**: Tag questions with `flutter-productivity-toolkit`
 
 ## Future Roadmap
 
@@ -447,9 +447,9 @@ Upcoming features include:
 
 ### How can I request features?
 
-1. Check existing [feature requests](https://github.com/flutter-dev-toolkit/flutter_dev_toolkit/issues?q=is%3Aissue+is%3Aopen+label%3Aenhancement)
+1. Check existing [feature requests](https://github.com/r00texploit/flutter_productivity_toolkit/issues?q=is%3Aissue+is%3Aopen+label%3Aenhancement)
 2. Create a new issue with the `enhancement` label
-3. Participate in [discussions](https://github.com/flutter-dev-toolkit/flutter_dev_toolkit/discussions)
+3. Participate in [discussions](https://github.com/r00texploit/flutter_productivity_toolkit/discussions)
 
 ### Will the API remain stable?
 
@@ -467,6 +467,6 @@ Migration guides are provided for any breaking changes.
 If your question isn't answered here:
 
 1. Search the [documentation](README.md)
-2. Check [GitHub Discussions](https://github.com/flutter-dev-toolkit/flutter_dev_toolkit/discussions)
-3. Review [existing issues](https://github.com/flutter-dev-toolkit/flutter_dev_toolkit/issues)
-4. Ask a new question in [Discussions](https://github.com/flutter-dev-toolkit/flutter_dev_toolkit/discussions/new)
+2. Check [GitHub Discussions](https://github.com/r00texploit/flutter_productivity_toolkit/discussions)
+3. Review [existing issues](https://github.com/r00texploit/flutter_productivity_toolkit/issues)
+4. Ask a new question in [Discussions](https://github.com/r00texploit/flutter_productivity_toolkit/discussions/new)

@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_dev_toolkit/flutter_dev_toolkit.dart' as toolkit;
+import 'package:flutter_productivity_toolkit/flutter_productivity_toolkit.dart' as toolkit;
 
 /// Example demonstrating comprehensive navigation features.
 ///
@@ -88,7 +88,7 @@ class _NavigationDemoState extends State<NavigationDemo> {
     // User profile route with ID parameter
     _routeBuilder.defineRouteWithGuards<UserParams>(
       '/user',
-      (params) => UserProfileScreen(userId: params.userId),
+      (params) => UserProfileScreen(userId: params.userId.toString()),
       requiresAuthentication: true,
       guards: [
         toolkit.AuthenticationGuard(
@@ -100,13 +100,13 @@ class _NavigationDemoState extends State<NavigationDemo> {
 
     // Product details route with complex parameters
     _routeBuilder.defineRoute<ProductParams>('/product/details', (params) => ProductDetailsScreen(
-        productId: params.productId,
-        category: params.category,
-        variant: params.variant,
+        productId: params.productId.toString(),
+        category: params.category.toString(),
+        variant: params.variant.toString(),
       ),);
 
     // Settings route with section parameter
-    _routeBuilder.defineRoute<SettingsParams>('/settings', (params) => SettingsScreen(section: params.section));
+    _routeBuilder.defineRoute<SettingsParams>('/settings', (params) => SettingsScreen(section: params.section.toString()));
 
     // Login route (no authentication required)
     _routeBuilder.defineRoute<void>('/login', (params) => LoginScreen(
@@ -118,14 +118,14 @@ class _NavigationDemoState extends State<NavigationDemo> {
 
     // Modal route for overlays
     _routeBuilder.defineRoute<ModalParams>('/modal', (params) => ModalScreen(
-        title: params.title,
-        content: params.content,
+        title: params.title.toString(),
+        content: params.content.toString(),
         onClose: () => _modalStack.pop<void>(),
       ),);
 
     // Nested navigation example
     _routeBuilder.defineRoute<TabParams>('/tabs', (params) => TabNavigationScreen(
-        initialTab: params.initialTab,
+        initialTab: params.initialTab as int,
         routeBuilder: _routeBuilder,
       ),);
   }
@@ -137,7 +137,7 @@ class _NavigationDemoState extends State<NavigationDemo> {
       if (userId != null) {
         await _routeBuilder.navigate<UserParams, void>(
           '/user',
-          params: UserParams(userId: userId),
+          params: UserParams(userId: userId.toString()),
         );
         return true;
       }
@@ -155,9 +155,9 @@ class _NavigationDemoState extends State<NavigationDemo> {
         await _routeBuilder.navigate<ProductParams, void>(
           '/product/details',
           params: ProductParams(
-            productId: productId,
-            category: category,
-            variant: variant,
+            productId: productId.toString(),
+            category: category.toString(),
+            variant: variant.toString(),
           ),
         );
         return true;
@@ -170,7 +170,7 @@ class _NavigationDemoState extends State<NavigationDemo> {
       final section = params['section'] ?? 'general';
       await _routeBuilder.navigate<SettingsParams, void>(
         '/settings',
-        params: SettingsParams(section: section),
+        params: SettingsParams(section: section as String),
       );
       return true;
     });
@@ -259,7 +259,7 @@ class _NavigationDemoState extends State<NavigationDemo> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text('Navigation History (${history.length} routes):'),
-                      ...history.map((route) => Text('  • ${route.path}')),
+                      ...history.map((route) => Text('  • $route')),
                     ],
                   );
                 },
@@ -427,7 +427,7 @@ class _NavigationDemoState extends State<NavigationDemo> {
                             return Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: routes
-                                  .map((route) => Text('  • ${route.path}'))
+                                  .map((route) => Text('  • $route'))
                                   .toList(),
                             );
                           },
@@ -448,7 +448,7 @@ class _NavigationDemoState extends State<NavigationDemo> {
                             return Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: routes
-                                  .map((route) => Text('  • ${route.path}'))
+                                  .map((route) => Text('  • $route'))
                                   .toList(),
                             );
                           },

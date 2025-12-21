@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_dev_toolkit/flutter_dev_toolkit.dart';
+import 'package:flutter_productivity_toolkit/flutter_productivity_toolkit.dart';
 
 /// Example demonstrating comprehensive state management features.
 ///

@@ -31,7 +31,7 @@ Add the toolkit to your `pubspec.yaml`:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_dev_toolkit: ^0.1.0
+  flutter_productivity_toolkit: ^0.1.0
 
 dev_dependencies:
   flutter_test:
@@ -51,9 +51,9 @@ To use the latest development version:
 
 ```yaml
 dependencies:
-  flutter_dev_toolkit:
+  flutter_productivity_toolkit:
     git:
-      url: https://github.com/flutter-dev-toolkit/flutter_dev_toolkit.git
+      url: https://github.com/r00texploit/flutter_productivity_toolkit.git
       ref: main
 ```
 
@@ -63,8 +63,8 @@ For contributing or local modifications:
 
 ```yaml
 dependencies:
-  flutter_dev_toolkit:
-    path: ../path/to/flutter_dev_toolkit
+  flutter_productivity_toolkit:
+    path: ../path/to/flutter_productivity_toolkit
 ```
 
 ## Initial Setup
@@ -75,7 +75,7 @@ Update your `main.dart` file:
 
 ```dart
 import 'package:flutter/material.dart';
-import 'package:flutter_dev_toolkit/flutter_dev_toolkit.dart';
+import 'package:flutter_productivity_toolkit/flutter_productivity_toolkit.dart';
 
 void main() async {
   // Ensure Flutter is initialized
@@ -107,17 +107,17 @@ Create or update `build.yaml` in your project root:
 targets:
   $default:
     builders:
-      flutter_dev_toolkit|state_generator:
+      flutter_productivity_toolkit|state_generator:
         enabled: true
         options:
           generate_for:
             - lib/**
-      flutter_dev_toolkit|route_generator:
+      flutter_productivity_toolkit|route_generator:
         enabled: true
         options:
           generate_for:
             - lib/**
-      flutter_dev_toolkit|model_generator:
+      flutter_productivity_toolkit|model_generator:
         enabled: true
         options:
           generate_for:
@@ -133,7 +133,7 @@ include: package:flutter_lints/flutter.yaml
 
 analyzer:
   plugins:
-    - flutter_dev_toolkit
+    - flutter_productivity_toolkit
 
 linter:
   rules:
@@ -294,7 +294,7 @@ Add to `web/index.html`:
   <!-- Existing head content -->
   
   <!-- Toolkit web support -->
-  <script src="flutter_dev_toolkit_web.js" defer></script>
+  <script src="flutter_productivity_toolkit_web.js" defer></script>
 </head>
 ```
 
@@ -338,7 +338,7 @@ Create a simple test to verify installation:
 ```dart
 // test/installation_test.dart
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_dev_toolkit/flutter_dev_toolkit.dart';
+import 'package:flutter_productivity_toolkit/flutter_productivity_toolkit.dart';
 
 void main() {
   test('toolkit initialization', () async {
@@ -362,7 +362,7 @@ Create a simple state class:
 
 ```dart
 // lib/test_state.dart
-import 'package:flutter_dev_toolkit/flutter_dev_toolkit.dart';
+import 'package:flutter_productivity_toolkit/flutter_productivity_toolkit.dart';
 
 @GenerateState()
 class TestState {
@@ -409,7 +409,7 @@ void main() async {
 
 #### 1. Build Runner Fails
 
-**Error**: `Could not find package flutter_dev_toolkit`
+**Error**: `Could not find package flutter_productivity_toolkit`
 
 **Solution**:
 ```bash
@@ -466,8 +466,8 @@ pod install
 If you encounter issues not covered here:
 
 1. Check the [Troubleshooting Guide](troubleshooting.md)
-2. Search [GitHub Issues](https://github.com/flutter-dev-toolkit/flutter_dev_toolkit/issues)
-3. Ask in [GitHub Discussions](https://github.com/flutter-dev-toolkit/flutter_dev_toolkit/discussions)
+2. Search [GitHub Issues](https://github.com/r00texploit/flutter_productivity_toolkit/issues)
+3. Ask in [GitHub Discussions](https://github.com/r00texploit/flutter_productivity_toolkit/discussions)
 
 ## Next Steps
 
@@ -490,7 +490,7 @@ flutter pub outdated
 
 ```yaml
 dependencies:
-  flutter_dev_toolkit: ^0.2.0  # Update version
+  flutter_productivity_toolkit: ^0.2.0  # Update version
 ```
 
 Then run:
@@ -511,7 +511,7 @@ To remove the toolkit:
 1. Remove from `pubspec.yaml`:
    ```yaml
    dependencies:
-     # flutter_dev_toolkit: ^0.1.0  # Remove this line
+     # flutter_productivity_toolkit: ^0.1.0  # Remove this line
    ```
 
 2. Clean generated files:
