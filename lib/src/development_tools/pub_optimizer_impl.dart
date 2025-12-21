@@ -78,54 +78,64 @@ class PubOptimizerImpl implements PubOptimizer {
 
     // Collect issues from all analyses
     if (!pubspecAnalysis.hasRequiredFields) {
-      issues.add(PackageIssue(
-        type: IssueType.missingMetadata,
-        severity: IssueSeverity.error,
-        description: 'Missing required pubspec.yaml fields',
-        file: 'pubspec.yaml',
-        suggestedFix:
-            'Add missing fields: ${pubspecAnalysis.missingFields.join(', ')}',
-      ),);
+      issues.add(
+        PackageIssue(
+          type: IssueType.missingMetadata,
+          severity: IssueSeverity.error,
+          description: 'Missing required pubspec.yaml fields',
+          file: 'pubspec.yaml',
+          suggestedFix:
+              'Add missing fields: ${pubspecAnalysis.missingFields.join(', ')}',
+        ),
+      );
     }
 
     if (!readmeAnalysis.exists) {
-      issues.add(const PackageIssue(
-        type: IssueType.missingDocumentation,
-        severity: IssueSeverity.error,
-        description: 'README.md file is missing',
-        suggestedFix: 'Create a comprehensive README.md file',
-      ),);
+      issues.add(
+        const PackageIssue(
+          type: IssueType.missingDocumentation,
+          severity: IssueSeverity.error,
+          description: 'README.md file is missing',
+          suggestedFix: 'Create a comprehensive README.md file',
+        ),
+      );
     }
 
     if (!licenseAnalysis.exists) {
-      issues.add(const PackageIssue(
-        type: IssueType.licenseIssue,
-        severity: IssueSeverity.error,
-        description: 'LICENSE file is missing',
-        suggestedFix:
-            'Add a LICENSE file with an appropriate open source license',
-      ),);
+      issues.add(
+        const PackageIssue(
+          type: IssueType.licenseIssue,
+          severity: IssueSeverity.error,
+          description: 'LICENSE file is missing',
+          suggestedFix:
+              'Add a LICENSE file with an appropriate open source license',
+        ),
+      );
     }
 
     // Generate suggestions
     if (pubspecAnalysis.descriptionScore < 80) {
-      suggestions.add(const PackageSuggestion(
-        category: SuggestionCategory.metadata,
-        priority: SuggestionPriority.high,
-        description: 'Improve package description quality',
-        expectedBenefit: 'Better discoverability on pub.dev',
-        effort: EffortLevel.low,
-      ),);
+      suggestions.add(
+        const PackageSuggestion(
+          category: SuggestionCategory.metadata,
+          priority: SuggestionPriority.high,
+          description: 'Improve package description quality',
+          expectedBenefit: 'Better discoverability on pub.dev',
+          effort: EffortLevel.low,
+        ),
+      );
     }
 
     if (!readmeAnalysis.hasUsageExamples) {
-      suggestions.add(const PackageSuggestion(
-        category: SuggestionCategory.documentation,
-        priority: SuggestionPriority.high,
-        description: 'Add usage examples to README',
-        expectedBenefit: 'Improved developer experience and adoption',
-        effort: EffortLevel.medium,
-      ),);
+      suggestions.add(
+        const PackageSuggestion(
+          category: SuggestionCategory.documentation,
+          priority: SuggestionPriority.high,
+          description: 'Add usage examples to README',
+          expectedBenefit: 'Improved developer experience and adoption',
+          effort: EffortLevel.medium,
+        ),
+      );
     }
 
     // Calculate overall quality score
@@ -230,24 +240,30 @@ class PubOptimizerImpl implements PubOptimizer {
             workingExamples++;
           } else {
             brokenExamples++;
-            failedExamples.add(ExampleIssue(
-              exampleName: path.basename(file.path),
-              error: 'Example does not contain proper Flutter app structure',
-            ),);
+            failedExamples.add(
+              ExampleIssue(
+                exampleName: path.basename(file.path),
+                error: 'Example does not contain proper Flutter app structure',
+              ),
+            );
           }
         } catch (e) {
           brokenExamples++;
-          failedExamples.add(ExampleIssue(
-            exampleName: path.basename(file.path),
-            error: 'Failed to parse example: $e',
-          ),);
+          failedExamples.add(
+            ExampleIssue(
+              exampleName: path.basename(file.path),
+              error: 'Failed to parse example: $e',
+            ),
+          );
         }
       }
     } else {
-      suggestions.add(const ExampleSuggestion(
-        suggestion: 'Create an example directory with working examples',
-        apiName: 'package',
-      ),);
+      suggestions.add(
+        const ExampleSuggestion(
+          suggestion: 'Create an example directory with working examples',
+          apiName: 'package',
+        ),
+      );
     }
 
     // Check test files for examples
@@ -306,19 +322,23 @@ class PubOptimizerImpl implements PubOptimizer {
 
       // Check for overly restrictive constraints
       if (constraint.startsWith('=')) {
-        optimizations.add(DependencyOptimization(
-          dependency: name,
-          optimization:
-              'Consider using a range constraint instead of exact version',
-        ),);
+        optimizations.add(
+          DependencyOptimization(
+            dependency: name,
+            optimization:
+                'Consider using a range constraint instead of exact version',
+          ),
+        );
       }
 
       // Check for overly permissive constraints
       if (constraint == 'any') {
-        optimizations.add(DependencyOptimization(
-          dependency: name,
-          optimization: 'Specify a version constraint instead of "any"',
-        ),);
+        optimizations.add(
+          DependencyOptimization(
+            dependency: name,
+            optimization: 'Specify a version constraint instead of "any"',
+          ),
+        );
       }
     }
 
@@ -348,32 +368,40 @@ class PubOptimizerImpl implements PubOptimizer {
     // Check for critical issues
     for (final issue in packageAnalysis.issues) {
       if (issue.severity == IssueSeverity.error) {
-        criticalIssues.add(PublicationIssue(
-          issue: issue.description,
-          fix: issue.suggestedFix ?? 'Manual fix required',
-        ),);
+        criticalIssues.add(
+          PublicationIssue(
+            issue: issue.description,
+            fix: issue.suggestedFix ?? 'Manual fix required',
+          ),
+        );
       } else if (issue.severity == IssueSeverity.warning) {
-        warnings.add(PublicationWarning(
-          warning: issue.description,
-          suggestion: issue.suggestedFix ?? 'Consider addressing this issue',
-        ),);
+        warnings.add(
+          PublicationWarning(
+            warning: issue.description,
+            suggestion: issue.suggestedFix ?? 'Consider addressing this issue',
+          ),
+        );
       }
     }
 
     // Check documentation coverage
     if (documentationAnalysis.coveragePercentage < 80.0) {
-      warnings.add(const PublicationWarning(
-        warning: 'Documentation coverage is below 80%',
-        suggestion: 'Add documentation to improve pub.dev score',
-      ),);
+      warnings.add(
+        const PublicationWarning(
+          warning: 'Documentation coverage is below 80%',
+          suggestion: 'Add documentation to improve pub.dev score',
+        ),
+      );
     }
 
     // Check examples
     if (!exampleValidation.allApisHaveExamples) {
-      warnings.add(const PublicationWarning(
-        warning: 'Not all APIs have working examples',
-        suggestion: 'Add examples to improve package usability',
-      ),);
+      warnings.add(
+        const PublicationWarning(
+          warning: 'Not all APIs have working examples',
+          suggestion: 'Add examples to improve package usability',
+        ),
+      );
     }
 
     final readyForPublication = criticalIssues.isEmpty;
@@ -396,7 +424,8 @@ class PubOptimizerImpl implements PubOptimizer {
 
   @override
   Future<OptimizationReport> generateOptimizationReport(
-      String packagePath,) async {
+    String packagePath,
+  ) async {
     final packageAnalysis = await analyzePackage(packagePath);
     final documentationAnalysis = await analyzeDocumentation(packagePath);
     final exampleValidation = await validateExamples(packagePath);
@@ -406,47 +435,57 @@ class PubOptimizerImpl implements PubOptimizer {
 
     // Generate recommendations based on analysis
     for (final suggestion in packageAnalysis.suggestions) {
-      recommendations.add(OptimizationRecommendation(
-        title: suggestion.description,
-        description: suggestion.expectedBenefit,
-        priority: suggestion.priority,
-      ),);
+      recommendations.add(
+        OptimizationRecommendation(
+          title: suggestion.description,
+          description: suggestion.expectedBenefit,
+          priority: suggestion.priority,
+        ),
+      );
     }
 
     // Add documentation recommendations
     if (documentationAnalysis.coveragePercentage < 90.0) {
-      recommendations.add(const OptimizationRecommendation(
-        title: 'Improve Documentation Coverage',
-        description:
-            'Add documentation to reach 90%+ coverage for better pub.dev score',
-        priority: SuggestionPriority.high,
-      ),);
+      recommendations.add(
+        const OptimizationRecommendation(
+          title: 'Improve Documentation Coverage',
+          description:
+              'Add documentation to reach 90%+ coverage for better pub.dev score',
+          priority: SuggestionPriority.high,
+        ),
+      );
     }
 
     // Add example recommendations
     if (exampleValidation.brokenExamples > 0) {
-      recommendations.add(OptimizationRecommendation(
-        title: 'Fix Broken Examples',
-        description:
-            'Repair ${exampleValidation.brokenExamples} broken examples',
-        priority: SuggestionPriority.critical,
-      ),);
+      recommendations.add(
+        OptimizationRecommendation(
+          title: 'Fix Broken Examples',
+          description:
+              'Repair ${exampleValidation.brokenExamples} broken examples',
+          priority: SuggestionPriority.critical,
+        ),
+      );
     }
 
     // Add dependency recommendations
     for (final optimization in dependencyAnalysis.optimizations) {
-      recommendations.add(OptimizationRecommendation(
-        title: 'Optimize ${optimization.dependency}',
-        description: optimization.optimization,
-        priority: SuggestionPriority.medium,
-      ),);
+      recommendations.add(
+        OptimizationRecommendation(
+          title: 'Optimize ${optimization.dependency}',
+          description: optimization.optimization,
+          priority: SuggestionPriority.medium,
+        ),
+      );
     }
 
     // Sort recommendations by priority
-    recommendations.sort((a, b) =>
-        _priorityValue(b.priority).compareTo(_priorityValue(a.priority)),);
+    recommendations.sort(
+      (a, b) =>
+          _priorityValue(b.priority).compareTo(_priorityValue(a.priority)),
+    );
 
-    final currentScore = packageAnalysis.qualityScore;
+    // Calculate potential improvement based on recommendations
     final potentialImprovement = recommendations.length * 5; // Rough estimate
     final estimatedImpact = OptimizationImpact(
       scoreImprovement: potentialImprovement,
@@ -498,46 +537,56 @@ class PubOptimizerImpl implements PubOptimizer {
         // Fix pubspec.yaml issues
         if (!packageAnalysis.pubspecAnalysis.hasRequiredFields) {
           await _fixPubspecIssues(packagePath, packageAnalysis.pubspecAnalysis);
-          changes.add(const OptimizationChange(
-            file: 'pubspec.yaml',
-            change: 'Added missing required fields',
-          ),);
+          changes.add(
+            const OptimizationChange(
+              file: 'pubspec.yaml',
+              change: 'Added missing required fields',
+            ),
+          );
           filesProcessed++;
         }
 
         // Create basic README if missing
         if (!packageAnalysis.readmeAnalysis.exists) {
           await _createBasicReadme(packagePath);
-          changes.add(const OptimizationChange(
-            file: 'README.md',
-            change: 'Created basic README file',
-          ),);
+          changes.add(
+            const OptimizationChange(
+              file: 'README.md',
+              change: 'Created basic README file',
+            ),
+          );
           filesProcessed++;
         }
 
         // Create basic CHANGELOG if missing
         if (!packageAnalysis.changelogAnalysis.exists) {
           await _createBasicChangelog(packagePath);
-          changes.add(const OptimizationChange(
-            file: 'CHANGELOG.md',
-            change: 'Created basic CHANGELOG file',
-          ),);
+          changes.add(
+            const OptimizationChange(
+              file: 'CHANGELOG.md',
+              change: 'Created basic CHANGELOG file',
+            ),
+          );
           filesProcessed++;
         }
       } else {
         // Dry run - just report what would be changed
         if (!packageAnalysis.pubspecAnalysis.hasRequiredFields) {
-          changes.add(const OptimizationChange(
-            file: 'pubspec.yaml',
-            change: '[DRY RUN] Would add missing required fields',
-          ),);
+          changes.add(
+            const OptimizationChange(
+              file: 'pubspec.yaml',
+              change: '[DRY RUN] Would add missing required fields',
+            ),
+          );
         }
 
         if (!packageAnalysis.readmeAnalysis.exists) {
-          changes.add(const OptimizationChange(
-            file: 'README.md',
-            change: '[DRY RUN] Would create basic README file',
-          ),);
+          changes.add(
+            const OptimizationChange(
+              file: 'README.md',
+              change: '[DRY RUN] Would create basic README file',
+            ),
+          );
         }
       }
     } catch (e) {
@@ -759,7 +808,9 @@ class PubOptimizerImpl implements PubOptimizer {
   }
 
   _DocumentationFileAnalysis _analyzeDocumentationInFile(
-      String content, String filePath,) {
+    String content,
+    String filePath,
+  ) {
     final issues = <ApiDocumentationIssue>[];
     final suggestions = <DocumentationSuggestion>[];
 
@@ -770,10 +821,6 @@ class PubOptimizerImpl implements PubOptimizer {
     // Simple regex-based analysis for public APIs
     final classRegex =
         RegExp(r'^class\s+([A-Z][a-zA-Z0-9_]*)', multiLine: true);
-    final methodRegex =
-        RegExp(r'^\s*([a-zA-Z_][a-zA-Z0-9_]*)\s*\(', multiLine: true);
-    final functionRegex =
-        RegExp(r'^([a-zA-Z_][a-zA-Z0-9_]*)\s*\(', multiLine: true);
     final docCommentRegex = RegExp('///.*', multiLine: true);
 
     // Find all public classes
@@ -791,15 +838,19 @@ class PubOptimizerImpl implements PubOptimizer {
         if (lastDocComment != null && classStart - lastDocComment.end < 100) {
           documentedApis++;
         } else {
-          issues.add(ApiDocumentationIssue(
-            apiName: className,
-            issueDescription: 'Missing documentation comment',
-          ),);
-          suggestions.add(DocumentationSuggestion(
-            suggestion:
-                'Add documentation comment explaining the purpose and usage',
-            apiName: className,
-          ),);
+          issues.add(
+            ApiDocumentationIssue(
+              apiName: className,
+              issueDescription: 'Missing documentation comment',
+            ),
+          );
+          suggestions.add(
+            DocumentationSuggestion(
+              suggestion:
+                  'Add documentation comment explaining the purpose and usage',
+              apiName: className,
+            ),
+          );
         }
       }
     }
@@ -1004,7 +1055,9 @@ class PubOptimizerImpl implements PubOptimizer {
   }
 
   Future<void> _fixPubspecIssues(
-      String packagePath, PubspecAnalysis analysis,) async {
+    String packagePath,
+    PubspecAnalysis analysis,
+  ) async {
     final pubspecFile = File(path.join(packagePath, 'pubspec.yaml'));
     final content = await pubspecFile.readAsString();
 
@@ -1099,7 +1152,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 /// Helper class for documentation analysis results from a single file.
 class _DocumentationFileAnalysis {
-
   const _DocumentationFileAnalysis({
     required this.totalApis,
     required this.documentedApis,
