@@ -8,29 +8,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
-- Initial project structure and core interfaces
-- Abstract interfaces for all major components
-- Comprehensive error handling system
-- Flexible configuration system with presets
-- Code generation annotations and framework
-- Performance monitoring interfaces
-- Testing utilities framework
-- Development tools for pub.dev optimization
+- N/A
 
 ### Changed
-- N/A (Initial release)
-
-### Deprecated
-- N/A (Initial release)
-
-### Removed
-- N/A (Initial release)
+- N/A
 
 ### Fixed
-- N/A (Initial release)
+- N/A
 
-### Security
-- N/A (Initial release)
+## [0.1.1] - 2024-12-22
+
+### Fixed
+- Minor linting issues and code style improvements
+- Documentation formatting and consistency updates
 
 ## [0.1.0] - 2024-12-12
 

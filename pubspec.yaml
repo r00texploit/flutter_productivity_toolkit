@@ -1,6 +1,6 @@
 name: flutter_productivity_toolkit
 description: A comprehensive Flutter developer productivity toolkit that provides unified solutions for state management, navigation, testing utilities, and development workflow optimization.
-version: 0.1.0
+version: 0.1.1
 homepage: https://github.com/r00texploit/flutter-productivity-toolkit
 repository: https://github.com/r00texploit/flutter-productivity-toolkit
 issue_tracker: https://github.com/r00texploit/flutter-productivity-toolkit/issues
