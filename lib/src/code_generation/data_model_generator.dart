@@ -79,13 +79,14 @@ ${generateSerialization ? _generateFromJsonConstructor(fields, className, keyTra
 ''';
   }
 
-  List<FieldElement> _getSerializableFields(ClassElement classElement) => classElement.fields
-        .where((field) => !field.isStatic && !field.isSynthetic)
-        .where((field) => !_hasJsonIgnore(field))
-        .toList();
+  List<FieldElement> _getSerializableFields(ClassElement classElement) =>
+      classElement.fields
+          .where((field) => !field.isStatic && !field.isSynthetic)
+          .where((field) => !_hasJsonIgnore(field))
+          .toList();
 
-  bool _hasJsonIgnore(FieldElement field) => field.metadata
-        .any((meta) => meta.element?.displayName == 'JsonIgnore');
+  bool _hasJsonIgnore(FieldElement field) =>
+      field.metadata.any((meta) => meta.element?.displayName == 'JsonIgnore');
 
   String _getJsonKey(FieldElement field, KeyTransform keyTransform) {
     // Check for custom JsonField annotation
@@ -124,11 +125,11 @@ ${generateSerialization ? _generateFromJsonConstructor(fields, className, keyTra
   }
 
   String _toSnakeCase(String input) => input
-        .replaceAllMapped(
-          RegExp('[A-Z]'),
-          (match) => '_${match.group(0)!.toLowerCase()}',
-        )
-        .replaceFirst(RegExp('^_'), '');
+      .replaceAllMapped(
+        RegExp('[A-Z]'),
+        (match) => '_${match.group(0)!.toLowerCase()}',
+      )
+      .replaceFirst(RegExp('^_'), '');
 
   String _toCamelCase(String input) {
     if (input.isEmpty) return input;
@@ -141,32 +142,33 @@ ${generateSerialization ? _generateFromJsonConstructor(fields, className, keyTra
   }
 
   String _toKebabCase(String input) => input
-        .replaceAllMapped(
-          RegExp('[A-Z]'),
-          (match) => '-${match.group(0)!.toLowerCase()}',
-        )
-        .replaceFirst(RegExp('^-'), '');
+      .replaceAllMapped(
+        RegExp('[A-Z]'),
+        (match) => '-${match.group(0)!.toLowerCase()}',
+      )
+      .replaceFirst(RegExp('^-'), '');
 
   String _generateSerializationMethods(
     List<FieldElement> fields,
     KeyTransform keyTransform,
     bool includeNullValues,
-  ) => '''
+  ) =>
+      '''
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
     ${fields.map((field) {
-      final jsonKey = _getJsonKey(field, keyTransform);
-      final fieldName = field.name;
+        final jsonKey = _getJsonKey(field, keyTransform);
+        final fieldName = field.name;
 
-      if (includeNullValues) {
-        return "json['$jsonKey'] = $fieldName;";
-      } else {
-        return '''
+        if (includeNullValues) {
+          return "json['$jsonKey'] = $fieldName;";
+        } else {
+          return '''
     if ($fieldName != null) {
       json['$jsonKey'] = $fieldName;
     }''';
-      }
-    }).join('\n    ')}
+        }
+      }).join('\n    ')}
     return json;
   }
 ''';
@@ -175,36 +177,38 @@ ${generateSerialization ? _generateFromJsonConstructor(fields, className, keyTra
     List<FieldElement> fields,
     String className,
     KeyTransform keyTransform,
-  ) => '''
+  ) =>
+      '''
 // Factory constructor for JSON deserialization
 extension ${className}FromJson on $className {
   static $className fromJson(Map<String, dynamic> json) {
     return $className(
       ${fields.map((field) {
-      final jsonKey = _getJsonKey(field, keyTransform);
-      final fieldName = field.name;
-      final fieldType = field.type.getDisplayString();
+        final jsonKey = _getJsonKey(field, keyTransform);
+        final fieldName = field.name;
+        final fieldType = field.type.getDisplayString(withNullability: true);
 
-      return "$fieldName: json['$jsonKey'] as $fieldType,";
-    }).join('\n      ')}
+        return "$fieldName: json['$jsonKey'] as $fieldType,";
+      }).join('\n      ')}
     );
   }
 }
 ''';
 
-  String _generateCopyWithMethod(List<FieldElement> fields, String className) => '''
+  String _generateCopyWithMethod(List<FieldElement> fields, String className) =>
+      '''
   $className copyWith({
     ${fields.map((field) {
-      final fieldType = field.type.getDisplayString();
-      final fieldName = field.name;
-      return '$fieldType? $fieldName,';
-    }).join('\n    ')}
+        final fieldType = field.type.getDisplayString(withNullability: true);
+        final fieldName = field.name;
+        return '$fieldType? $fieldName,';
+      }).join('\n    ')}
   }) {
     return $className(
       ${fields.map((field) {
-      final fieldName = field.name;
-      return '$fieldName: $fieldName ?? this.$fieldName,';
-    }).join('\n      ')}
+        final fieldName = field.name;
+        return '$fieldName: $fieldName ?? this.$fieldName,';
+      }).join('\n      ')}
     );
   }
 ''';
@@ -223,7 +227,9 @@ extension ${className}FromJson on $className {
 ''';
   }
 
-  String _generateEqualityMethods(List<FieldElement> fields, String className) => '''
+  String _generateEqualityMethods(
+          List<FieldElement> fields, String className) =>
+      '''
 // Equality and hashCode for $className
 extension ${className}Equality on $className {
   @override
@@ -232,9 +238,9 @@ extension ${className}Equality on $className {
     if (other is! $className) return false;
     
     return ${fields.map((field) {
-      final fieldName = field.name;
-      return 'other.$fieldName == $fieldName';
-    }).join(' &&\n           ')};
+        final fieldName = field.name;
+        return 'other.$fieldName == $fieldName';
+      }).join(' &&\n           ')};
   }
 
   @override

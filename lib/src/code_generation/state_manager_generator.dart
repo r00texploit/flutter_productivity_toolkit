@@ -107,22 +107,28 @@ extension ${className}StateExtension on $className {
 ''';
   }
 
-  List<FieldElement> _getReactiveFields(ClassElement classElement) => classElement.fields
-        .where((field) => field.metadata
-            .any((meta) => meta.element?.displayName == 'ReactiveProperty'),)
-        .toList();
+  List<FieldElement> _getReactiveFields(ClassElement classElement) =>
+      classElement.fields
+          .where(
+            (field) => field.metadata
+                .any((meta) => meta.element?.displayName == 'ReactiveProperty'),
+          )
+          .toList();
 
-  List<MethodElement> _getStateMethods(ClassElement classElement) => classElement.methods
-        .where((method) => method.metadata
-            .any((meta) => meta.element?.displayName == 'StateAction'),)
-        .toList();
+  List<MethodElement> _getStateMethods(ClassElement classElement) =>
+      classElement.methods
+          .where(
+            (method) => method.metadata
+                .any((meta) => meta.element?.displayName == 'StateAction'),
+          )
+          .toList();
 
   String _generateFieldGettersAndSetters(List<FieldElement> fields) {
     if (fields.isEmpty) return '';
 
     return fields.map((field) {
       final fieldName = field.name;
-      final fieldType = field.type.getDisplayString();
+      final fieldType = field.type.getDisplayString(withNullability: true);
 
       return '''
   $fieldType get $fieldName => _state.$fieldName;
@@ -142,8 +148,10 @@ extension ${className}StateExtension on $className {
     return methods.map((method) {
       final methodName = method.name;
       final parameters = method.parameters
-          .map((p) =>
-              '${p.type.getDisplayString()} ${p.name}',)
+          .map(
+            (p) =>
+                '${p.type.getDisplayString(withNullability: true)} ${p.name}',
+          )
           .join(', ');
       final paramNames = method.parameters.map((p) => p.name).join(', ');
 

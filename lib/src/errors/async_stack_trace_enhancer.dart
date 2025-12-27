@@ -85,7 +85,7 @@ class AsyncStackTraceEnhancer {
 
   /// Creates an enhanced error with async context and improved stack trace.
   static EnhancedAsyncError enhanceError(
-    error,
+    Object error,
     StackTrace stackTrace, {
     String? operationName,
     Map<String, dynamic>? context,
@@ -115,10 +115,12 @@ class AsyncStackTraceEnhancer {
   }
 
   /// Gets the current async operation history.
-  static List<AsyncOperation> getOperationHistory() => List.unmodifiable(_operationHistory);
+  static List<AsyncOperation> getOperationHistory() =>
+      List.unmodifiable(_operationHistory);
 
   /// Gets currently active async operations.
-  static List<AsyncContext> getActiveOperations() => List.unmodifiable(_contextMap.values);
+  static List<AsyncContext> getActiveOperations() =>
+      List.unmodifiable(_contextMap.values);
 
   /// Clears the operation history and active operations.
   static void clearHistory() {
@@ -142,7 +144,8 @@ class AsyncStackTraceEnhancer {
     developer.log('=============================');
   }
 
-  static String _generateOperationId() => '${DateTime.now().millisecondsSinceEpoch}_${_contextMap.length}';
+  static String _generateOperationId() =>
+      '${DateTime.now().millisecondsSinceEpoch}_${_contextMap.length}';
 
   static void _addToHistory(AsyncOperation operation) {
     _operationHistory.insert(0, operation);
@@ -152,7 +155,7 @@ class AsyncStackTraceEnhancer {
   }
 
   static EnhancedAsyncError _enhanceAsyncError(
-    error,
+    Object error,
     StackTrace stackTrace,
     AsyncContext context,
   ) {
@@ -212,7 +215,6 @@ class AsyncStackTraceEnhancer {
 
 /// Context information for async operations.
 class AsyncContext {
-
   /// Creates async context.
   const AsyncContext({
     required this.operationId,
@@ -222,6 +224,7 @@ class AsyncContext {
     required this.startTime,
     required this.stackTrace,
   });
+
   /// Unique identifier for the operation.
   final String operationId;
 
@@ -246,7 +249,6 @@ class AsyncContext {
 
 /// Enhanced async error with context and improved stack trace.
 class EnhancedAsyncError extends Error {
-
   /// Creates an enhanced async error.
   EnhancedAsyncError({
     required this.originalError,
@@ -257,6 +259,7 @@ class EnhancedAsyncError extends Error {
     required this.asyncChain,
     this.asyncContext,
   });
+
   /// The original error that occurred.
   final dynamic originalError;
 
@@ -303,7 +306,6 @@ class EnhancedAsyncError extends Error {
 
 /// Represents an async operation in the history.
 class AsyncOperation {
-
   /// Creates an async operation record.
   const AsyncOperation({
     required this.type,
@@ -315,26 +317,29 @@ class AsyncOperation {
 
   /// Creates a started operation record.
   factory AsyncOperation.started(AsyncContext context) => AsyncOperation(
-      type: AsyncOperationType.started,
-      context: context,
-      timestamp: DateTime.now(),
-    );
+        type: AsyncOperationType.started,
+        context: context,
+        timestamp: DateTime.now(),
+      );
 
   /// Creates a completed operation record.
-  factory AsyncOperation.completed(AsyncContext context, result) => AsyncOperation(
-      type: AsyncOperationType.completed,
-      context: context,
-      timestamp: DateTime.now(),
-      result: result,
-    );
+  factory AsyncOperation.completed(AsyncContext context, Object? result) =>
+      AsyncOperation(
+        type: AsyncOperationType.completed,
+        context: context,
+        timestamp: DateTime.now(),
+        result: result,
+      );
 
   /// Creates a failed operation record.
-  factory AsyncOperation.failed(AsyncContext context, error) => AsyncOperation(
-      type: AsyncOperationType.failed,
-      context: context,
-      timestamp: DateTime.now(),
-      error: error,
-    );
+  factory AsyncOperation.failed(AsyncContext context, Object error) =>
+      AsyncOperation(
+        type: AsyncOperationType.failed,
+        context: context,
+        timestamp: DateTime.now(),
+        error: error,
+      );
+
   /// Type of the operation.
   final AsyncOperationType type;
 

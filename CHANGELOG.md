@@ -16,6 +16,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - N/A
 
+## [0.1.3] - 2024-12-27
+
+### Fixed
+- Critical type annotation issues in error handling system
+- Missing type annotations for error parameters in multiple files
+- Improved type safety across error reporting components
+
 ## [0.1.2] - 2024-12-27
 
 ### Fixed

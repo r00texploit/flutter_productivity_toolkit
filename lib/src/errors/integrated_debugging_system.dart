@@ -10,7 +10,6 @@ import 'widget_debugger.dart';
 
 /// Integrated debugging system that combines all error handling and debugging tools.
 class IntegratedDebuggingSystem {
-
   /// Private constructor for singleton pattern.
   IntegratedDebuggingSystem._({
     ErrorReporter? errorReporter,
@@ -60,9 +59,11 @@ class IntegratedDebuggingSystem {
 
     _isInitialized = true;
 
-    system._reportDebugEvent(DebugEvent.systemInitialized(
-      'Integrated debugging system initialized successfully',
-    ),);
+    system._reportDebugEvent(
+      DebugEvent.systemInitialized(
+        'Integrated debugging system initialized successfully',
+      ),
+    );
   }
 
   /// Stream of debug events from the system.
@@ -70,7 +71,7 @@ class IntegratedDebuggingSystem {
 
   /// Reports an error through the integrated system.
   void reportError(
-    error, {
+    Object error, {
     StackTrace? stackTrace,
     ErrorCategory? category,
     Map<String, dynamic>? context,
@@ -107,10 +108,12 @@ class IntegratedDebuggingSystem {
     _errorReporter.reportError(toolkitError);
 
     // Report debug event
-    _reportDebugEvent(DebugEvent.errorReported(
-      toolkitError,
-      platformIssues: platformIssues,
-    ),);
+    _reportDebugEvent(
+      DebugEvent.errorReported(
+        toolkitError,
+        platformIssues: platformIssues,
+      ),
+    );
   }
 
   /// Analyzes a widget for debugging information.
@@ -137,20 +140,21 @@ class IntegratedDebuggingSystem {
     required String operationName,
     Map<String, dynamic>? context,
     String? category,
-  }) => AsyncStackTraceEnhancer.wrapFuture(
-      future,
-      operationName: operationName,
-      context: context,
-      category: category,
-    ).catchError((Object error, StackTrace stackTrace) {
-      reportError(
-        error,
-        stackTrace: stackTrace,
-        context: context,
+  }) =>
+      AsyncStackTraceEnhancer.wrapFuture(
+        future,
         operationName: operationName,
-      );
-      Error.throwWithStackTrace(error, stackTrace);
-    });
+        context: context,
+        category: category,
+      ).catchError((Object error, StackTrace stackTrace) {
+        reportError(
+          error,
+          stackTrace: stackTrace,
+          context: context,
+          operationName: operationName,
+        );
+        Error.throwWithStackTrace(error, stackTrace);
+      });
 
   /// Wraps a Stream with enhanced debugging capabilities.
   Stream<T> wrapStream<T>(
@@ -158,52 +162,56 @@ class IntegratedDebuggingSystem {
     required String operationName,
     Map<String, dynamic>? context,
     String? category,
-  }) => AsyncStackTraceEnhancer.wrapStream(
-      stream,
-      operationName: operationName,
-      context: context,
-      category: category,
-    ).handleError((Object error, StackTrace stackTrace) {
-      reportError(
-        error,
-        stackTrace: stackTrace,
-        context: context,
+  }) =>
+      AsyncStackTraceEnhancer.wrapStream(
+        stream,
         operationName: operationName,
-      );
-    });
+        context: context,
+        category: category,
+      ).handleError((Object error, StackTrace stackTrace) {
+        reportError(
+          error,
+          stackTrace: stackTrace,
+          context: context,
+          operationName: operationName,
+        );
+      });
 
   /// Creates a debug overlay widget for visual debugging.
-  Widget createDebugOverlay(Widget child) => WidgetDebugger.createDebugOverlay(child);
+  Widget createDebugOverlay(Widget child) =>
+      WidgetDebugger.createDebugOverlay(child);
 
   /// Gets comprehensive system diagnostics.
   SystemDiagnostics getSystemDiagnostics() => SystemDiagnostics(
-      platformInfo: PlatformIssueDetector.getCurrentPlatformInfo(),
-      platformRecommendations:
-          PlatformIssueDetector.getPlatformRecommendations(),
-      configurationIssues: PlatformIssueDetector.checkPlatformConfiguration(),
-      activeAsyncOperations: AsyncStackTraceEnhancer.getActiveOperations(),
-      asyncOperationHistory: AsyncStackTraceEnhancer.getOperationHistory(),
-      errorStatistics: _errorReporter.getStatistics(),
-      timestamp: DateTime.now(),
-    );
+        platformInfo: PlatformIssueDetector.getCurrentPlatformInfo(),
+        platformRecommendations:
+            PlatformIssueDetector.getPlatformRecommendations(),
+        configurationIssues: PlatformIssueDetector.checkPlatformConfiguration(),
+        activeAsyncOperations: AsyncStackTraceEnhancer.getActiveOperations(),
+        asyncOperationHistory: AsyncStackTraceEnhancer.getOperationHistory(),
+        errorStatistics: _errorReporter.getStatistics(),
+        timestamp: DateTime.now(),
+      );
 
   /// Captures a comprehensive debugging snapshot.
   DebuggingSnapshot captureSnapshot(BuildContext? context) => DebuggingSnapshot(
-      timestamp: DateTime.now(),
-      systemDiagnostics: getSystemDiagnostics(),
-      widgetSnapshot:
-          context != null ? WidgetDebugger.captureSnapshot(context) : null,
-      asyncState: AsyncStackTraceEnhancer.getActiveOperations(),
-    );
+        timestamp: DateTime.now(),
+        systemDiagnostics: getSystemDiagnostics(),
+        widgetSnapshot:
+            context != null ? WidgetDebugger.captureSnapshot(context) : null,
+        asyncState: AsyncStackTraceEnhancer.getActiveOperations(),
+      );
 
   /// Clears all debugging history and caches.
   void clearDebuggingData() {
     AsyncStackTraceEnhancer.clearHistory();
     _errorReporter.clearErrors();
 
-    _reportDebugEvent(DebugEvent.dataCleared(
-      'All debugging data has been cleared',
-    ),);
+    _reportDebugEvent(
+      DebugEvent.dataCleared(
+        'All debugging data has been cleared',
+      ),
+    );
   }
 
   /// Disposes of the debugging system.
@@ -240,7 +248,7 @@ class IntegratedDebuggingSystem {
   }
 
   ToolkitError _createToolkitError(
-    error,
+    Object error,
     StackTrace stackTrace,
     ErrorCategory? category,
     Map<String, dynamic>? context,
@@ -266,7 +274,6 @@ class IntegratedDebuggingSystem {
 
 /// Result of widget analysis.
 class WidgetAnalysisResult {
-
   /// Creates a widget analysis result.
   const WidgetAnalysisResult({
     required this.inspectionData,
@@ -274,6 +281,7 @@ class WidgetAnalysisResult {
     required this.performanceIssues,
     required this.timestamp,
   });
+
   /// Widget inspection data.
   final WidgetInspectionData inspectionData;
 
@@ -301,7 +309,6 @@ class WidgetAnalysisResult {
 
 /// Comprehensive system diagnostics.
 class SystemDiagnostics {
-
   /// Creates system diagnostics.
   const SystemDiagnostics({
     required this.platformInfo,
@@ -312,6 +319,7 @@ class SystemDiagnostics {
     required this.errorStatistics,
     required this.timestamp,
   });
+
   /// Platform information.
   final PlatformInfo platformInfo;
 
@@ -336,7 +344,6 @@ class SystemDiagnostics {
 
 /// Comprehensive debugging snapshot.
 class DebuggingSnapshot {
-
   /// Creates a debugging snapshot.
   const DebuggingSnapshot({
     required this.timestamp,
@@ -344,6 +351,7 @@ class DebuggingSnapshot {
     this.widgetSnapshot,
     required this.asyncState,
   });
+
   /// When the snapshot was taken.
   final DateTime timestamp;
 
@@ -359,7 +367,6 @@ class DebuggingSnapshot {
 
 /// Debug events emitted by the system.
 class DebugEvent {
-
   /// Creates a debug event.
   const DebugEvent({
     required this.type,
@@ -370,45 +377,48 @@ class DebugEvent {
 
   /// Creates a system initialized event.
   factory DebugEvent.systemInitialized(String message) => DebugEvent(
-      type: DebugEventType.systemInitialized,
-      message: message,
-      timestamp: DateTime.now(),
-    );
+        type: DebugEventType.systemInitialized,
+        message: message,
+        timestamp: DateTime.now(),
+      );
 
   /// Creates an error reported event.
   factory DebugEvent.errorReported(
     ToolkitError error, {
     List<PlatformIssue>? platformIssues,
-  }) => DebugEvent(
-      type: DebugEventType.errorReported,
-      message: 'Error reported: ${error.message}',
-      timestamp: DateTime.now(),
-      data: {
-        'error': error,
-        'platformIssues': platformIssues ?? [],
-      },
-    );
+  }) =>
+      DebugEvent(
+        type: DebugEventType.errorReported,
+        message: 'Error reported: ${error.message}',
+        timestamp: DateTime.now(),
+        data: {
+          'error': error,
+          'platformIssues': platformIssues ?? [],
+        },
+      );
 
   /// Creates a widget analyzed event.
   factory DebugEvent.widgetAnalyzed(
     Widget widget,
     WidgetAnalysisResult result,
-  ) => DebugEvent(
-      type: DebugEventType.widgetAnalyzed,
-      message: 'Widget analyzed: ${widget.runtimeType}',
-      timestamp: DateTime.now(),
-      data: {
-        'widget': widget.runtimeType.toString(),
-        'result': result,
-      },
-    );
+  ) =>
+      DebugEvent(
+        type: DebugEventType.widgetAnalyzed,
+        message: 'Widget analyzed: ${widget.runtimeType}',
+        timestamp: DateTime.now(),
+        data: {
+          'widget': widget.runtimeType.toString(),
+          'result': result,
+        },
+      );
 
   /// Creates a data cleared event.
   factory DebugEvent.dataCleared(String message) => DebugEvent(
-      type: DebugEventType.dataCleared,
-      message: message,
-      timestamp: DateTime.now(),
-    );
+        type: DebugEventType.dataCleared,
+        message: message,
+        timestamp: DateTime.now(),
+      );
+
   /// Type of the debug event.
   final DebugEventType type;
 

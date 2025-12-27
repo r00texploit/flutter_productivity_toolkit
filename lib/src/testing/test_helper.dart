@@ -2,6 +2,8 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:faker/faker.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 import '../errors/error_reporter.dart';
 import '../navigation/route_builder.dart';
@@ -17,10 +19,10 @@ abstract class TestHelper {
   /// Automatically sets up MaterialApp, theme, and other common
   /// dependencies needed for widget testing.
   dynamic wrapWithProviders(
-    child, {
+    Widget child, {
     List<Provider>? providers,
-    theme,
-    locale,
+    ThemeData? theme,
+    Locale? locale,
   });
 
   /// Pumps a widget and waits for all animations and async operations
@@ -29,8 +31,8 @@ abstract class TestHelper {
   /// This is a convenience method that combines pumpWidget and pumpAndSettle
   /// with additional waiting for common async operations.
   Future<void> pumpAndSettle(
-    tester,
-    widget, {
+    WidgetTester tester,
+    Widget widget, {
     Duration? timeout,
   });
 
@@ -106,7 +108,6 @@ abstract class TestDataFactory {
 
 /// Mock implementation of StateManager for testing.
 class MockStateManager<T> implements StateManager<T> {
-
   /// Creates a new mock state manager with the specified initial state.
   MockStateManager(
     this._state, {
@@ -173,12 +174,12 @@ class MockStateManager<T> implements StateManager<T> {
 
 /// Mock route for testing navigation.
 class MockRoute {
-
   /// Creates a new mock route.
   const MockRoute({
     required this.path,
     this.parameters = const {},
   });
+
   /// The route path.
   final String path;
 
@@ -191,7 +192,6 @@ class MockRoute {
 
 /// Mock implementation of NavigationStack for testing.
 class MockNavigationStack {
-
   /// Creates a new mock navigation stack with optional initial routes.
   MockNavigationStack([List<MockRoute>? initialStack])
       : _stack = List.from(initialStack ?? []);
@@ -258,7 +258,6 @@ class MockNavigationStack {
 
 /// Complete test environment setup with all toolkit components.
 class TestEnvironment {
-
   /// Creates a new test environment.
   const TestEnvironment({
     required this.helper,
@@ -266,6 +265,7 @@ class TestEnvironment {
     required this.stateProvider,
     required this.navigationStack,
   });
+
   /// The test helper instance.
   final TestHelper helper;
 
@@ -296,7 +296,6 @@ abstract class Provider {
 
 /// Concrete implementation of TestHelper with pre-configured test environments.
 class DefaultTestHelper extends TestHelper {
-
   /// Creates a new DefaultTestHelper.
   DefaultTestHelper({ErrorReporter? errorReporter})
       : _errorReporter = errorReporter ?? DefaultErrorReporter();
@@ -344,7 +343,8 @@ class DefaultTestHelper extends TestHelper {
   @override
   MockNavigationStack createMockNavigation({
     List<MockRoute>? initialStack,
-  }) => MockNavigationStack(initialStack);
+  }) =>
+      MockNavigationStack(initialStack);
 
   @override
   Future<TestEnvironment> setupTestEnvironment({
@@ -581,10 +581,10 @@ class DefaultTestDataFactory extends TestDataFactory {
   }
 
   Map<String, dynamic> _generateVariations(int index) => {
-      'index': index,
-      'variation': _random.nextInt(10),
-      'timestamp': DateTime.now().millisecondsSinceEpoch + index,
-    };
+        'index': index,
+        'variation': _random.nextInt(10),
+        'timestamp': DateTime.now().millisecondsSinceEpoch + index,
+      };
 
   dynamic _createObjectByType(Type type) {
     if (type == String) {
@@ -631,7 +631,6 @@ class _ProviderWrapper {
 
 /// Navigation testing utilities for simulating deep links and route transitions.
 class NavigationTestHelper {
-
   /// Creates a new NavigationTestHelper.
   NavigationTestHelper(this._routeBuilder);
   final DefaultRouteBuilder _routeBuilder;
@@ -664,11 +663,12 @@ class NavigationTestHelper {
     String? path,
     Map<String, dynamic>? parameters,
     Map<String, dynamic>? metadata,
-  }) => NavigationRoute(
-      path: path ?? '/test/route/${DateTime.now().millisecondsSinceEpoch}',
-      parameters: parameters ?? {'testParam': 'testValue'},
-      metadata: metadata ?? {'source': 'test'},
-    );
+  }) =>
+      NavigationRoute(
+        path: path ?? '/test/route/${DateTime.now().millisecondsSinceEpoch}',
+        parameters: parameters ?? {'testParam': 'testValue'},
+        metadata: metadata ?? {'source': 'test'},
+      );
 
   /// Simulates a route transition with timing and animation testing.
   Future<void> simulateRouteTransition(
@@ -722,8 +722,11 @@ class NavigationTestHelper {
   bool verifyParameterTypes(
     Map<String, dynamic> parameters,
     Map<String, Type> expectedTypes,
-  ) => RouteParameterValidator.validateParameters(
-        parameters, expectedTypes,);
+  ) =>
+      RouteParameterValidator.validateParameters(
+        parameters,
+        expectedTypes,
+      );
 
   /// Gets the history of simulated deep links for testing verification.
   List<String> get simulatedDeepLinkHistory =>
@@ -737,7 +740,8 @@ class NavigationTestHelper {
   /// Creates a mock route builder for isolated navigation testing.
   static MockRouteBuilder createMockRouteBuilder({
     DeepLinkConfiguration? deepLinkConfig,
-  }) => MockRouteBuilder(deepLinkConfig: deepLinkConfig);
+  }) =>
+      MockRouteBuilder(deepLinkConfig: deepLinkConfig);
 }
 
 /// Abstract base class for navigation stack operations in tests.
@@ -751,7 +755,6 @@ abstract class NavigationStackOperation {
 
 /// Push operation for navigation stack testing.
 class PushOperation extends NavigationStackOperation {
-
   /// Creates a new push operation.
   PushOperation(this.route, this.expectedStackSize);
   final MockRoute route;
@@ -780,7 +783,6 @@ class PushOperation extends NavigationStackOperation {
 
 /// Pop operation for navigation stack testing.
 class PopOperation extends NavigationStackOperation {
-
   /// Creates a new pop operation.
   PopOperation(this.expectedStackSize, {this.expectedTopRoute});
   final int expectedStackSize;
@@ -811,7 +813,6 @@ class PopOperation extends NavigationStackOperation {
 
 /// Push replacement operation for navigation stack testing.
 class PushReplacementOperation extends NavigationStackOperation {
-
   /// Creates a new push replacement operation.
   PushReplacementOperation(this.route, this.expectedStackSize);
   final MockRoute route;
@@ -840,7 +841,6 @@ class PushReplacementOperation extends NavigationStackOperation {
 
 /// Mock route builder for isolated navigation testing.
 class MockRouteBuilder extends DefaultRouteBuilder {
-
   /// Creates a new MockRouteBuilder.
   MockRouteBuilder({super.deepLinkConfig});
   final List<String> _navigationHistory = [];
@@ -861,7 +861,8 @@ class MockRouteBuilder extends DefaultRouteBuilder {
   List<String> get navigationHistory => List.unmodifiable(_navigationHistory);
 
   /// Gets the last parameters used for navigation to a specific path.
-  T? getLastNavigationParams<T>(String path) => _lastNavigationParams[path] as T?;
+  T? getLastNavigationParams<T>(String path) =>
+      _lastNavigationParams[path] as T?;
 
   /// Clears the navigation history.
   void clearNavigationHistory() {
@@ -879,7 +880,6 @@ class MockRouteBuilder extends DefaultRouteBuilder {
 
 /// Deep link testing utilities for comprehensive URL handling verification.
 class DeepLinkTestHelper {
-
   /// Creates a new DeepLinkTestHelper.
   DeepLinkTestHelper(this._navigationHelper);
   final NavigationTestHelper _navigationHelper;
