@@ -16,6 +16,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - N/A
 
+## [0.1.2] - 2024-12-27
+
+### Fixed
+- Code formatting and style improvements via IDE autofix
+- Minor documentation consistency updates
+
 ## [0.1.1] - 2024-12-22
 
 ### Fixed
