@@ -16,6 +16,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - N/A
 
+## [0.1.4] - 2024-12-27
+
+### Fixed
+- Missing Flutter imports in test helper module
+- Improved type safety and import organization
+
 ## [0.1.3] - 2024-12-27
 
 ### Fixed
