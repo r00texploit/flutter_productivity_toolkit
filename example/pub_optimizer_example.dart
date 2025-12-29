@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter_productivity_toolkit/src/development_tools/pub_optimizer.dart';
-import 'package:flutter_productivity_toolkit/src/development_tools/pub_optimizer_impl.dart';
 import 'package:flutter_productivity_toolkit/src/development_tools/publication_utilities.dart';
 
 /// Example demonstrating the pub.dev optimization tools.
@@ -11,8 +10,7 @@ import 'package:flutter_productivity_toolkit/src/development_tools/publication_u
 Future<void> main() async {
   print('🚀 Flutter Dev Toolkit - Pub Optimizer Example\n');
 
-  // Initialize the pub optimizer
-  const optimizer = PubOptimizerImpl();
+  // Initialize the pub optimizer and publication utilities
   const publicationUtils = PublicationUtilities();
 
   // Use current directory as the package to analyze
@@ -27,7 +25,8 @@ Future<void> main() async {
     );
 
     print(
-        '✅ Workflow completed in ${workflowResult.totalDuration.inMilliseconds}ms\n',);
+      '✅ Workflow completed in ${workflowResult.totalDuration.inMilliseconds}ms\n',
+    );
 
     // Step 2: Display package analysis results
     if (workflowResult.packageAnalysis != null) {
@@ -72,7 +71,8 @@ Future<void> main() async {
       final docAnalysis = workflowResult.documentationAnalysis!;
       print('📚 Documentation Analysis:');
       print(
-          '   Coverage: ${docAnalysis.coveragePercentage.toStringAsFixed(1)}%',);
+        '   Coverage: ${docAnalysis.coveragePercentage.toStringAsFixed(1)}%',
+      );
       print('   Undocumented APIs: ${docAnalysis.undocumentedApis}');
       print('   Meets Standards: ${docAnalysis.meetsStandards}');
       print('');
@@ -85,7 +85,8 @@ Future<void> main() async {
       print('   Working Examples: ${exampleValidation.workingExamples}');
       print('   Broken Examples: ${exampleValidation.brokenExamples}');
       print(
-          '   All APIs Have Examples: ${exampleValidation.allApisHaveExamples}',);
+        '   All APIs Have Examples: ${exampleValidation.allApisHaveExamples}',
+      );
       print('');
     }
 
@@ -94,7 +95,8 @@ Future<void> main() async {
       final report = workflowResult.preflightReport!;
       print('🚀 Publication Readiness:');
       print(
-          '   Ready for Publication: ${report.readyForPublication ? "✅ Yes" : "❌ No"}',);
+        '   Ready for Publication: ${report.readyForPublication ? "✅ Yes" : "❌ No"}',
+      );
       print('   Readiness Score: ${report.readinessScore}/100');
       print('   Estimated pub.dev Score: ${report.estimatedPubScore}/100');
       print('');
@@ -119,7 +121,8 @@ Future<void> main() async {
     print('   Failed: ${checklist.failedItems}');
     print('   Manual Review: ${checklist.manualItems}');
     print(
-        '   Completion: ${checklist.completionPercentage.toStringAsFixed(1)}%',);
+      '   Completion: ${checklist.completionPercentage.toStringAsFixed(1)}%',
+    );
     print('');
 
     // Show failed items
@@ -144,7 +147,8 @@ Future<void> main() async {
     print('   Pub Points: ${scoreEstimate.pubPointsScore}/100');
     print('   Popularity: ${scoreEstimate.popularityScore}/100');
     print(
-        '   Confidence: ${(scoreEstimate.confidence * 100).toStringAsFixed(1)}%',);
+      '   Confidence: ${(scoreEstimate.confidence * 100).toStringAsFixed(1)}%',
+    );
     print('');
 
     if (scoreEstimate.recommendations.isNotEmpty) {
@@ -192,7 +196,8 @@ Future<void> main() async {
     } else {
       print('⚠️  Your package needs some improvements before publication.');
       print(
-          '   Please address the issues listed above and run the analysis again.',);
+        '   Please address the issues listed above and run the analysis again.',
+      );
     }
   } catch (e) {
     print('❌ Error during analysis: $e');

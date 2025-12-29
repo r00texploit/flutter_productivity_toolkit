@@ -359,14 +359,14 @@ class FlutterPerformanceMonitor extends PerformanceMonitor {
     final now = DateTime.now();
 
     // Calculate FPS from recent frame times
-    double fps = 60.0;
-    double averageFrameTime = 16.67;
-    double p95FrameTime = 16.67;
+    var fps = 60;
+    var averageFrameTime = 16.67;
+    var p95FrameTime = 16.67;
 
     if (_frameTimes.isNotEmpty) {
       final frameTimes = _frameTimes.toList();
       final totalTime = frameTimes.fold<double>(
-          0.0, (sum, time) => sum + time.inMicroseconds);
+          0, (sum, time) => sum + time.inMicroseconds,);
       averageFrameTime =
           totalTime / frameTimes.length / 1000.0; // Convert to milliseconds
 

@@ -4,7 +4,7 @@
 /// faced by Flutter developers. Provides unified solutions for state
 /// management, navigation, testing utilities, and development workflow
 /// optimization.
-library flutter_productivity_toolkit;
+library;
 
 // Annotations for code generation
 export 'src/annotations/generate_model.dart';

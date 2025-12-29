@@ -304,10 +304,10 @@ class DefaultTestHelper extends TestHelper {
 
   @override
   dynamic wrapWithProviders(
-    child, {
+    Widget child, {
     List<Provider>? providers,
-    theme,
-    locale,
+    ThemeData? theme,
+    Locale? locale,
   }) {
     // For non-Flutter testing, just return the child
     // In a real Flutter implementation, this would wrap with MaterialApp
@@ -316,8 +316,8 @@ class DefaultTestHelper extends TestHelper {
 
   @override
   Future<void> pumpAndSettle(
-    tester,
-    widget, {
+    WidgetTester tester,
+    Widget widget, {
     Duration? timeout,
   }) async {
     // For non-Flutter testing, just wait a bit
@@ -360,7 +360,6 @@ class DefaultTestHelper extends TestHelper {
     // Apply overrides if provided
     if (overrides != null) {
       for (final entry in overrides.entries) {
-        final type = entry.key;
         final instance = entry.value;
 
         if (instance is StateManager) {
@@ -607,25 +606,6 @@ class DefaultTestDataFactory extends TestDataFactory {
     }
 
     throw UnsupportedError('Cannot create object of type $type');
-  }
-}
-
-/// Widget wrapper for dependency injection in tests.
-class _ProviderWrapper {
-  const _ProviderWrapper({
-    required this.provider,
-    required this.child,
-  });
-
-  final Provider provider;
-  final dynamic child;
-
-  /// Builds the wrapped widget (placeholder for Flutter implementation)
-  // ignore: prefer_expression_function_bodies
-  dynamic build() {
-    // In a real implementation, this would use a proper DI framework
-    // For now, we'll just return the child
-    return child;
   }
 }
 

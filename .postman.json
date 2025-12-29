@@ -5,14 +5,14 @@
     "type": "personal"
   },
   "collection": {
-    "id": "c9864a61-109d-434c-bba5-3ec4eefc89f9",
-    "uid": "25503894-c9864a61-109d-434c-bba5-3ec4eefc89f9",
-    "name": "New Collection"
+    "id": "c8bb4a80-8f02-4cd1-b4a4-9690c7a3af97",
+    "uid": "25503894-c8bb4a80-8f02-4cd1-b4a4-9690c7a3af97",
+    "name": "Flutter Productivity Toolkit API Tests"
   },
   "environment": {
-    "id": "2db0c3bf-f56e-4ddb-a694-7b4281f60c70",
-    "uid": "25503894-2db0c3bf-f56e-4ddb-a694-7b4281f60c70",
-    "name": "Flutter Dev Toolkit - Local"
+    "id": "02dc1bc3-a048-46a8-93a6-5d0ea6ace9a1",
+    "uid": "25503894-02dc1bc3-a048-46a8-93a6-5d0ea6ace9a1",
+    "name": "Flutter Toolkit - Local Development"
   },
   "user": {
     "id": 25503894,

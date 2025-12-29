@@ -186,7 +186,7 @@ extension ${className}FromJson on $className {
       ${fields.map((field) {
         final jsonKey = _getJsonKey(field, keyTransform);
         final fieldName = field.name;
-        final fieldType = field.type.getDisplayString(withNullability: true);
+        final fieldType = field.type.getDisplayString();
 
         return "$fieldName: json['$jsonKey'] as $fieldType,";
       }).join('\n      ')}
@@ -199,7 +199,7 @@ extension ${className}FromJson on $className {
       '''
   $className copyWith({
     ${fields.map((field) {
-        final fieldType = field.type.getDisplayString(withNullability: true);
+        final fieldType = field.type.getDisplayString();
         final fieldName = field.name;
         return '$fieldType? $fieldName,';
       }).join('\n    ')}
@@ -228,7 +228,9 @@ extension ${className}FromJson on $className {
   }
 
   String _generateEqualityMethods(
-          List<FieldElement> fields, String className) =>
+    List<FieldElement> fields,
+    String className,
+  ) =>
       '''
 // Equality and hashCode for $className
 extension ${className}Equality on $className {

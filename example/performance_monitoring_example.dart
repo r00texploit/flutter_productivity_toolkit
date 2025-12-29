@@ -21,9 +21,9 @@ class PerformanceMonitoringExample extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => const MaterialApp(
-      title: 'Performance Monitoring Example',
-      home: PerformanceDemo(),
-    );
+        title: 'Performance Monitoring Example',
+        home: PerformanceDemo(),
+      );
 }
 
 class PerformanceDemo extends StatefulWidget {
@@ -51,16 +51,16 @@ class _PerformanceDemoState extends State<PerformanceDemo> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-      appBar: AppBar(
-        title: const Text('Performance Monitoring'),
-      ),
-      body: const Column(
-        children: [
-          PerformanceStatusWidget(),
-          Expanded(child: PerformanceTestWidget()),
-        ],
-      ),
-    );
+        appBar: AppBar(
+          title: const Text('Performance Monitoring'),
+        ),
+        body: const Column(
+          children: [
+            PerformanceStatusWidget(),
+            Expanded(child: PerformanceTestWidget()),
+          ],
+        ),
+      );
 }
 
 class PerformanceStatusWidget extends StatefulWidget {
@@ -143,8 +143,10 @@ class _PerformanceStatusWidgetState extends State<PerformanceStatusWidget> {
             Text('Memory: ${_health!.memoryUsageMB.toStringAsFixed(1)} MB'),
             if (_health!.issues.isNotEmpty) ...[
               const SizedBox(height: 8),
-              const Text('Issues:',
-                  style: TextStyle(fontWeight: FontWeight.bold),),
+              const Text(
+                'Issues:',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
               ...(_health!.issues.map((issue) => Text('• $issue'))),
             ],
           ],
@@ -208,6 +210,8 @@ class _PerformanceTestWidgetState extends State<PerformanceTestWidget> {
     for (var i = 0; i < 10000; i++) {
       sum += i;
     }
+    // Use sum to prevent optimization
+    if (sum < 0) print('Unexpected result');
   }
 
   Future<void> _generateReport() async {
@@ -226,17 +230,22 @@ class _PerformanceTestWidgetState extends State<PerformanceTestWidget> {
                 Text('Summary: ${report.baseReport.summary}'),
                 const SizedBox(height: 8),
                 Text(
-                    'Score: ${report.performanceScore.toStringAsFixed(1)}/100',),
+                  'Score: ${report.performanceScore.toStringAsFixed(1)}/100',
+                ),
                 const SizedBox(height: 8),
                 Text(
-                    'FPS: ${report.baseReport.metrics.fps.toStringAsFixed(1)}',),
+                  'FPS: ${report.baseReport.metrics.fps.toStringAsFixed(1)}',
+                ),
                 Text(
-                    'Memory: ${(report.baseReport.metrics.memoryUsage / 1024 / 1024).toStringAsFixed(1)} MB',),
+                  'Memory: ${(report.baseReport.metrics.memoryUsage / 1024 / 1024).toStringAsFixed(1)} MB',
+                ),
                 Text('Frame Drops: ${report.baseReport.metrics.frameDrops}'),
                 if (report.baseReport.issues.isNotEmpty) ...[
                   const SizedBox(height: 8),
-                  const Text('Issues:',
-                      style: TextStyle(fontWeight: FontWeight.bold),),
+                  const Text(
+                    'Issues:',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
                   ...report.baseReport.issues
                       .map((issue) => Text('• ${issue.description}')),
                 ],
@@ -271,9 +280,9 @@ class _PerformanceTestWidgetState extends State<PerformanceTestWidget> {
                   ElevatedButton(
                     onPressed:
                         _isStressing ? _stopStressTest : _startStressTest,
-                    child: Text(_isStressing
-                        ? 'Stop Stress Test'
-                        : 'Start Stress Test',),
+                    child: Text(
+                      _isStressing ? 'Stop Stress Test' : 'Start Stress Test',
+                    ),
                   ),
                   ElevatedButton(
                     onPressed: _generateReport,

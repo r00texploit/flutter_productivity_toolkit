@@ -116,7 +116,10 @@ ${_generateRouteExtension(route, routeName, parameterType, returnType)}
   }
 
   String _generateNavigationMethod(
-      RouteDefinition route, String paramType, String returnType,) {
+    RouteDefinition route,
+    String paramType,
+    String returnType,
+  ) {
     final params = _extractParameters(route.path);
 
     if (params.isEmpty) {
@@ -153,10 +156,12 @@ ${_generateRouteExtension(route, routeName, parameterType, returnType)}
 
     return '''
   static bool validateParameters(Map<String, dynamic> params) {
-    ${params.map((p) => '''
+    ${params.map(
+              (p) => '''
     if (!params.containsKey('$p')) return false;
     if (params['$p'] == null) return false;
-    ''',).join('\n    ')}
+    ''',
+            ).join('\n    ')}
     return true;
   }
 ''';
@@ -188,8 +193,13 @@ ${_generateRouteExtension(route, routeName, parameterType, returnType)}
   }
 ''';
 
-  String _generateRouteExtension(RouteDefinition route, String routeName,
-      String paramType, String returnType,) => '''
+  String _generateRouteExtension(
+    RouteDefinition route,
+    String routeName,
+    String paramType,
+    String returnType,
+  ) =>
+      '''
 // Extension for convenient route access
 extension ${routeName}Navigation on RouteBuilder {
   Future<$returnType?> navigateTo$routeName(${paramType != 'void' ? '$paramType params' : ''}) {

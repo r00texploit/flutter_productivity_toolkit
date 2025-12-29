@@ -1,8 +1,8 @@
-import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_productivity_toolkit/src/state_management/state_manager.dart';
+import 'package:flutter_productivity_toolkit/src/errors/error_reporter.dart';
 import 'package:flutter_productivity_toolkit/src/navigation/route_builder.dart';
 import 'package:flutter_productivity_toolkit/src/performance/performance_monitor.dart';
-import 'package:flutter_productivity_toolkit/src/errors/error_reporter.dart';
+import 'package:flutter_productivity_toolkit/src/state_management/state_manager.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 /// Tests to validate that key code examples from documentation work correctly
 void main() {
@@ -15,7 +15,6 @@ void main() {
         0,
         config: const StateConfiguration(
           enableDebugging: true,
-          enablePersistence: false,
         ),
         errorReporter: errorReporter,
       );
@@ -47,9 +46,7 @@ void main() {
       routeBuilder.setActiveStack(navigationStack);
 
       // Define route as shown in documentation
-      routeBuilder.defineRoute<void>('/home', (params) {
-        return const MockScreen();
-      });
+      routeBuilder.defineRoute<void>('/home', (params) => const MockScreen());
 
       // Navigate as shown in documentation
       await routeBuilder.navigate<void, void>('/home');
@@ -69,11 +66,7 @@ void main() {
       // Set thresholds as shown in documentation
       monitor.setThresholds(
         const PerformanceThresholds(
-          maxFrameDropsPerSecond: 5,
-          maxMemoryUsage: 512 * 1024 * 1024, // 512MB
-          maxWidgetRebuilds: 100,
-          minFps: 55.0,
-          maxFrameTime: 16.67, // ~60fps
+          
         ),
       );
 
@@ -172,7 +165,7 @@ class MockScreen {
 
 class MockPerformanceMonitor extends PerformanceMonitor {
   bool _isMonitoring = false;
-  PerformanceThresholds _thresholds = const PerformanceThresholds();
+  PerformanceThresholds? _thresholds;
 
   @override
   void startMonitoring() {

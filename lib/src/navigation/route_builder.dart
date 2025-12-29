@@ -408,7 +408,7 @@ class DefaultRouteBuilder extends RouteBuilder {
     _navigationStacks.clear();
   }
 
-  Map<String, dynamic> _serializeParams(dynamic params) {
+  Map<String, dynamic> _serializeParams(params) {
     try {
       return json.decode(json.encode(params)) as Map<String, dynamic>;
     } catch (e) {
@@ -522,7 +522,7 @@ class DefaultNavigationStack extends NavigationStack {
   Stream<List<NavigationRoute>> get stackStream => _stackController.stream;
 
   /// Preserves state for the current route.
-  void preserveState(String key, dynamic value) {
+  void preserveState(String key, value) {
     _preservedState[key] = value;
   }
 

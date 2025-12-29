@@ -128,7 +128,7 @@ extension ${className}StateExtension on $className {
 
     return fields.map((field) {
       final fieldName = field.name;
-      final fieldType = field.type.getDisplayString(withNullability: true);
+      final fieldType = field.type.getDisplayString();
 
       return '''
   $fieldType get $fieldName => _state.$fieldName;
@@ -149,8 +149,7 @@ extension ${className}StateExtension on $className {
       final methodName = method.name;
       final parameters = method.parameters
           .map(
-            (p) =>
-                '${p.type.getDisplayString(withNullability: true)} ${p.name}',
+            (p) => '${p.type.getDisplayString()} ${p.name}',
           )
           .join(', ');
       final paramNames = method.parameters.map((p) => p.name).join(', ');

@@ -88,7 +88,7 @@ class _NavigationDemoState extends State<NavigationDemo> {
     // User profile route with ID parameter
     _routeBuilder.defineRouteWithGuards<UserParams>(
       '/user',
-      (params) => UserProfileScreen(userId: params.userId.toString()),
+      (params) => UserProfileScreen(userId: params.userId),
       requiresAuthentication: true,
       guards: [
         toolkit.AuthenticationGuard(
@@ -100,13 +100,13 @@ class _NavigationDemoState extends State<NavigationDemo> {
 
     // Product details route with complex parameters
     _routeBuilder.defineRoute<ProductParams>('/product/details', (params) => ProductDetailsScreen(
-        productId: params.productId.toString(),
-        category: params.category.toString(),
+        productId: params.productId,
+        category: params.category,
         variant: params.variant.toString(),
       ),);
 
     // Settings route with section parameter
-    _routeBuilder.defineRoute<SettingsParams>('/settings', (params) => SettingsScreen(section: params.section.toString()));
+    _routeBuilder.defineRoute<SettingsParams>('/settings', (params) => SettingsScreen(section: params.section));
 
     // Login route (no authentication required)
     _routeBuilder.defineRoute<void>('/login', (params) => LoginScreen(
@@ -118,14 +118,14 @@ class _NavigationDemoState extends State<NavigationDemo> {
 
     // Modal route for overlays
     _routeBuilder.defineRoute<ModalParams>('/modal', (params) => ModalScreen(
-        title: params.title.toString(),
-        content: params.content.toString(),
+        title: params.title,
+        content: params.content,
         onClose: () => _modalStack.pop<void>(),
       ),);
 
     // Nested navigation example
     _routeBuilder.defineRoute<TabParams>('/tabs', (params) => TabNavigationScreen(
-        initialTab: params.initialTab as int,
+        initialTab: params.initialTab,
         routeBuilder: _routeBuilder,
       ),);
   }
@@ -137,7 +137,7 @@ class _NavigationDemoState extends State<NavigationDemo> {
       if (userId != null) {
         await _routeBuilder.navigate<UserParams, void>(
           '/user',
-          params: UserParams(userId: userId.toString()),
+          params: UserParams(userId: userId),
         );
         return true;
       }
@@ -155,8 +155,8 @@ class _NavigationDemoState extends State<NavigationDemo> {
         await _routeBuilder.navigate<ProductParams, void>(
           '/product/details',
           params: ProductParams(
-            productId: productId.toString(),
-            category: category.toString(),
+            productId: productId,
+            category: category,
             variant: variant.toString(),
           ),
         );
@@ -170,7 +170,7 @@ class _NavigationDemoState extends State<NavigationDemo> {
       final section = params['section'] ?? 'general';
       await _routeBuilder.navigate<SettingsParams, void>(
         '/settings',
-        params: SettingsParams(section: section as String),
+        params: SettingsParams(section: section),
       );
       return true;
     });

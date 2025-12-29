@@ -164,7 +164,8 @@ void main() {
 
       test('should support custom factories', () {
         // Arrange
-        dataFactory.registerFactory<String>((overrides) => 'Custom: ${overrides?['suffix'] ?? 'default'}');
+        dataFactory.registerFactory<String>(
+            (overrides) => 'Custom: ${overrides?['suffix'] ?? 'default'}',);
 
         // Act
         final custom = dataFactory.create<String>(
@@ -204,7 +205,7 @@ void main() {
         const testUrl = 'testapp://example.com/user/123?name=John';
 
         // Act
-        final result = await navigationHelper.simulateDeepLink(testUrl);
+        await navigationHelper.simulateDeepLink(testUrl);
 
         // Assert
         expect(navigationHelper.simulatedDeepLinkHistory, contains(testUrl));
@@ -278,9 +279,13 @@ void main() {
         // Assert
         expect(urls.length, equals(6)); // 2 paths × (1 base + 2 variations)
         expect(
-            urls.any((url) => url.contains('myapp://test.com/user')), isTrue,);
-        expect(urls.any((url) => url.contains('myapp://test.com/product')),
-            isTrue,);
+          urls.any((url) => url.contains('myapp://test.com/user')),
+          isTrue,
+        );
+        expect(
+          urls.any((url) => url.contains('myapp://test.com/product')),
+          isTrue,
+        );
       });
 
       test('should test deep link flows', () async {

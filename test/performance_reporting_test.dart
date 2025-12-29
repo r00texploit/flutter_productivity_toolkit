@@ -9,7 +9,7 @@ class MockPerformanceMonitor extends PerformanceMonitor {
   final StreamController<PerformanceMetrics> _controller =
       StreamController<PerformanceMetrics>.broadcast();
   bool _isMonitoring = false;
-  PerformanceThresholds _thresholds = const PerformanceThresholds();
+  PerformanceThresholds? _thresholds;
 
   @override
   void startMonitoring() {
@@ -50,14 +50,15 @@ class MockPerformanceMonitor extends PerformanceMonitor {
   Future<PerformanceReport> generateReport({
     Duration? timeRange,
     bool includeRecommendations = true,
-  }) async => PerformanceReport(
-      summary: 'Mock performance report',
-      metrics: currentMetrics,
-      issues: const [],
-      recommendations: const [],
-      generatedAt: DateTime.now(),
-      timeRange: timeRange ?? const Duration(minutes: 5),
-    );
+  }) async =>
+      PerformanceReport(
+        summary: 'Mock performance report',
+        metrics: currentMetrics,
+        issues: const [],
+        recommendations: const [],
+        generatedAt: DateTime.now(),
+        timeRange: timeRange ?? const Duration(minutes: 5),
+      );
 
   @override
   void setThresholds(PerformanceThresholds thresholds) {
@@ -283,9 +284,7 @@ void main() {
     });
 
     test('should handle report generation with different options', () async {
-      final reportWithAll = await reporter.generateEnhancedReport(
-        
-      );
+      final reportWithAll = await reporter.generateEnhancedReport();
 
       final reportMinimal = await reporter.generateEnhancedReport(
         includeComparisons: false,
