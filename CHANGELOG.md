@@ -16,6 +16,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - N/A
 
+## [0.1.5] - 2024-12-29
+
+### Fixed
+- Fixed critical compilation errors in code generation files
+- Migrated data_model_generator.dart to Element2 API for analyzer compatibility
+- Migrated state_manager_generator.dart to Element2 API for analyzer compatibility
+- Migrated route_generator.dart to Element2 API for analyzer compatibility
+- Resolved method signature compatibility issues with latest source_gen package
+- Reduced static analysis issues from 753 to 690 (63 issues resolved)
+- Improved pub.dev compliance score by eliminating all compilation errors
+
+### Changed
+- Updated code generators to use expression function bodies where appropriate
+- Enhanced documentation for public API members in generated code
+- Improved type safety in generated route definitions
+
 ## [0.1.4] - 2024-12-27
 
 ### Fixed
