@@ -157,8 +157,8 @@ class FlutterPerformanceMonitor extends PerformanceMonitor {
         return 'Consider implementing request caching, optimizing API queries, '
             'or using pagination to reduce response times.';
       case 'database_query_time':
-        return 'Add database indexes, optimize queries, or implement query caching '
-            'to improve database performance.';
+        return 'Add database indexes, optimize queries, or implement query '
+            'caching to improve database performance.';
       case 'image_load_time':
         return 'Optimize image sizes, implement progressive loading, '
             'or use image caching to reduce load times.';
@@ -172,8 +172,8 @@ class FlutterPerformanceMonitor extends PerformanceMonitor {
         return 'Investigate error logs, implement better error handling, '
             'and add retry mechanisms for transient failures.';
       default:
-        return 'Review the implementation and consider optimization strategies '
-            'for this custom metric.';
+        return 'Review the implementation and consider optimization '
+            'strategies for this custom metric.';
     }
   }
 
@@ -187,18 +187,30 @@ class FlutterPerformanceMonitor extends PerformanceMonitor {
     if (metricName.contains('hit_ratio')) {
       // For hit ratios, lower is worse
       final hitRatio = value;
-      if (hitRatio < 0.5) return WarningSeverity.critical;
-      if (hitRatio < 0.7) return WarningSeverity.high;
+      if (hitRatio < 0.5) {
+        return WarningSeverity.critical;
+      }
+      if (hitRatio < 0.7) {
+        return WarningSeverity.high;
+      }
       return WarningSeverity.medium;
     } else if (metricName.contains('error_rate')) {
       // For error rates, higher is worse
-      if (value > 0.2) return WarningSeverity.critical; // 20%
-      if (value > 0.1) return WarningSeverity.high; // 10%
+      if (value > 0.2) {
+        return WarningSeverity.critical; // 20%
+      }
+      if (value > 0.1) {
+        return WarningSeverity.high; // 10%
+      }
       return WarningSeverity.medium;
     } else {
       // For time-based metrics, higher is worse
-      if (ratio > 3) return WarningSeverity.critical;
-      if (ratio > 2) return WarningSeverity.high;
+      if (ratio > 3) {
+        return WarningSeverity.critical;
+      }
+      if (ratio > 2) {
+        return WarningSeverity.high;
+      }
       return WarningSeverity.medium;
     }
   }
@@ -315,11 +327,11 @@ class FlutterPerformanceMonitor extends PerformanceMonitor {
           if (_currentMemoryUsage > _peakMemoryUsage) {
             _peakMemoryUsage = _currentMemoryUsage;
           }
-        }).catchError((_) {
+        }).catchError((dynamic error) {
           // Fallback to simulation if platform channel fails
           _simulateMemoryUsage();
         });
-      } catch (e) {
+      } on Exception catch (e) {
         // Fallback to simulation
         _simulateMemoryUsage();
       }
@@ -333,7 +345,7 @@ class FlutterPerformanceMonitor extends PerformanceMonitor {
             MethodChannel('flutter_productivity_toolkit/performance');
         final result = await platform.invokeMethod<int>('getMemoryUsage');
         return (result ?? 0).toDouble();
-      } catch (e) {
+      } on Exception catch (e) {
         throw Exception('Platform channel not available');
       }
     } else {
@@ -366,7 +378,9 @@ class FlutterPerformanceMonitor extends PerformanceMonitor {
     if (_frameTimes.isNotEmpty) {
       final frameTimes = _frameTimes.toList();
       final totalTime = frameTimes.fold<double>(
-          0, (sum, time) => sum + time.inMicroseconds,);
+        0,
+        (sum, time) => sum + time.inMicroseconds,
+      );
       averageFrameTime =
           totalTime / frameTimes.length / 1000.0; // Convert to milliseconds
 
@@ -406,10 +420,11 @@ class FlutterPerformanceMonitor extends PerformanceMonitor {
       _currentWarnings.add(
         PerformanceWarning(
           type: WarningType.frameDrops,
-          message:
-              'Low FPS detected: ${fps.toStringAsFixed(1)} (target: ${_thresholds.minFps})',
+          message: 'Low FPS detected: ${fps.toStringAsFixed(1)} '
+              '(target: ${_thresholds.minFps})',
           suggestion:
-              'Consider reducing widget complexity or optimizing rebuild frequency',
+              'Consider reducing widget complexity or optimizing rebuild '
+              'frequency',
           severity: fps < 30 ? WarningSeverity.critical : WarningSeverity.high,
           timestamp: now,
         ),
@@ -422,7 +437,8 @@ class FlutterPerformanceMonitor extends PerformanceMonitor {
         PerformanceWarning(
           type: WarningType.frameDrops,
           message:
-              'Slow frame rendering: ${averageFrameTime.toStringAsFixed(2)}ms (target: ${_thresholds.maxFrameTime}ms)',
+              'Slow frame rendering: ${averageFrameTime.toStringAsFixed(2)}ms '
+              '(target: ${_thresholds.maxFrameTime}ms)',
           suggestion:
               'Profile widget build methods and reduce expensive operations',
           severity: averageFrameTime > 33
@@ -438,8 +454,8 @@ class FlutterPerformanceMonitor extends PerformanceMonitor {
       _currentWarnings.add(
         PerformanceWarning(
           type: WarningType.memoryLeak,
-          message:
-              'High memory usage: ${(_currentMemoryUsage / 1024 / 1024).toStringAsFixed(1)}MB',
+          message: 'High memory usage: '
+              '${(_currentMemoryUsage / 1024 / 1024).toStringAsFixed(1)}MB',
           suggestion: 'Check for memory leaks and optimize data structures',
           severity: WarningSeverity.high,
           timestamp: now,
@@ -459,7 +475,8 @@ class FlutterPerformanceMonitor extends PerformanceMonitor {
           message:
               'Excessive rebuilds in ${entry.key}: ${entry.value} rebuilds',
           suggestion:
-              'Use const constructors, keys, or state management to reduce rebuilds',
+              'Use const constructors, keys, or state management to reduce '
+              'rebuilds',
           location: WidgetLocation(
             widgetType: entry.key,
             path: [entry.key],

@@ -308,11 +308,8 @@ class DefaultTestHelper extends TestHelper {
     List<Provider>? providers,
     ThemeData? theme,
     Locale? locale,
-  }) {
-    // For non-Flutter testing, just return the child
-    // In a real Flutter implementation, this would wrap with MaterialApp
-    return child;
-  }
+  }) =>
+      child;
 
   @override
   Future<void> pumpAndSettle(
@@ -494,7 +491,7 @@ class DefaultTestDataFactory extends TestDataFactory {
   }
 
   String _createString(Map<String, dynamic>? overrides) {
-    if (overrides?.containsKey('value') == true) {
+    if (overrides?.containsKey('value') ?? false) {
       return overrides!['value'] as String;
     }
 
@@ -510,7 +507,7 @@ class DefaultTestDataFactory extends TestDataFactory {
   }
 
   int _createInt(Map<String, dynamic>? overrides) {
-    if (overrides?.containsKey('value') == true) {
+    if (overrides?.containsKey('value') ?? false) {
       return overrides!['value'] as int;
     }
 
@@ -521,7 +518,7 @@ class DefaultTestDataFactory extends TestDataFactory {
   }
 
   double _createDouble(Map<String, dynamic>? overrides) {
-    if (overrides?.containsKey('value') == true) {
+    if (overrides?.containsKey('value') ?? false) {
       return overrides!['value'] as double;
     }
 
@@ -532,7 +529,7 @@ class DefaultTestDataFactory extends TestDataFactory {
   }
 
   bool _createBool(Map<String, dynamic>? overrides) {
-    if (overrides?.containsKey('value') == true) {
+    if (overrides?.containsKey('value') ?? false) {
       return overrides!['value'] as bool;
     }
 
@@ -540,7 +537,7 @@ class DefaultTestDataFactory extends TestDataFactory {
   }
 
   DateTime _createDateTime(Map<String, dynamic>? overrides) {
-    if (overrides?.containsKey('value') == true) {
+    if (overrides?.containsKey('value') ?? false) {
       return overrides!['value'] as DateTime;
     }
 
@@ -679,7 +676,7 @@ class NavigationTestHelper {
           );
         }
       }
-    } catch (e) {
+    } on Exception catch (e) {
       if (expectSuccess) {
         rethrow;
       }
@@ -737,7 +734,11 @@ abstract class NavigationStackOperation {
 class PushOperation extends NavigationStackOperation {
   /// Creates a new push operation.
   PushOperation(this.route, this.expectedStackSize);
+
+  /// The route to push onto the stack.
   final MockRoute route;
+
+  /// The expected stack size after the operation.
   final int expectedStackSize;
 
   @override
@@ -765,7 +766,11 @@ class PushOperation extends NavigationStackOperation {
 class PopOperation extends NavigationStackOperation {
   /// Creates a new pop operation.
   PopOperation(this.expectedStackSize, {this.expectedTopRoute});
+
+  /// The expected stack size after the operation.
   final int expectedStackSize;
+
+  /// The expected top route after the operation.
   final String? expectedTopRoute;
 
   @override
@@ -795,7 +800,11 @@ class PopOperation extends NavigationStackOperation {
 class PushReplacementOperation extends NavigationStackOperation {
   /// Creates a new push replacement operation.
   PushReplacementOperation(this.route, this.expectedStackSize);
+
+  /// The route to push as replacement.
   final MockRoute route;
+
+  /// The expected stack size after the operation.
   final int expectedStackSize;
 
   @override
@@ -885,7 +894,7 @@ class DeepLinkTestHelper {
         actualParams: _extractParamsFromUrl(url),
         expectedParams: expectedParams,
       );
-    } catch (e) {
+    } on Exception catch (e) {
       final endTime = DateTime.now();
 
       return DeepLinkTestResult(

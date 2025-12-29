@@ -211,8 +211,8 @@ class PerformanceReporter {
       alerts.add(
         PerformanceAlert(
           type: AlertType.memoryWarning,
-          message:
-              'High memory usage: ${(metrics.memoryUsage / 1024 / 1024).toStringAsFixed(1)}MB',
+          message: 'High memory usage: '
+              '${(metrics.memoryUsage / 1024 / 1024).toStringAsFixed(1)}MB',
           severity: AlertSeverity.high,
           metrics: metrics,
           timestamp: DateTime.now(),
@@ -277,11 +277,9 @@ class PerformanceReporter {
     );
   }
 
-  List<BenchmarkResult>? _generateBenchmarkResults() {
-    // This would contain results from previously run benchmarks
-    // For now, return null as benchmarks need to be run explicitly
-    return null;
-  }
+  /// Generates a benchmark results list.
+  List<BenchmarkResult>? _generateBenchmarkResults() =>
+      null; // Benchmarks need to be run explicitly
 
   double _calculatePerformanceScore(PerformanceMetrics metrics) {
     var score = 100.0;
@@ -417,8 +415,12 @@ class PerformanceReporter {
     final decliningCount =
         trends.where((t) => t == TrendDirection.declining).length;
 
-    if (improvingCount > decliningCount) return TrendDirection.improving;
-    if (decliningCount > improvingCount) return TrendDirection.declining;
+    if (improvingCount > decliningCount) {
+      return TrendDirection.improving;
+    }
+    if (decliningCount > improvingCount) {
+      return TrendDirection.declining;
+    }
     return TrendDirection.stable;
   }
 
@@ -446,37 +448,37 @@ class PerformanceReporter {
       };
 
   String _generateReportContent(EnhancedPerformanceReport report) {
-    final buffer = StringBuffer();
+    final buffer = StringBuffer()
+      ..writeln('# Performance Report')
+      ..writeln('Generated: ${report.generatedAt}')
+      ..writeln()
+      ..writeln('## Summary')
+      ..writeln(report.baseReport.summary)
+      ..writeln(
+        'Performance Score: ${report.performanceScore.toStringAsFixed(1)}/100',
+      )
+      ..writeln()
+      ..writeln('## Current Metrics');
 
-    buffer.writeln('# Performance Report');
-    buffer.writeln('Generated: ${report.generatedAt}');
-    buffer.writeln();
-
-    buffer.writeln('## Summary');
-    buffer.writeln(report.baseReport.summary);
-    buffer.writeln(
-      'Performance Score: ${report.performanceScore.toStringAsFixed(1)}/100',
-    );
-    buffer.writeln();
-
-    buffer.writeln('## Current Metrics');
     final metrics = report.baseReport.metrics;
-    buffer.writeln('- FPS: ${metrics.fps.toStringAsFixed(1)}');
-    buffer.writeln(
-      '- Average Frame Time: ${metrics.averageFrameTime.toStringAsFixed(2)}ms',
-    );
-    buffer.writeln(
-      '- Memory Usage: ${(metrics.memoryUsage / 1024 / 1024).toStringAsFixed(1)}MB',
-    );
-    buffer.writeln('- Frame Drops: ${metrics.frameDrops}');
-    buffer.writeln();
+    buffer
+      ..writeln('- FPS: ${metrics.fps.toStringAsFixed(1)}')
+      ..writeln(
+        '- Average Frame Time: ${metrics.averageFrameTime.toStringAsFixed(2)}ms',
+      )
+      ..writeln(
+        '- Memory Usage: ${(metrics.memoryUsage / 1024 / 1024).toStringAsFixed(1)}MB',
+      )
+      ..writeln('- Frame Drops: ${metrics.frameDrops}')
+      ..writeln();
 
     if (report.baseReport.issues.isNotEmpty) {
       buffer.writeln('## Issues');
       for (final issue in report.baseReport.issues) {
-        buffer.writeln('- **${issue.type}**: ${issue.description}');
-        buffer.writeln('  - Impact: ${issue.impact}');
-        buffer.writeln('  - Fix: ${issue.suggestedFix}');
+        buffer
+          ..writeln('- **${issue.type}**: ${issue.description}')
+          ..writeln('  - Impact: ${issue.impact}')
+          ..writeln('  - Fix: ${issue.suggestedFix}');
       }
       buffer.writeln();
     }
@@ -484,9 +486,10 @@ class PerformanceReporter {
     if (report.baseReport.recommendations.isNotEmpty) {
       buffer.writeln('## Recommendations');
       for (final rec in report.baseReport.recommendations) {
-        buffer.writeln('- **${rec.title}** (${rec.priority} priority)');
-        buffer.writeln('  - ${rec.description}');
-        buffer.writeln('  - Expected: ${rec.expectedImprovement}');
+        buffer
+          ..writeln('- **${rec.title}** (${rec.priority} priority)')
+          ..writeln('  - ${rec.description}')
+          ..writeln('  - Expected: ${rec.expectedImprovement}');
       }
       buffer.writeln();
     }
@@ -854,6 +857,6 @@ class PerformanceStatistics {
       'avgFps: ${averageFps.toStringAsFixed(1)}, '
       'memory: ${(averageMemoryUsage / 1024 / 1024).toStringAsFixed(1)}MB, '
       'samples: $sampleCount, '
-      'timeRange: ${timeRange.inMinutes}min'
+      'timeRange: ${timeRange.inMinutes} min'
       ')';
 }

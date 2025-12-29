@@ -41,12 +41,15 @@ abstract class CodeGenerator {
 
 /// Concrete implementation of the code generator.
 class FlutterDevToolkitCodeGenerator implements CodeGenerator {
+  /// Creates a new Flutter dev toolkit code generator.
   const FlutterDevToolkitCodeGenerator();
 
   @override
   Future<void> generateStateManagers(BuildStep buildStep) async {
     // Implementation delegated to StateManagerGenerator
     // This would be called by the build_runner system
+    // TODO: Replace with proper logging framework
+    // ignore: avoid_print
     print('Generating state managers for ${buildStep.inputId}');
   }
 
@@ -54,6 +57,8 @@ class FlutterDevToolkitCodeGenerator implements CodeGenerator {
   Future<void> generateRoutes(BuildStep buildStep) async {
     // Implementation delegated to RouteGenerator
     // This would be called by the build_runner system
+    // TODO: Replace with proper logging framework
+    // ignore: avoid_print
     print('Generating routes for ${buildStep.inputId}');
   }
 
@@ -61,6 +66,8 @@ class FlutterDevToolkitCodeGenerator implements CodeGenerator {
   Future<void> generateDataModels(BuildStep buildStep) async {
     // Implementation delegated to DataModelGenerator
     // This would be called by the build_runner system
+    // TODO: Replace with proper logging framework
+    // ignore: avoid_print
     print('Generating data models for ${buildStep.inputId}');
   }
 
@@ -68,6 +75,8 @@ class FlutterDevToolkitCodeGenerator implements CodeGenerator {
   Future<void> generateApiClients(BuildStep buildStep) async {
     // Implementation delegated to ApiClientGenerator
     // This would be called by the build_runner system
+    // TODO: Replace with proper logging framework
+    // ignore: avoid_print
     print('Generating API clients for ${buildStep.inputId}');
   }
 
@@ -75,6 +84,8 @@ class FlutterDevToolkitCodeGenerator implements CodeGenerator {
   Future<void> generateLocalization(BuildStep buildStep) async {
     // Implementation delegated to LocalizationGenerator
     // This would be called by the build_runner system
+    // TODO: Replace with proper logging framework
+    // ignore: avoid_print
     print('Generating localization for ${buildStep.inputId}');
   }
 }

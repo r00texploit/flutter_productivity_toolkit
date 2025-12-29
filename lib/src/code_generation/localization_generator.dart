@@ -22,7 +22,7 @@ class LocalizationGenerator extends Generator {
       final translations =
           await _parseTranslationFiles(translationFiles, buildStep);
       return _generateLocalizationCode(translations);
-    } catch (e) {
+    } on Exception catch (e) {
       log.warning('Failed to generate localization code: $e');
       return '// Error generating localization code: $e';
     }
@@ -79,7 +79,9 @@ class LocalizationGenerator extends Generator {
 
     for (final file in files) {
       final locale = _extractLocaleFromFilename(file);
-      if (locale == null) continue;
+      if (locale == null) {
+        continue;
+      }
 
       final assetId = AssetId(buildStep.inputId.package, file);
       final content = await buildStep.readAsString(assetId);
@@ -100,7 +102,9 @@ class LocalizationGenerator extends Generator {
         final value = entry.value;
 
         // Skip metadata entries in ARB files
-        if (key.startsWith('@')) continue;
+        if (key.startsWith('@')) {
+          continue;
+        }
 
         if (value is String) {
           localeTranslations[key] = TranslationEntry(
@@ -255,7 +259,9 @@ ${_generateTranslationKeys(defaultTranslations)}
   }
 
   String _generateTranslationMethods(
-      Map<String, TranslationEntry> translations,) => translations.values.map(_generateTranslationMethod).join('\n\n');
+    Map<String, TranslationEntry> translations,
+  ) =>
+      translations.values.map(_generateTranslationMethod).join('\n\n');
 
   String _generateTranslationMethod(TranslationEntry entry) {
     final methodName = _toValidMethodName(entry.key);
@@ -309,50 +315,54 @@ ${_generateTranslationKeys(defaultTranslations)}
 
   static const Map<String, Map<String, String>> _allTranslations = {
     ${data.translations.entries.map((entry) {
-      final locale = entry.key;
-      final translations = entry.value;
-      final translationMap = translations.entries
-          .map((t) => "'${t.key}': '${_escapeString(t.value.value)}'")
-          .join(',\n      ');
+        final locale = entry.key;
+        final translations = entry.value;
+        final translationMap = translations.entries
+            .map((t) => "'${t.key}': '${_escapeString(t.value.value)}'")
+            .join(',\n      ');
 
-      return "'$locale': {\n      $translationMap\n    }";
-    }).join(',\n    ')}
+        return "'$locale': {\n      $translationMap\n    }";
+      }).join(',\n    ')}
   };''';
 
   String _generateTranslationExtensions(
-      Map<String, TranslationEntry> translations,) => '''
+    Map<String, TranslationEntry> translations,
+  ) =>
+      '''
 /// Extension on BuildContext for convenient access to translations.
 extension AppLocalizationsExtension on BuildContext {
   AppLocalizations get l10n => AppLocalizations.of(this)!;
   
   ${translations.values.map((entry) {
-      final methodName = _toValidMethodName(entry.key);
-      final parameters = entry.placeholders.map((p) => 'String $p').join(', ');
+        final methodName = _toValidMethodName(entry.key);
+        final parameters =
+            entry.placeholders.map((p) => 'String $p').join(', ');
 
-      return '''
+        return '''
   /// ${entry.description ?? 'Translation for ${entry.key}'}
   String get$methodName(${parameters.isNotEmpty ? parameters : ''}) => l10n.$methodName(${entry.placeholders.join(', ')});''';
-    }).join('\n\n  ')}
+      }).join('\n\n  ')}
 }''';
 
-  String _generateTranslationKeys(Map<String, TranslationEntry> translations) => '''
+  String _generateTranslationKeys(Map<String, TranslationEntry> translations) =>
+      '''
 /// Translation keys for type-safe access.
 class TranslationKeys {
   TranslationKeys._();
   
   ${translations.keys.map((key) {
-      final constantName =
-          key.toUpperCase().replaceAll(RegExp('[^A-Z0-9]'), '_');
-      return "static const String $constantName = '$key';";
-    }).join('\n  ')}
+        final constantName =
+            key.toUpperCase().replaceAll(RegExp('[^A-Z0-9]'), '_');
+        return "static const String $constantName = '$key';";
+      }).join('\n  ')}
 }''';
 
   String _escapeString(String input) => input
-        .replaceAll(r'\', r'\\')
-        .replaceAll("'", r"\'")
-        .replaceAll('\n', r'\n')
-        .replaceAll('\r', r'\r')
-        .replaceAll('\t', r'\t');
+      .replaceAll(r'\', r'\\')
+      .replaceAll("'", r"\'")
+      .replaceAll('\n', r'\n')
+      .replaceAll('\r', r'\r')
+      .replaceAll('\t', r'\t');
 }
 
 /// Represents translation data for all locales.
@@ -362,7 +372,10 @@ class TranslationData {
     required this.defaultLocale,
   });
 
+  /// Map of locale codes to their translation entries.
   final Map<String, Map<String, TranslationEntry>> translations;
+
+  /// The default locale code.
   final String defaultLocale;
 }
 
@@ -375,9 +388,16 @@ class TranslationEntry {
     this.placeholders = const [],
   });
 
+  /// The translation key.
   final String key;
+
+  /// The translated text value.
   final String value;
+
+  /// Optional description of the translation.
   final String? description;
+
+  /// List of placeholder names in the translation.
   final List<String> placeholders;
 
   @override

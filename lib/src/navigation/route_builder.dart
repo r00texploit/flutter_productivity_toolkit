@@ -10,19 +10,26 @@ abstract class RouteBuilder {
   ///
   /// The builder function receives typed parameters and returns the widget
   /// to display for this route.
-  void defineRoute<T>(String path, dynamic Function(T params) builder);
+  void defineRoute<T>(
+    String path,
+    dynamic Function(T params) builder,
+  );
 
   /// Navigates to the specified route with optional parameters.
   ///
-  /// Returns a Future that completes with the result when the route is popped.
-  /// The result type R must match the return type expected by the route.
+  /// Returns a Future that completes with the result when the route is
+  /// popped. The result type R must match the return type expected by the
+  /// route.
   Future<R?> navigate<T, R>(String path, {T? params});
 
   /// Registers a deep link handler for the specified URL pattern.
   ///
   /// The pattern can include parameter placeholders that will be extracted
   /// and passed to the route handler.
-  void registerDeepLinkHandler(String pattern, RouteHandler handler);
+  void registerDeepLinkHandler(
+    String pattern,
+    RouteHandler handler,
+  );
 
   /// Removes a previously registered deep link handler.
   void unregisterDeepLinkHandler(String pattern);
@@ -361,7 +368,7 @@ class DefaultRouteBuilder extends RouteBuilder {
       }
 
       return false;
-    } catch (e) {
+    } on Exception catch (e) {
       print('Error handling deep link: $e');
       return false;
     }
@@ -408,10 +415,13 @@ class DefaultRouteBuilder extends RouteBuilder {
     _navigationStacks.clear();
   }
 
-  Map<String, dynamic> _serializeParams(params) {
+  Map<String, dynamic> _serializeParams(dynamic params) {
     try {
       return json.decode(json.encode(params)) as Map<String, dynamic>;
-    } catch (e) {
+    } on FormatException catch (e) {
+      // Fallback for non-serializable objects
+      return {'data': params.toString()};
+    } on JsonUnsupportedObjectError catch (e) {
       // Fallback for non-serializable objects
       return {'data': params.toString()};
     }
@@ -522,7 +532,7 @@ class DefaultNavigationStack extends NavigationStack {
   Stream<List<NavigationRoute>> get stackStream => _stackController.stream;
 
   /// Preserves state for the current route.
-  void preserveState(String key, value) {
+  void preserveState(String key, dynamic value) {
     _preservedState[key] = value;
   }
 
@@ -621,19 +631,19 @@ class RouteParameterValidator {
 
       try {
         switch (expectedType) {
-          case int:
+          case int _:
             converted[paramName] = int.parse(stringValue);
             break;
-          case double:
+          case double _:
             converted[paramName] = double.parse(stringValue);
             break;
-          case bool:
+          case bool _:
             converted[paramName] = stringValue.toLowerCase() == 'true';
             break;
           default:
             converted[paramName] = stringValue;
         }
-      } catch (e) {
+      } on FormatException catch (e) {
         // Keep as string if conversion fails
         converted[paramName] = stringValue;
       }

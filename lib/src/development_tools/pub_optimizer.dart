@@ -53,7 +53,6 @@ abstract class PubOptimizer {
 
 /// Comprehensive analysis of package metadata and structure.
 class PackageAnalysis {
-
   /// Creates a new package analysis result.
   const PackageAnalysis({
     required this.qualityScore,
@@ -64,6 +63,7 @@ class PackageAnalysis {
     required this.issues,
     required this.suggestions,
   });
+
   /// Overall package quality score (0-100).
   final int qualityScore;
 
@@ -100,7 +100,6 @@ class PackageAnalysis {
 
 /// Analysis of pubspec.yaml file quality.
 class PubspecAnalysis {
-
   /// Creates a new pubspec analysis.
   const PubspecAnalysis({
     required this.hasRequiredFields,
@@ -111,6 +110,7 @@ class PubspecAnalysis {
     required this.dependencyConstraints,
     required this.missingFields,
   });
+
   /// Whether all required fields are present.
   final bool hasRequiredFields;
 
@@ -135,7 +135,6 @@ class PubspecAnalysis {
 
 /// Analysis of README file quality and completeness.
 class ReadmeAnalysis {
-
   /// Creates a new README analysis.
   const ReadmeAnalysis({
     required this.exists,
@@ -147,6 +146,7 @@ class ReadmeAnalysis {
     required this.estimatedReadingTime,
     required this.improvementSuggestions,
   });
+
   /// Whether README file exists.
   final bool exists;
 
@@ -174,7 +174,6 @@ class ReadmeAnalysis {
 
 /// Analysis of CHANGELOG format and content.
 class ChangelogAnalysis {
-
   /// Creates a new changelog analysis.
   const ChangelogAnalysis({
     required this.exists,
@@ -184,6 +183,7 @@ class ChangelogAnalysis {
     required this.marksBreakingChanges,
     required this.formatIssues,
   });
+
   /// Whether CHANGELOG file exists.
   final bool exists;
 
@@ -205,7 +205,6 @@ class ChangelogAnalysis {
 
 /// Analysis of LICENSE file presence and validity.
 class LicenseAnalysis {
-
   /// Creates a new license analysis.
   const LicenseAnalysis({
     required this.exists,
@@ -214,6 +213,7 @@ class LicenseAnalysis {
     required this.isPubDevCompatible,
     required this.issues,
   });
+
   /// Whether LICENSE file exists.
   final bool exists;
 
@@ -232,7 +232,6 @@ class LicenseAnalysis {
 
 /// Analysis of dependency constraints and optimization opportunities.
 class DependencyConstraintAnalysis {
-
   /// Creates a new dependency constraint analysis.
   const DependencyConstraintAnalysis({
     required this.hasAppropriateConstraints,
@@ -241,6 +240,7 @@ class DependencyConstraintAnalysis {
     required this.unusedDependencies,
     required this.conflicts,
   });
+
   /// Whether all dependencies have appropriate version constraints.
   final bool hasAppropriateConstraints;
 
@@ -259,7 +259,6 @@ class DependencyConstraintAnalysis {
 
 /// Analysis of API documentation completeness.
 class DocumentationAnalysis {
-
   /// Creates a new documentation analysis.
   const DocumentationAnalysis({
     required this.coveragePercentage,
@@ -268,6 +267,7 @@ class DocumentationAnalysis {
     required this.issues,
     required this.suggestions,
   });
+
   /// Overall documentation coverage percentage.
   final double coveragePercentage;
 
@@ -290,7 +290,6 @@ class DocumentationAnalysis {
 
 /// Validation results for package examples.
 class ExampleValidation {
-
   /// Creates a new example validation result.
   const ExampleValidation({
     required this.allApisHaveExamples,
@@ -299,6 +298,7 @@ class ExampleValidation {
     required this.failedExamples,
     required this.suggestions,
   });
+
   /// Whether all public APIs have examples.
   final bool allApisHaveExamples;
 
@@ -320,7 +320,6 @@ class ExampleValidation {
 
 /// Analysis of package dependencies.
 class DependencyAnalysis {
-
   /// Creates a new dependency analysis.
   const DependencyAnalysis({
     required this.totalDependencies,
@@ -330,6 +329,7 @@ class DependencyAnalysis {
     required this.optimizations,
     required this.vulnerabilities,
   });
+
   /// Total number of dependencies.
   final int totalDependencies;
 
@@ -351,7 +351,6 @@ class DependencyAnalysis {
 
 /// Pre-flight publication report.
 class PublicationReport {
-
   /// Creates a new publication report.
   const PublicationReport({
     required this.readyForPublication,
@@ -360,6 +359,7 @@ class PublicationReport {
     required this.warnings,
     required this.estimatedPubScore,
   });
+
   /// Whether the package is ready for publication.
   final bool readyForPublication;
 
@@ -378,7 +378,6 @@ class PublicationReport {
 
 /// Comprehensive optimization report with recommendations.
 class OptimizationReport {
-
   /// Creates a new optimization report.
   const OptimizationReport({
     required this.summary,
@@ -389,6 +388,7 @@ class OptimizationReport {
     required this.recommendations,
     required this.estimatedImpact,
   });
+
   /// Summary of optimization opportunities.
   final String summary;
 
@@ -413,7 +413,6 @@ class OptimizationReport {
 
 /// Result of package optimization operations.
 class OptimizationResult {
-
   /// Creates a new optimization result.
   const OptimizationResult({
     required this.success,
@@ -421,6 +420,7 @@ class OptimizationResult {
     required this.errors,
     required this.metrics,
   });
+
   /// Whether optimization was successful.
   final bool success;
 
@@ -436,7 +436,6 @@ class OptimizationResult {
 
 /// Issue identified in package structure or metadata.
 class PackageIssue {
-
   /// Creates a new package issue.
   const PackageIssue({
     required this.type,
@@ -446,6 +445,7 @@ class PackageIssue {
     this.lineNumber,
     this.suggestedFix,
   });
+
   /// Type of issue.
   final IssueType type;
 
@@ -467,7 +467,6 @@ class PackageIssue {
 
 /// Suggestion for improving package quality.
 class PackageSuggestion {
-
   /// Creates a new package suggestion.
   const PackageSuggestion({
     required this.category,
@@ -476,6 +475,7 @@ class PackageSuggestion {
     required this.expectedBenefit,
     required this.effort,
   });
+
   /// Category of the suggestion.
   final SuggestionCategory category;
 
@@ -497,182 +497,297 @@ class PackageSuggestion {
 
 /// Types of issues that can be found in packages.
 enum IssueType {
+  /// Missing metadata in package configuration.
   missingMetadata,
+
+  /// Invalid or malformed metadata.
   invalidMetadata,
+
+  /// Missing documentation for public APIs.
   missingDocumentation,
+
+  /// Broken or non-functional examples.
   brokenExample,
+
+  /// Issues with package dependencies.
   dependencyIssue,
+
+  /// Problems with license file or licensing.
   licenseIssue,
+
+  /// Issues with package structure or organization.
   structureIssue,
 }
 
 /// Severity levels for package issues.
 enum IssueSeverity {
+  /// Critical error that prevents publication.
   error,
+
+  /// Warning that should be addressed.
   warning,
+
+  /// Informational notice.
   info,
 }
 
 /// Categories for package suggestions.
 enum SuggestionCategory {
+  /// Metadata-related suggestions.
   metadata,
+
+  /// Documentation improvements.
   documentation,
+
+  /// Example code enhancements.
   examples,
+
+  /// Dependency optimizations.
   dependencies,
+
+  /// Package structure improvements.
   structure,
+
+  /// Performance optimizations.
   performance,
 }
 
 /// Priority levels for suggestions.
 enum SuggestionPriority {
+  /// Low priority suggestion.
   low,
+
+  /// Medium priority suggestion.
   medium,
+
+  /// High priority suggestion.
   high,
+
+  /// Critical priority suggestion.
   critical,
 }
 
 /// Effort levels for implementing suggestions.
 enum EffortLevel {
+  /// Minimal effort required.
   minimal,
+
+  /// Low effort required.
   low,
+
+  /// Medium effort required.
   medium,
+
+  /// High effort required.
   high,
+
+  /// Significant effort required.
   significant,
 }
 
-/// Placeholder classes for complex types
+/// Represents a conflict between two dependencies.
 class DependencyConflict {
-
+  /// Creates a new dependency conflict.
   const DependencyConflict({
     required this.dependency1,
     required this.dependency2,
     required this.conflictReason,
   });
+
+  /// The first conflicting dependency.
   final String dependency1;
+
+  /// The second conflicting dependency.
   final String dependency2;
+
+  /// The reason for the conflict.
   final String conflictReason;
 }
 
+/// Represents an issue with API documentation.
 class ApiDocumentationIssue {
-
+  /// Creates a new API documentation issue.
   const ApiDocumentationIssue({
     required this.apiName,
     required this.issueDescription,
   });
+
+  /// The name of the API with the issue.
   final String apiName;
+
+  /// Description of the documentation issue.
   final String issueDescription;
 }
 
+/// Represents a suggestion for improving documentation.
 class DocumentationSuggestion {
-
+  /// Creates a new documentation suggestion.
   const DocumentationSuggestion({
     required this.suggestion,
     required this.apiName,
   });
+
+  /// The suggested improvement.
   final String suggestion;
+
+  /// The API name this suggestion applies to.
   final String apiName;
 }
 
+/// Represents an issue with an example.
 class ExampleIssue {
-
+  /// Creates a new example issue.
   const ExampleIssue({
     required this.exampleName,
     required this.error,
   });
+
+  /// The name of the example with the issue.
   final String exampleName;
+
+  /// The error found in the example.
   final String error;
 }
 
+/// Represents a suggestion for improving examples.
 class ExampleSuggestion {
-
+  /// Creates a new example suggestion.
   const ExampleSuggestion({
     required this.suggestion,
     required this.apiName,
   });
+
+  /// The suggested improvement.
   final String suggestion;
+
+  /// The API name this suggestion applies to.
   final String apiName;
 }
 
+/// Represents a dependency optimization opportunity.
 class DependencyOptimization {
-
+  /// Creates a new dependency optimization.
   const DependencyOptimization({
     required this.dependency,
     required this.optimization,
   });
+
+  /// The dependency that can be optimized.
   final String dependency;
+
+  /// The optimization that can be applied.
   final String optimization;
 }
 
+/// Represents a security vulnerability in a dependency.
 class SecurityVulnerability {
-
+  /// Creates a new security vulnerability.
   const SecurityVulnerability({
     required this.dependency,
     required this.vulnerability,
     required this.severity,
   });
+
+  /// The dependency with the vulnerability.
   final String dependency;
+
+  /// Description of the vulnerability.
   final String vulnerability;
+
+  /// Severity level of the vulnerability.
   final String severity;
 }
 
+/// Represents an issue that prevents publication.
 class PublicationIssue {
-
+  /// Creates a new publication issue.
   const PublicationIssue({
     required this.issue,
     required this.fix,
   });
+
+  /// Description of the issue.
   final String issue;
+
+  /// Suggested fix for the issue.
   final String fix;
 }
 
+/// Represents a warning about publication.
 class PublicationWarning {
-
+  /// Creates a new publication warning.
   const PublicationWarning({
     required this.warning,
     required this.suggestion,
   });
+
+  /// Description of the warning.
   final String warning;
+
+  /// Suggested action to address the warning.
   final String suggestion;
 }
 
+/// Represents an optimization recommendation.
 class OptimizationRecommendation {
-
+  /// Creates a new optimization recommendation.
   const OptimizationRecommendation({
     required this.title,
     required this.description,
     required this.priority,
   });
+
+  /// Title of the recommendation.
   final String title;
+
+  /// Detailed description of the recommendation.
   final String description;
+
+  /// Priority level of the recommendation.
   final SuggestionPriority priority;
 }
 
+/// Represents the expected impact of optimizations.
 class OptimizationImpact {
-
+  /// Creates a new optimization impact.
   const OptimizationImpact({
     required this.scoreImprovement,
     required this.description,
   });
+
+  /// Expected score improvement.
   final int scoreImprovement;
+
+  /// Description of the expected impact.
   final String description;
 }
 
+/// Represents a change made during optimization.
 class OptimizationChange {
-
+  /// Creates a new optimization change.
   const OptimizationChange({
     required this.file,
     required this.change,
   });
+
+  /// The file that was changed.
   final String file;
+
+  /// Description of the change made.
   final String change;
 }
 
+/// Represents metrics from the optimization process.
 class OptimizationMetrics {
-
+  /// Creates new optimization metrics.
   const OptimizationMetrics({
     required this.processingTime,
     required this.filesProcessed,
   });
+
+  /// Time taken to process the optimization.
   final Duration processingTime;
+
+  /// Number of files processed during optimization.
   final int filesProcessed;
 }

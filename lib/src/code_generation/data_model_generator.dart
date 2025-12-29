@@ -44,7 +44,9 @@ class DataModelGenerator extends GeneratorForAnnotation<GenerateModel> {
   }
 
   KeyTransform _parseKeyTransform(ConstantReader reader) {
-    if (reader.isNull) return KeyTransform.none;
+    if (reader.isNull) {
+      return KeyTransform.none;
+    }
 
     final index = reader.read('index').intValue;
     return KeyTransform.values[index];
@@ -84,16 +86,11 @@ ${generateSerialization ? _generateFromJsonConstructor(fields, className, keyTra
           .where((field) => !_hasJsonIgnore(field))
           .toList();
 
-  bool _hasJsonIgnore(FieldElement2 field) {
-    // Element2 API doesn't have metadata2, use a simpler approach
-    return false; // For now, assume no JsonIgnore annotations
-  }
+  bool _hasJsonIgnore(FieldElement2 field) =>
+      false; // For now, assume no JsonIgnore annotations
 
-  String _getJsonKey(FieldElement2 field, KeyTransform keyTransform) {
-    // For Element2 API, we'll skip custom JsonField annotations for now
-    // and just use the field name with transformation
-    return _transformKey(field.name3!, keyTransform);
-  }
+  String _getJsonKey(FieldElement2 field, KeyTransform keyTransform) =>
+      _transformKey(field.name3!, keyTransform);
 
   String _transformKey(String key, KeyTransform transform) {
     switch (transform) {
@@ -118,12 +115,16 @@ ${generateSerialization ? _generateFromJsonConstructor(fields, className, keyTra
       .replaceFirst(RegExp('^_'), '');
 
   String _toCamelCase(String input) {
-    if (input.isEmpty) return input;
+    if (input.isEmpty) {
+      return input;
+    }
     return input[0].toLowerCase() + input.substring(1);
   }
 
   String _toPascalCase(String input) {
-    if (input.isEmpty) return input;
+    if (input.isEmpty) {
+      return input;
+    }
     return input[0].toUpperCase() + input.substring(1);
   }
 
@@ -172,30 +173,31 @@ extension ${className}FromJson on $className {
       ${fields.map((field) {
         final jsonKey = _getJsonKey(field, keyTransform);
         final fieldName = field.name3!;
-        final fieldType = field.type.getDisplayString(withNullability: false);
+        final fieldType = field.type.getDisplayString();
 
         return "$fieldName: json['$jsonKey'] as $fieldType,";
       }).join('\n      ')}
-    );
   }
 }
 ''';
 
   String _generateCopyWithMethod(
-          List<FieldElement2> fields, String className) =>
+    List<FieldElement2> fields,
+    String className,
+  ) =>
       '''
   $className copyWith({
     ${fields.map((field) {
-        final fieldType = field.type.getDisplayString(withNullability: false);
+        final fieldType = field.type.getDisplayString();
         final fieldName = field.name3!;
         return '$fieldType? $fieldName,';
-      }).join('\n    ')}
+      }).join('\n    ')},
   }) {
     return $className(
       ${fields.map((field) {
         final fieldName = field.name3!;
         return '$fieldName: $fieldName ?? this.$fieldName,';
-      }).join('\n      ')}
+      }).join('\n      ')},
     );
   }
 ''';
