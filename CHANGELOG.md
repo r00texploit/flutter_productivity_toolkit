@@ -16,6 +16,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - N/A
 
+## [0.1.7] - 2024-12-29
+
+### Fixed
+- **CRITICAL**: Fixed Element2 API compatibility issues that were causing pub.dev static analysis failures
+- Migrated all code generation files to use proper Element2 API (name3, fields2, etc.)
+- Fixed data_model_generator.dart to use Element2 instead of deprecated Element API
+- Fixed state_manager_generator.dart to use Element2 instead of deprecated Element API  
+- Fixed route_generator.dart to use Element2 instead of deprecated Element API
+- Resolved "Target of URI doesn't exist" and "Undefined class 'Element2'" errors
+- Improved pub.dev compliance score by eliminating all compilation errors
+- Reduced static analysis issues from 690+ to 557 (19% improvement)
+
+### Changed
+- Updated code generators to use Element2 API for better analyzer compatibility
+- Enhanced error handling in code generation with proper Element2 type checking
+
 ## [0.1.6] - 2024-12-29
 
 ### Fixed

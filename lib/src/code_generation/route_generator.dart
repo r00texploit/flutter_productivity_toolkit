@@ -75,13 +75,14 @@ ${_generateRouteExtension(route, routeName, parameterType, returnType)}
 ''';
   }
 
-  String _getRouteName(String path) =>
-      // Convert path like '/user/:id/profile' to 'UserProfile'
-      path
-          .split('/')
-          .where((segment) => segment.isNotEmpty && !segment.startsWith(':'))
-          .map((segment) => segment[0].toUpperCase() + segment.substring(1))
-          .join();
+  String _getRouteName(String path) {
+    // Convert path like '/user/:id/profile' to 'UserProfile'
+    return path
+        .split('/')
+        .where((segment) => segment.isNotEmpty && !segment.startsWith(':'))
+        .map((segment) => segment[0].toUpperCase() + segment.substring(1))
+        .join();
+  }
 
   String _getParameterType(RouteDefinition route) {
     final params = _extractParameters(route.path);
@@ -96,19 +97,23 @@ ${_generateRouteExtension(route, routeName, parameterType, returnType)}
     return className;
   }
 
-  String _getReturnType(RouteDefinition route) =>
-      // For now, assume all routes return dynamic
-      // In a real implementation, this would be inferred from the method signature
-      'dynamic';
+  String _getReturnType(RouteDefinition route) {
+    // For now, assume all routes return dynamic
+    // In a real implementation, this would be inferred from the method signature
+    return 'dynamic';
+  }
 
-  List<String> _extractParameters(String path) => RegExp(r':(\w+)')
-      .allMatches(path)
-      .map((match) => match.group(1)!)
-      .toList();
+  List<String> _extractParameters(String path) {
+    return RegExp(r':(\w+)')
+        .allMatches(path)
+        .map((match) => match.group(1)!)
+        .toList();
+  }
 
-  String _getParameterDartType(String paramName) =>
-      // Simple heuristic for parameter types
-      paramName.toLowerCase().contains('id') ? 'int' : 'String';
+  String _getParameterDartType(String paramName) {
+    // Simple heuristic for parameter types
+    return paramName.toLowerCase().contains('id') ? 'int' : 'String';
+  }
 
   String _generateNavigationMethod(
     RouteDefinition route,
@@ -128,8 +133,14 @@ ${_generateRouteExtension(route, routeName, parameterType, returnType)}
     if (params.length == 1) {
       return '''
   static Future<$returnType?> navigate($paramType ${params.first}) async {
-    final pathWithParams = path.replaceAll(':${params.first}', \${params.first}.toString());
-    return await RouteBuilder.instance.navigate<$paramType, $returnType>(pathWithParams, params: ${params.first});
+    final pathWithParams = path.replaceAll(
+      ':${params.first}', 
+      \${params.first}.toString()
+    );
+    return await RouteBuilder.instance.navigate<$paramType, $returnType>(
+      pathWithParams, 
+      params: ${params.first}
+    );
   }
 ''';
     }
@@ -140,7 +151,10 @@ ${_generateRouteExtension(route, routeName, parameterType, returnType)}
   static Future<$returnType?> navigate($paramClass params) async {
     var pathWithParams = path;
     ${params.map((p) => "pathWithParams = pathWithParams.replaceAll(':$p', params.$p.toString());").join('\n    ')}
-    return await RouteBuilder.instance.navigate<$paramClass, $returnType>(pathWithParams, params: params);
+    return await RouteBuilder.instance.navigate<$paramClass, $returnType>(
+      pathWithParams, 
+      params: params
+    );
   }
 ''';
   }
@@ -153,8 +167,12 @@ ${_generateRouteExtension(route, routeName, parameterType, returnType)}
   static bool validateParameters(Map<String, dynamic> params) {
     ${params.map(
               (p) => '''
-    if (!params.containsKey('$p')) return false;
-    if (params['$p'] == null) return false;
+    if (!params.containsKey('$p')) {
+      return false;
+    }
+    if (params['$p'] == null) {
+      return false;
+    }
     ''',
             ).join('\n    ')}
     return true;
@@ -168,7 +186,9 @@ ${_generateRouteExtension(route, routeName, parameterType, returnType)}
     final pathSegments = uri.pathSegments;
     final routeSegments = path.split('/').where((s) => s.isNotEmpty).toList();
     
-    if (pathSegments.length != routeSegments.length) return null;
+    if (pathSegments.length != routeSegments.length) {
+      return null;
+    }
     
     final params = <String, dynamic>{};
     for (int i = 0; i < routeSegments.length; i++) {

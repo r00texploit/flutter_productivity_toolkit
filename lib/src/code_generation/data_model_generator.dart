@@ -177,6 +177,7 @@ extension ${className}FromJson on $className {
 
         return "$fieldName: json['$jsonKey'] as $fieldType,";
       }).join('\n      ')}
+    );
   }
 }
 ''';
@@ -191,13 +192,13 @@ extension ${className}FromJson on $className {
         final fieldType = field.type.getDisplayString();
         final fieldName = field.name3!;
         return '$fieldType? $fieldName,';
-      }).join('\n    ')},
+      }).join('\n    ')}
   }) {
     return $className(
       ${fields.map((field) {
         final fieldName = field.name3!;
         return '$fieldName: $fieldName ?? this.$fieldName,';
-      }).join('\n      ')},
+      }).join('\n      ')}
     );
   }
 ''';
@@ -205,7 +206,7 @@ extension ${className}FromJson on $className {
   String _generateToStringMethod(List<FieldElement2> fields, String className) {
     final fieldStrings = fields.map((field) {
       final fieldName = field.name3!;
-      return '$fieldName: \$$fieldName';
+      return '$fieldName: \$fieldName';
     }).join(', ');
 
     return '''
