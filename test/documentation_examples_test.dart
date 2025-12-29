@@ -65,9 +65,7 @@ void main() {
 
       // Set thresholds as shown in documentation
       monitor.setThresholds(
-        const PerformanceThresholds(
-          
-        ),
+        const PerformanceThresholds(),
       );
 
       // Start monitoring as shown in documentation
@@ -165,7 +163,6 @@ class MockScreen {
 
 class MockPerformanceMonitor extends PerformanceMonitor {
   bool _isMonitoring = false;
-  PerformanceThresholds? _thresholds;
 
   @override
   void startMonitoring() {
@@ -218,7 +215,7 @@ class MockPerformanceMonitor extends PerformanceMonitor {
 
   @override
   void setThresholds(PerformanceThresholds thresholds) {
-    _thresholds = thresholds;
+    // Mock implementation - thresholds not used in static mock data
   }
 
   @override

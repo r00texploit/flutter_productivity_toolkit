@@ -676,7 +676,7 @@ class NavigationTestHelper {
           );
         }
       }
-    } on Exception catch (e) {
+    } on Exception {
       if (expectSuccess) {
         rethrow;
       }

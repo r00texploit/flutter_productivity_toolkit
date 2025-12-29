@@ -327,11 +327,11 @@ class FlutterPerformanceMonitor extends PerformanceMonitor {
           if (_currentMemoryUsage > _peakMemoryUsage) {
             _peakMemoryUsage = _currentMemoryUsage;
           }
-        }).catchError((dynamic error) {
+        }).catchError((error) {
           // Fallback to simulation if platform channel fails
           _simulateMemoryUsage();
         });
-      } on Exception catch (e) {
+      } on Exception {
         // Fallback to simulation
         _simulateMemoryUsage();
       }
@@ -345,7 +345,7 @@ class FlutterPerformanceMonitor extends PerformanceMonitor {
             MethodChannel('flutter_productivity_toolkit/performance');
         final result = await platform.invokeMethod<int>('getMemoryUsage');
         return (result ?? 0).toDouble();
-      } on Exception catch (e) {
+      } on Exception {
         throw Exception('Platform channel not available');
       }
     } else {

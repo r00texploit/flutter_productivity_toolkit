@@ -415,13 +415,13 @@ class DefaultRouteBuilder extends RouteBuilder {
     _navigationStacks.clear();
   }
 
-  Map<String, dynamic> _serializeParams(dynamic params) {
+  Map<String, dynamic> _serializeParams(params) {
     try {
       return json.decode(json.encode(params)) as Map<String, dynamic>;
-    } on FormatException catch (e) {
+    } on FormatException {
       // Fallback for non-serializable objects
       return {'data': params.toString()};
-    } on JsonUnsupportedObjectError catch (e) {
+    } on JsonUnsupportedObjectError {
       // Fallback for non-serializable objects
       return {'data': params.toString()};
     }
@@ -532,7 +532,7 @@ class DefaultNavigationStack extends NavigationStack {
   Stream<List<NavigationRoute>> get stackStream => _stackController.stream;
 
   /// Preserves state for the current route.
-  void preserveState(String key, dynamic value) {
+  void preserveState(String key, value) {
     _preservedState[key] = value;
   }
 
@@ -643,7 +643,7 @@ class RouteParameterValidator {
           default:
             converted[paramName] = stringValue;
         }
-      } on FormatException catch (e) {
+      } on FormatException {
         // Keep as string if conversion fails
         converted[paramName] = stringValue;
       }

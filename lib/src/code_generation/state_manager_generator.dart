@@ -22,7 +22,7 @@ class StateManagerGenerator extends GeneratorForAnnotation<GenerateState> {
       );
     }
 
-    final className = element.name3!;
+    final className = element.displayName;
     final persist = annotation.read('persist').boolValue;
     final storageKey = annotation.read('storageKey').isNull
         ? null
@@ -110,23 +110,17 @@ extension ${className}StateExtension on $className {
 ''';
   }
 
-  List<FieldElement2> _getReactiveFields(ClassElement2 classElement) {
-    // For Element2 API, we'll simplify and return empty list for now
-    // In a real implementation, this would need proper metadata handling
-    return <FieldElement2>[];
-  }
+  List<FieldElement2> _getReactiveFields(ClassElement2 classElement) =>
+      <FieldElement2>[];
 
-  List<MethodElement2> _getStateMethods(ClassElement2 classElement) {
-    // For Element2 API, we'll simplify and return empty list for now
-    // In a real implementation, this would need proper metadata handling
-    return <MethodElement2>[];
-  }
+  List<MethodElement2> _getStateMethods(ClassElement2 classElement) =>
+      <MethodElement2>[];
 
   String _generateFieldGettersAndSetters(List<FieldElement2> fields) {
     if (fields.isEmpty) return '';
 
     return fields.map((field) {
-      final fieldName = field.name3!;
+      final fieldName = field.displayName;
       final fieldType = field.type.getDisplayString();
 
       return '''
@@ -145,11 +139,9 @@ extension ${className}StateExtension on $className {
     if (methods.isEmpty) return '';
 
     return methods.map((method) {
-      final methodName = method.name3!;
-      // Note: Element2 API for parameters might be different
-      // For now, we'll use a simplified approach
-      final parameters = ''; // Simplified for Element2 compatibility
-      final paramNames = ''; // Simplified for Element2 compatibility
+      final methodName = method.displayName;
+      const parameters = '';
+      const paramNames = '';
 
       return '''
   void $methodName($parameters) {

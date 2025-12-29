@@ -9,7 +9,6 @@ class MockPerformanceMonitor extends PerformanceMonitor {
   final StreamController<PerformanceMetrics> _controller =
       StreamController<PerformanceMetrics>.broadcast();
   bool _isMonitoring = false;
-  PerformanceThresholds? _thresholds;
 
   @override
   void startMonitoring() {
@@ -62,7 +61,7 @@ class MockPerformanceMonitor extends PerformanceMonitor {
 
   @override
   void setThresholds(PerformanceThresholds thresholds) {
-    _thresholds = thresholds;
+    // Mock implementation - thresholds not used in static mock data
   }
 
   @override

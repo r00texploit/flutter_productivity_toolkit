@@ -103,12 +103,10 @@ ${_generateRouteExtension(route, routeName, parameterType, returnType)}
     return 'dynamic';
   }
 
-  List<String> _extractParameters(String path) {
-    return RegExp(r':(\w+)')
-        .allMatches(path)
-        .map((match) => match.group(1)!)
-        .toList();
-  }
+  List<String> _extractParameters(String path) => RegExp(r':(\w+)')
+      .allMatches(path)
+      .map((match) => match.group(1)!)
+      .toList();
 
   String _getParameterDartType(String paramName) {
     // Simple heuristic for parameter types

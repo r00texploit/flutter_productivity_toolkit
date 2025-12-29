@@ -16,6 +16,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - N/A
 
+## [0.1.8] - 2024-12-29
+
+### Fixed
+- Fixed pub.dev compilation errors in code generation files by migrating from deprecated Element API to Element2 API
+- Updated analyzer imports from `package:analyzer/dart/element/element.dart` to `package:analyzer/dart/element/element2.dart`
+- Migrated all Element, ClassElement, FieldElement, and MethodElement types to their Element2 counterparts
+- Updated property access from deprecated `name` properties to `displayName` in Element2 API
+- Removed deprecated `withNullability` parameter from `getDisplayString()` calls
+- Resolved 382 compilation issues that were preventing good pub.dev scoring
+
 ## [0.1.7] - 2024-12-29
 
 ### Fixed

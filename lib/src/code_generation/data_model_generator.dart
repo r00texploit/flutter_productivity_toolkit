@@ -22,7 +22,7 @@ class DataModelGenerator extends GeneratorForAnnotation<GenerateModel> {
       );
     }
 
-    final className = element.name3!;
+    final className = element.displayName;
     final generateSerialization =
         annotation.read('generateSerialization').boolValue;
     final generateEquality = annotation.read('generateEquality').boolValue;
@@ -90,7 +90,7 @@ ${generateSerialization ? _generateFromJsonConstructor(fields, className, keyTra
       false; // For now, assume no JsonIgnore annotations
 
   String _getJsonKey(FieldElement2 field, KeyTransform keyTransform) =>
-      _transformKey(field.name3!, keyTransform);
+      _transformKey(field.displayName, keyTransform);
 
   String _transformKey(String key, KeyTransform transform) {
     switch (transform) {
@@ -145,7 +145,7 @@ ${generateSerialization ? _generateFromJsonConstructor(fields, className, keyTra
     final json = <String, dynamic>{};
     ${fields.map((field) {
         final jsonKey = _getJsonKey(field, keyTransform);
-        final fieldName = field.name3!;
+        final fieldName = field.displayName;
 
         if (includeNullValues) {
           return "json['$jsonKey'] = $fieldName;";
@@ -172,7 +172,7 @@ extension ${className}FromJson on $className {
     return $className(
       ${fields.map((field) {
         final jsonKey = _getJsonKey(field, keyTransform);
-        final fieldName = field.name3!;
+        final fieldName = field.displayName;
         final fieldType = field.type.getDisplayString();
 
         return "$fieldName: json['$jsonKey'] as $fieldType,";
@@ -190,13 +190,13 @@ extension ${className}FromJson on $className {
   $className copyWith({
     ${fields.map((field) {
         final fieldType = field.type.getDisplayString();
-        final fieldName = field.name3!;
+        final fieldName = field.displayName;
         return '$fieldType? $fieldName,';
       }).join('\n    ')}
   }) {
     return $className(
       ${fields.map((field) {
-        final fieldName = field.name3!;
+        final fieldName = field.displayName;
         return '$fieldName: $fieldName ?? this.$fieldName,';
       }).join('\n      ')}
     );
@@ -205,7 +205,7 @@ extension ${className}FromJson on $className {
 
   String _generateToStringMethod(List<FieldElement2> fields, String className) {
     final fieldStrings = fields.map((field) {
-      final fieldName = field.name3!;
+      final fieldName = field.displayName;
       return '$fieldName: \$fieldName';
     }).join(', ');
 
@@ -230,7 +230,7 @@ extension ${className}Equality on $className {
     if (other is! $className) return false;
     
     return ${fields.map((field) {
-        final fieldName = field.name3!;
+        final fieldName = field.displayName;
         return 'other.$fieldName == $fieldName';
       }).join(' &&\n           ')};
   }
@@ -238,7 +238,7 @@ extension ${className}Equality on $className {
   @override
   int get hashCode {
     return Object.hash(
-      ${fields.map((field) => field.name3!).join(',\n      ')},
+      ${fields.map((field) => field.displayName).join(',\n      ')},
     );
   }
 }
