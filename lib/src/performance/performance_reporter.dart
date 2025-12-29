@@ -284,7 +284,7 @@ class PerformanceReporter {
   }
 
   double _calculatePerformanceScore(PerformanceMetrics metrics) {
-    var score = 100;
+    var score = 100.0;
 
     // FPS score (0-40 points)
     final fpsScore = (metrics.fps / 60.0).clamp(0.0, 1.0) * 40;
@@ -375,7 +375,7 @@ class PerformanceReporter {
     PerformanceBenchmark benchmark,
     PerformanceMetrics metrics,
   ) {
-    var score = 100;
+    var score = 100.0;
 
     if (benchmark.expectedFps != null) {
       final fpsRatio = metrics.fps / benchmark.expectedFps!;

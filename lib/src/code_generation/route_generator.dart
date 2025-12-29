@@ -1,5 +1,4 @@
-import 'dart:async';
-import 'package:analyzer/dart/element/element.dart';
+import 'package:analyzer/dart/element/element2.dart';
 import 'package:build/build.dart';
 import 'package:source_gen/source_gen.dart';
 import '../annotations/generate_route.dart';
@@ -13,12 +12,12 @@ class RouteGenerator extends GeneratorForAnnotation<GenerateRoute> {
   final List<RouteDefinition> _routes = [];
 
   @override
-  FutureOr<String> generateForAnnotatedElement(
-    Element element,
+  dynamic generateForAnnotatedElement(
+    Element2 element,
     ConstantReader annotation,
     BuildStep buildStep,
   ) {
-    if (element is! MethodElement && element is! ClassElement) {
+    if (element is! MethodElement2 && element is! ClassElement2) {
       throw InvalidGenerationSourceError(
         'GenerateRoute can only be applied to methods or classes.',
         element: element,
@@ -76,14 +75,13 @@ ${_generateRouteExtension(route, routeName, parameterType, returnType)}
 ''';
   }
 
-  String _getRouteName(String path) {
-    // Convert path like '/user/:id/profile' to 'UserProfile'
-    return path
-        .split('/')
-        .where((segment) => segment.isNotEmpty && !segment.startsWith(':'))
-        .map((segment) => segment[0].toUpperCase() + segment.substring(1))
-        .join();
-  }
+  String _getRouteName(String path) =>
+      // Convert path like '/user/:id/profile' to 'UserProfile'
+      path
+          .split('/')
+          .where((segment) => segment.isNotEmpty && !segment.startsWith(':'))
+          .map((segment) => segment[0].toUpperCase() + segment.substring(1))
+          .join();
 
   String _getParameterType(RouteDefinition route) {
     final params = _extractParameters(route.path);
@@ -98,22 +96,19 @@ ${_generateRouteExtension(route, routeName, parameterType, returnType)}
     return className;
   }
 
-  String _getReturnType(RouteDefinition route) {
-    // For now, assume all routes return dynamic
-    // In a real implementation, this would be inferred from the method signature
-    return 'dynamic';
-  }
+  String _getReturnType(RouteDefinition route) =>
+      // For now, assume all routes return dynamic
+      // In a real implementation, this would be inferred from the method signature
+      'dynamic';
 
-  List<String> _extractParameters(String path) {
-    final regex = RegExp(r':(\w+)');
-    return regex.allMatches(path).map((match) => match.group(1)!).toList();
-  }
+  List<String> _extractParameters(String path) => RegExp(r':(\w+)')
+      .allMatches(path)
+      .map((match) => match.group(1)!)
+      .toList();
 
-  String _getParameterDartType(String paramName) {
-    // Simple heuristic for parameter types
-    if (paramName.toLowerCase().contains('id')) return 'int';
-    return 'String';
-  }
+  String _getParameterDartType(String paramName) =>
+      // Simple heuristic for parameter types
+      paramName.toLowerCase().contains('id') ? 'int' : 'String';
 
   String _generateNavigationMethod(
     RouteDefinition route,
@@ -211,6 +206,7 @@ extension ${routeName}Navigation on RouteBuilder {
 
 /// Represents a route definition extracted from annotations.
 class RouteDefinition {
+  /// Creates a new route definition.
   const RouteDefinition({
     required this.path,
     required this.element,
@@ -220,19 +216,34 @@ class RouteDefinition {
     this.transition,
   });
 
+  /// The route path pattern.
   final String path;
-  final Element element;
+
+  /// The element this route is associated with.
+  final Element2 element;
+
+  /// Whether this route requires authentication.
   final bool requiresAuth;
+
+  /// HTTP methods supported by this route.
   final List<String> methods;
+
+  /// Whether deep linking is enabled for this route.
   final bool enableDeepLinking;
+
+  /// Optional transition animation type.
   final String? transition;
 }
 
 /// Mock RouteBuilder for generated code compilation.
 abstract class RouteBuilder {
+  /// Gets the singleton instance of the route builder.
   static RouteBuilder get instance => throw UnimplementedError();
 
+  /// Navigates to a route with optional parameters.
   Future<R?> navigate<T, R>(String path, {T? params});
+
+  /// Registers a deep link handler for a pattern.
   void registerDeepLinkHandler(String pattern, RouteHandler handler);
 }
 
