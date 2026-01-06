@@ -67,7 +67,7 @@ Add this package to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  flutter_productivity_toolkit: ^0.1.0
+  flutter_productivity_toolkit: ^0.1.11
 
 dev_dependencies:
   build_runner: ^2.4.7
